@@ -27,9 +27,9 @@ function backend(t, options = {}) {
   let handler;
   const context = vm.createContext({
     require: name => name === 'node:http' ? { createServer: fn => { handler = fn; return { listen() {} }; } } : require(name),
-    __dirname: root, process: { env: { OOMNI_DATA_DIR: dir }, pid: process.pid },
+    __dirname: root, process: { env: { OOMNI_DATA_DIR: dir, ...options.env }, pid: process.pid },
     Buffer, URL, AbortController, setTimeout, clearTimeout, console: { log() {}, error() {} },
-    fetch: async () => { throw new Error('External network disabled during tests'); }
+    fetch: options.fetch || (async () => { throw new Error('External network disabled during tests'); })
   });
   vm.runInContext(source + '\nglobalThis.api={sessions,normalizeProductSearchIntent,parseProductSearchIntent,rankProductSearch};', context);
   const token = 'a'.repeat(43); context.api.sessions.set(token, Date.now() + 60000);
@@ -188,4 +188,33 @@ test('customer account register/login/logout and authorization still work', asyn
   assert.equal((await request('POST', '/api/accounts/login', { username: 'audit_account', password: 'Test-only-482!' })).status, 200);
   assert.equal((await request('POST', '/api/accounts/logout', {}, false, { cookie })).status, 200);
   assert.equal((await request('GET', '/api/accounts/me', undefined, false, { cookie })).status, 401);
+});
+
+test('Gemini search requests a JSON schema and ignores non-answer parts', async t => {
+  let generationConfig;
+  const { request } = backend(t, { env: { GEMINI_API_KEY: 'test-only-placeholder' }, fetch: async (url, options) => {
+    generationConfig = JSON.parse(options.body).generationConfig;
+    return { ok: true, json: async () => ({ candidates: [{ content: { parts: [{ thought: true, text: 'Non-JSON summary must not be parsed.' }, { text: JSON.stringify({ keywords: ['sepatu'], minPrice: 100000, maxPrice: null, sort: 'relevance' }) }] } }] }) };
+  } });
+  const response = await request('POST', '/api/product-search', { query: 'sepatu di atas 100rb' });
+  assert.equal(response.status, 200); assert.equal(response.data.aiPowered, true); assert.deepEqual(response.data.productIds, ['p1']);
+  assert.equal(response.data.intent.minPrice, 100000); assert.equal(response.data.intent.maxPrice, null);
+  assert.equal(generationConfig.responseJsonSchema.type, 'object'); assert.equal(generationConfig.thinkingConfig.includeThoughts, false);
+  assert.ok(generationConfig.maxOutputTokens >= 1024);
+});
+
+test('invalid Gemini JSON and upstream errors retain the local search fallback', async t => {
+  for (const invalidResponse of [true, false]) {
+    const { request } = backend(t, { env: { GEMINI_API_KEY: 'test-only-placeholder' }, fetch: async () => ({ ok: invalidResponse, json: async () => ({ candidates: [{ content: { parts: [{ text: 'Here is the unfinished answer' }] } }] }) }) });
+    const response = await request('POST', '/api/product-search', { query: 'sepatu di atas 100rb' });
+    assert.equal(response.status, 200); assert.equal(response.data.aiConfigured, true); assert.equal(response.data.aiPowered, false);
+    assert.equal(response.data.intent.minPrice, 100000); assert.equal(response.data.intent.maxPrice, null); assert.deepEqual(response.data.productIds, ['p1']);
+  }
+});
+
+test('chatbot stores and returns only the final Gemini answer', async t => {
+  const { request } = backend(t, { env: { GEMINI_API_KEY: 'test-only-placeholder' }, fetch: async () => ({ ok: true, text: async () => JSON.stringify({ candidates: [{ content: { parts: [{ thought: true, text: 'Internal summary' }, { text: 'Ukuran gambar maksimal 2,5 MB.' }] } }] }) }) });
+  const response = await request('POST', '/api/customer-service', { question: 'Berapa batas ukuran gambar brand?' });
+  assert.equal(response.status, 200); assert.equal(response.data.ok, true); assert.equal(response.data.answer, 'Ukuran gambar maksimal 2,5 MB.');
+  const saved = (await request('GET', '/api/admin/state', undefined, true)).data.customerServiceMessages[0]; assert.equal(saved.answer, response.data.answer);
 });

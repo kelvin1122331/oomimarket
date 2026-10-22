@@ -2,6 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { isDeepStrictEqual } = require('node:util');
 
 const ROOT = __dirname;
 const DATA_DIR = process.env.OOMNI_DATA_DIR || path.join(ROOT, '.data');
@@ -55,7 +56,7 @@ function sameOrigin(req) {
   return false;
 }
 
-const emptyDb = () => ({ version: 1, products: [], reports: [], reviews: {}, productHistory: [], developmentOrders: [], developmentConsultations: [], resellerSubscriptions: [], storefrontCategories: [], customerServiceMessages: [], analytics: {}, notifications: [], updatedAt: new Date().toISOString() });
+const emptyDb = () => ({ version: 1, catalogInitialized: false, products: [], reports: [], reviews: {}, productHistory: [], developmentOrders: [], developmentConsultations: [], resellerSubscriptions: [], storefrontCategories: [], customerServiceMessages: [], analytics: {}, notifications: [], updatedAt: new Date().toISOString() });
 fs.mkdirSync(DATA_DIR, { recursive: true, mode: 0o700 });
 try { fs.chmodSync(DATA_DIR, 0o700); } catch {}
 fs.mkdirSync(BRAND_UPLOAD_DIR, { recursive: true, mode: 0o700 });
@@ -70,7 +71,18 @@ if (!runtimeGeminiApiKey) {
   } catch {}
 }
 let db;
-try { db = { ...emptyDb(), ...JSON.parse(fs.readFileSync(DB_FILE, 'utf8')) }; } catch { db = emptyDb(); }
+try {
+  const stored = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+  if (!stored || typeof stored !== 'object' || Array.isArray(stored)) throw new Error('invalid store');
+  db = { ...emptyDb(), ...stored, catalogInitialized: stored.catalogInitialized ?? true };
+  for (const key of ['products', 'reports', 'productHistory', 'developmentOrders', 'developmentConsultations', 'resellerSubscriptions', 'storefrontCategories', 'customerServiceMessages', 'notifications']) {
+    if (!Array.isArray(db[key])) throw new Error(`invalid ${key}`);
+  }
+  if (!db.reviews || Array.isArray(db.reviews) || typeof db.reviews !== 'object' || Object.values(db.reviews).some(list => !Array.isArray(list)) || !db.analytics || Array.isArray(db.analytics) || typeof db.analytics !== 'object' || typeof db.catalogInitialized !== 'boolean') throw new Error('invalid store structure');
+} catch (error) {
+  if (error.code === 'ENOENT') db = emptyDb();
+  else throw new Error(`Unable to safely load store (${error.message}); preserve store.json and restore it from backup.`);
+}
 let accounts = [];
 if (fs.existsSync(ACCOUNTS_FILE)) {
   try {
@@ -178,6 +190,48 @@ function newNotification(type, message, id) {
 function safeProduct(p) {
   return p && typeof p === 'object' && String(p.name || '').trim() && Number.isSafeInteger(Number(p.price)) && Number(p.price) >= 0;
 }
+function stateError(message, status = 400) { const error = new Error(message); error.status = status; return error; }
+function recordMap(list) {
+  if (!Array.isArray(list)) throw stateError('invalid record list');
+  const map = new Map();
+  for (const item of list) {
+    if (!item || typeof item !== 'object' || Array.isArray(item) || !['string', 'number'].includes(typeof item.id) || !String(item.id) || map.has(String(item.id))) throw stateError('invalid record id');
+    map.set(String(item.id), item);
+  }
+  return map;
+}
+function mergeRecords(current, base, desired, limit = 500) {
+  const live = recordMap(current), before = recordMap(base), after = recordMap(desired);
+  const merged = new Map(live);
+  for (const id of new Set([...before.keys(), ...after.keys()])) {
+    const previous = before.get(id), next = after.get(id);
+    if (isDeepStrictEqual(previous, next)) continue;
+    if (!isDeepStrictEqual(live.get(id), previous) && !isDeepStrictEqual(live.get(id), next)) throw stateError('state conflict', 409);
+    if (next === undefined) merged.delete(id); else merged.set(id, next);
+  }
+  if (merged.size > limit) throw stateError('record limit reached', 409);
+  return [...after.keys(), ...live.keys()].filter((id, index, ids) => ids.indexOf(id) === index && merged.has(id)).map(id => merged.get(id));
+}
+function validAdminState(state) {
+  return state && Array.isArray(state.products) && state.products.length <= 500 && state.products.every(safeProduct) && Array.isArray(state.reports) && state.reports.length <= 500 && state.reports.every(report => report && typeof report.message === 'string' && report.message.length <= 1500) && state.reviews && typeof state.reviews === 'object' && !Array.isArray(state.reviews) && Object.keys(state.reviews).length <= 500 && Object.values(state.reviews).every(list => Array.isArray(list) && list.length <= 500) && Array.isArray(state.productHistory) && state.productHistory.length <= 500 && Array.isArray(state.storefrontCategories) && state.storefrontCategories.length <= 100 && state.storefrontCategories.every(name => typeof name === 'string' && name.trim() && name.trim().length <= 60);
+}
+function mergeAdminState(current, base, desired) {
+  if (!validAdminState(base) || !validAdminState(desired)) throw stateError('invalid state');
+  const reviews = Object.create(null);
+  for (const id of new Set([...Object.keys(current.reviews), ...Object.keys(base.reviews), ...Object.keys(desired.reviews)])) {
+    const list = mergeRecords(current.reviews[id] || [], base.reviews[id] || [], desired.reviews[id] || []);
+    if (list.length) reviews[id] = list;
+  }
+  if (Object.keys(reviews).length > 500) throw stateError('review limit reached', 409);
+  const categories = values => values.map(name => ({ id: name.trim().toLocaleLowerCase('id-ID'), name: name.trim() }));
+  return {
+    products: mergeRecords(current.products, base.products, desired.products),
+    reports: mergeRecords(current.reports, base.reports, desired.reports),
+    reviews,
+    productHistory: mergeRecords(current.productHistory, base.productHistory, desired.productHistory),
+    storefrontCategories: mergeRecords(categories(current.storefrontCategories), categories(base.storefrontCategories), categories(desired.storefrontCategories), 100).map(item => item.name)
+  };
+}
 function parseProductSearchIntent(queryText) {
   const query = String(queryText || '').toLocaleLowerCase('id-ID');
   const priceCue = /\b(rp|rupiah|harga|budget|bujet|di bawah|dibawah|kurang dari|maksimal|max|di atas|diatas|lebih dari|minimal|min|antara|under|below|above|\d+\s*(?:juta|jt|j|ribu|rb|k))\b/.test(query);
@@ -202,7 +256,7 @@ function normalizeProductSearchIntent(candidate, fallback, query) {
   const stop = new Set('cari carikan produk barang yang dengan untuk buat di bawah dibawah bawah kurang dari lebih atas diatas maksimal minimal max min under below above harga rp rupiah budget bujet antara dan juta jt j ribu rb k murah termurah mahal tertinggi terendah terbaik paling rekomendasi ada tampilkan temukan'.split(' '));
   const modelKeywords = Array.isArray(candidate?.keywords) ? candidate.keywords.map(value => String(value || '').toLocaleLowerCase('id-ID').trim().replace(/[^\p{L}\p{N}\s-]/gu, '').slice(0, 40)).filter(value => value && value.length > 1 && !stop.has(value)).slice(0, 8) : [];
   const hasPriceCue = /\b(rp|rupiah|harga|budget|bujet|di bawah|dibawah|kurang dari|maksimal|max|di atas|diatas|lebih dari|minimal|min|antara|under|below|above|\d+\s*(?:juta|jt|j|ribu|rb|k))\b/i.test(query);
-  const numericPrice = value => Number.isSafeInteger(Number(value)) && Number(value) >= 0 && Number(value) <= 1_000_000_000 ? Number(value) : null;
+  const numericPrice = value => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 && value <= 1_000_000_000 ? value : null;
   const minPrice = fallback.minPrice !== null ? fallback.minPrice : hasPriceCue ? numericPrice(candidate?.minPrice) : null;
   const maxPrice = fallback.maxPrice !== null ? fallback.maxPrice : hasPriceCue ? numericPrice(candidate?.maxPrice) : null;
   const modelSort = ['price-asc','price-desc','relevance'].includes(candidate?.sort) ? candidate.sort : 'relevance';
@@ -268,7 +322,7 @@ const server = http.createServer(async (req, res) => {
         return json(res, 200, { ok:true, query, aiPowered, aiConfigured:Boolean(runtimeGeminiApiKey), intent, productIds, total:productIds.length });
       }
       if (req.method === 'GET' && url.pathname === '/api/products') {
-        return json(res, 200, { products: db.products.filter(p => (p.status || 'active') === 'active'), storefrontCategories: Array.isArray(db.storefrontCategories) ? db.storefrontCategories : [], updatedAt: db.updatedAt });
+        return json(res, 200, { products: db.products.filter(p => (p.status || 'active') === 'active'), storefrontCategories: Array.isArray(db.storefrontCategories) ? db.storefrontCategories : [], catalogInitialized: db.catalogInitialized, updatedAt: db.updatedAt });
       }
       if (req.method === 'POST' && url.pathname === '/api/events') {
         if (!rateAllowed(req, 'events', 120)) return json(res, 429, { error: 'rate limit exceeded' });
@@ -610,23 +664,22 @@ const server = http.createServer(async (req, res) => {
       if (req.method === 'PUT' && url.pathname === '/api/admin/state') {
         if (!sameOrigin(req)) return json(res, 403, { error: 'origin rejected' });
         if (!adminSession(req)) return json(res, 401, { error: 'unauthorized' });
-        const body = await readBody(req, 1_000_000);
-        if (body.storefrontCategories !== undefined && (!Array.isArray(body.storefrontCategories) || body.storefrontCategories.length > 100 || body.storefrontCategories.some(category => typeof category !== 'string' || !category.trim() || category.trim().length > 60))) return json(res, 400, { error: 'invalid storefront categories' });
-        if (!Array.isArray(body.products) || body.products.length > 500 || !Array.isArray(body.reports) || body.reports.length > 500 || !body.reviews || typeof body.reviews !== 'object' || Array.isArray(body.reviews) || Object.keys(body.reviews).length > 500 || Object.values(body.reviews).some(list => !Array.isArray(list) || list.length > 500) || body.reports.some(report => !report || typeof report !== 'object' || typeof report.id !== 'string' || String(report.message || '').length > 1500)) return json(res, 400, { error: 'invalid state' });
+        const body = await readBody(req, 2_000_000);
+        if (!body.baseState) return json(res, 409, { error: 'reload required' });
+        if (body.initializeCatalog && db.catalogInitialized) return json(res, 409, { error: 'catalog already initialized' });
+        const next = mergeAdminState(db, body.baseState, body);
         const previousReviewIds = new Set(Object.values(db.reviews).flat().map(item => item && item.id).filter(Boolean));
         const previousReportIds = new Set(db.reports.map(item => item && item.id).filter(Boolean));
-        if (Array.isArray(body.storefrontCategories)) db.storefrontCategories = [...new Map(body.storefrontCategories.map(category => [category.trim().toLocaleLowerCase('id-ID'), category.trim()])).values()].slice(0, 100);
-        db.products = body.products.filter(safeProduct).slice(0, 500);
-        db.reports = body.reports.slice(0, 500);
-        db.reviews = body.reviews;
-        db.productHistory = Array.isArray(body.productHistory) ? body.productHistory.slice(0, 500) : [];
+        const previous = db;
+        db = { ...db, ...next, notifications: [...db.notifications], catalogInitialized: true };
         for (const [productId, list] of Object.entries(db.reviews)) {
           if (!Array.isArray(list)) continue;
           const product = db.products.find(p => String(p.id) === productId);
           for (const review of list) if (review && review.id && !previousReviewIds.has(review.id)) newNotification('review', `Ulasan baru${product ? ` untuk ${product.name}` : ''} dari ${String(review.author || 'Tamu').slice(0, 60)}`);
         }
         for (const report of db.reports) if (report && report.id && !previousReportIds.has(report.id)) newNotification('report', `Laporan baru${report.name ? ` dari ${String(report.name).slice(0, 80)}` : ''}`);
-        persist(); return json(res, 200, { ok: true, updatedAt: db.updatedAt });
+        try { persist(); } catch (error) { db = previous; throw error; }
+        return json(res, 200, { ok: true, updatedAt: db.updatedAt, state: db });
       }
       if (req.method === 'GET' && url.pathname === '/api/admin/notifications') {
         if (!adminSession(req)) return json(res, 401, { error: 'unauthorized' });
@@ -651,7 +704,7 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': mime[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache', ...(cspMeta ? { 'Content-Security-Policy': cspMeta[1] } : {}) }); res.end(content);
     });
   } catch (error) {
-    if (!res.headersSent) json(res, error.message === 'payload too large' ? 413 : 400, { error: 'request failed' });
+    if (!res.headersSent) json(res, error.status || (error.message === 'payload too large' ? 413 : 400), { error: error.status ? error.message : 'request failed' });
   }
 });
 server.listen(PORT, '0.0.0.0', () => console.log(`ommnimarket backend listening on 0.0.0.0:${PORT}; data stored in ${DB_FILE}`));

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-KDG4moXjqc96G3NLNBg41flYLqPppGBRZvCN45FedV4='; script-src-attr 'none'; style-src 'sha256-CVWXDkoYw671uXidUD5y8NjtnUJLSdz5JFri/u1yfWU='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-VamTgHltkaGwEEwNt8EO48GVtGpGlNdHhY7rvERBysI='; script-src-attr 'none'; style-src 'sha256-CVWXDkoYw671uXidUD5y8NjtnUJLSdz5JFri/u1yfWU='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2748,6 +2748,9 @@
       let backendAdminSession = false;
       let backendAdminToken = (()=>{try{return sessionStorage.getItem('ommni_admin_session')||'';}catch(_){return '';}})();
       let backendSyncQueue = Promise.resolve();
+      let backendSyncBase = null;
+      let backendPendingSyncs = 0;
+      let backendSyncBlocked = false;
       let backendAnalytics = {};
       let storefrontCategories = [];
       let developmentOrders = [];
@@ -2756,6 +2759,9 @@
       let customerServiceMessages = [];
       let customerServiceHistory = [];
       let customerServiceConversationId = '';
+      const LEGACY_BACKUP_KEY = STORAGE_KEY + '_legacy_backup_v1';
+      const UNSYNCED_BACKUP_KEY = STORAGE_KEY + '_unsynced_admin_v1';
+      let legacyAdminState = loadJsonStorage(LEGACY_BACKUP_KEY, null) || adminStateSnapshot();
       let selectedDevelopmentOrder = null;
       let lastNotificationTimestamp = Date.now() - 60000;
       let notificationTimer = null;
@@ -2802,11 +2808,76 @@
       async function backendRequest(path, options = {}) { const headers={'Content-Type':'application/json',...(options.headers||{})}; if(backendAdminToken&&path.startsWith('/api/admin/')){headers.Authorization=`Bearer ${backendAdminToken}`;headers['X-Oomni-Admin-Session']=backendAdminToken;} return fetch(path,{credentials:'same-origin',...options,headers}); }
       async function readApiJson(response) { const text=await response.text(); try{return JSON.parse(text);}catch(_){const snippet=text.trim().slice(0,80).replace(/\s+/g,' ');throw new Error(`Server preview mengirim respons bukan JSON (HTTP ${response.status}). ${snippet.startsWith('<!DOCTYPE')||snippet.startsWith('<html')?'Periksa koneksi backend preview dan coba muat ulang halaman.':''}`);} }
       function backendStatePayload() { return { products, reports, reviews, productHistory, storefrontCategories }; }
-      function syncAdminState() { if (!backendAdminSession) return; const payload = JSON.stringify(backendStatePayload()); backendSyncQueue = backendSyncQueue.then(() => backendRequest('/api/admin/state', { method: 'PUT', body: payload })).then(response => { if (!response.ok) throw new Error('state sync failed'); }).catch(() => { const status = document.getElementById('backendStatus'); if (status) status.textContent = 'Sinkronisasi server tertunda'; }); }
+      function adminStateSnapshot(source = backendStatePayload()) {
+        return JSON.parse(JSON.stringify({products: source.products || [], reports: source.reports || [], reviews: source.reviews || {}, productHistory: source.productHistory || [], storefrontCategories: source.storefrontCategories || []}));
+      }
+      function applyBackendAdminState(state) {
+        const snapshot = adminStateSnapshot(state);
+        ({products, reports, reviews, productHistory, storefrontCategories} = snapshot);
+        backendSyncBase = adminStateSnapshot(snapshot);
+        backendAnalytics=state.analytics||{};
+        developmentOrders=state.developmentOrders||[]; developmentConsultations=state.developmentConsultations||[];
+        resellerSubscriptions=state.resellerSubscriptions||[]; customerServiceMessages=state.customerServiceMessages||[];
+        try { localStorage.setItem(STORAGE_KEY,JSON.stringify(products)); localStorage.setItem(REPORTS_STORAGE_KEY,JSON.stringify(reports)); localStorage.setItem(REVIEWS_KEY,JSON.stringify(reviews)); localStorage.setItem(PRODUCT_HISTORY_KEY,JSON.stringify(productHistory)); } catch (_) {}
+      }
+      function syncAdminState() {
+        if (!backendAdminSession || backendSyncBlocked || !backendSyncBase) return;
+        const desired = adminStateSnapshot(), baseState = backendSyncBase;
+        backendSyncBase = adminStateSnapshot(desired);
+        backendPendingSyncs++;
+        const status = document.getElementById('backendStatus');
+        if(status) status.textContent='Menyimpan perubahan ke server…';
+        backendSyncQueue = backendSyncQueue.then(async () => {
+          if(backendSyncBlocked) throw new Error('Sinkronisasi dihentikan karena perubahan sebelumnya belum tersimpan.');
+          const response = await backendRequest('/api/admin/state',{method:'PUT',body:JSON.stringify({...desired,baseState})});
+          const data = await readApiJson(response);
+          if(!response.ok) throw new Error(response.status===409?'Data berubah di perangkat lain. Ekspor cadangan perubahanmu, lalu muat ulang sebelum mengedit kembali.':'Perubahan belum tersimpan di server. Ekspor cadangan perubahanmu, lalu coba muat ulang.');
+          backendPendingSyncs--;
+          if(backendPendingSyncs===0){applyBackendAdminState(data.state);renderProducts();refreshAdmin();if(status)status.textContent='Semua perubahan tersimpan di server';}
+        }).catch(error => {
+          if(backendPendingSyncs>0)backendPendingSyncs--;
+          backendSyncBlocked=true;
+          try{localStorage.setItem(UNSYNCED_BACKUP_KEY,JSON.stringify(adminStateSnapshot()));}catch(_){}
+          if(status)status.textContent=error.message;
+          showToast(error.message,'error');
+        });
+        return backendSyncQueue;
+      }
       function persistReviews() { try { localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews)); syncAdminState(); return true; } catch (_) { showToast('Ulasan gagal disimpan.', 'error'); return false; } }
       function trackAnalytics(kind, product) { if (!product || !product.id) return; fetch('/api/events', { method: 'POST', credentials: 'same-origin', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind, productId: String(product.id) }) }).catch(() => {}); }
       function renderAdminAnalytics() { const list = document.getElementById('adminAnalyticsList'); if (!list) return; const rows = products.map(product => ({ product, metrics: backendAnalytics[String(product.id)] || { view: 0, cart_add: 0, buy_click: 0 } })).sort((a,b) => (b.metrics.view+b.metrics.cart_add+b.metrics.buy_click)-(a.metrics.view+a.metrics.cart_add+a.metrics.buy_click)); const totals = rows.reduce((sum,row) => ({view:sum.view+row.metrics.view,cart:sum.cart+row.metrics.cart_add,buy:sum.buy+row.metrics.buy_click}),{view:0,cart:0,buy:0}); document.getElementById('adminAnalyticsSummary').textContent = `Dilihat ${totals.view} kali · ditambahkan ke keranjang ${totals.cart} kali · klik beli ${totals.buy} kali`; list.replaceChildren(); rows.slice(0,10).forEach(({product,metrics}) => { const row=makeElement('article','admin-report'); const content=makeElement('div','admin-report-content'); content.append(makeElement('strong','admin-report-category',product.name),makeElement('p','admin-report-message',`Dilihat ${metrics.view} · Keranjang ${metrics.cart_add} · Klik beli ${metrics.buy_click}`)); row.append(content); list.append(row); }); }
-      async function bootstrapBackend() { try { const response=await fetch('/api/products',{cache:'no-store'}); if(!response.ok)return; const data=await response.json(); if(Array.isArray(data.storefrontCategories))storefrontCategories=data.storefrontCategories.filter(value=>typeof value==='string').map(value=>value.trim()).filter(Boolean).slice(0,100); if(Array.isArray(data.products)){products=data.products;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(products));}catch(_){}}renderProducts(); const status=document.getElementById('backendStatus'); if(status)status.textContent='Database bersama tersambung'; } catch(_) { const status=document.getElementById('backendStatus'); if(status)status.textContent='Mode browser (server belum tersambung)'; } }
+      async function bootstrapBackend() {
+        try {
+          const response=await fetch('/api/products',{cache:'no-store'}); if(!response.ok)return;
+          const data=await response.json();
+          if(data.catalogInitialized===false && (legacyAdminState.products.length || legacyAdminState.productHistory.length || legacyAdminState.reports.length || Object.keys(legacyAdminState.reviews).length)) {
+            // Keep the legacy catalog separately until an authenticated migration is confirmed.
+            localStorage.setItem(LEGACY_BACKUP_KEY,JSON.stringify(legacyAdminState));
+          }
+          if(Array.isArray(data.storefrontCategories))storefrontCategories=data.storefrontCategories;
+          if(Array.isArray(data.products)){products=data.products;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(products));}catch(_){}}
+          renderProducts();const status=document.getElementById('backendStatus');if(status)status.textContent='Database bersama tersambung';
+        } catch(_) { const status=document.getElementById('backendStatus');if(status)status.textContent='Data browser dipertahankan; server belum tersambung'; }
+      }
+      async function migrateLegacyCatalog(state) {
+        const legacy=legacyAdminState;
+        if(state.catalogInitialized!==false || !(legacy.products.length || legacy.productHistory.length || legacy.reports.length || Object.keys(legacy.reviews).length))return state;
+        // Do not discard the backup if persistence or a concurrent first migration fails.
+        localStorage.setItem(LEGACY_BACKUP_KEY,JSON.stringify(legacy));
+        const merge=(current,old)=>[...current,...old.filter(item=>!current.some(row=>String(row.id)===String(item.id)))];
+        const desired=adminStateSnapshot(state);
+        desired.products=merge(desired.products,legacy.products);
+        desired.reports=merge(desired.reports,legacy.reports);
+        desired.productHistory=merge(desired.productHistory,legacy.productHistory);
+        for(const [id,list] of Object.entries(legacy.reviews))if(Array.isArray(list))desired.reviews[id]=merge(desired.reviews[id]||[],list);
+        desired.storefrontCategories=[...new Set([...desired.storefrontCategories,...legacy.storefrontCategories])];
+        const response=await backendRequest('/api/admin/state',{method:'PUT',body:JSON.stringify({...desired,baseState:adminStateSnapshot(state),initializeCatalog:true})});
+        const data=await readApiJson(response);
+        if(!response.ok)throw new Error(response.status===409?'Data toko berubah saat migrasi. Cadangan lama tetap aman; muat ulang untuk memeriksa data terbaru.':'Migrasi belum tersimpan. Cadangan data lama tetap aman di browser ini.');
+        legacyAdminState=adminStateSnapshot(data.state);
+        try{localStorage.removeItem(LEGACY_BACKUP_KEY);}catch(_){}
+        return data.state;
+      }
       function migrateLegacyAccounts() {
         if(legacyAccountMigrationPromise)return legacyAccountMigrationPromise;
         legacyAccountMigrationPromise=(async()=>{const legacyUsers=loadUsers();if(!legacyUsers.length)return true;try{const response=await fetch('/api/accounts/migrate',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({users:legacyUsers.map(({username,salt,passwordHash,passwordIterations,createdAt})=>({username,salt,passwordHash,passwordIterations,createdAt}))})});const data=await readApiJson(response);if(!response.ok)throw new Error(data.error||'Akun lama belum tersinkron.');if(data.conflicts){accountMigrationNotice='Beberapa akun lama memakai nama pengguna yang berbeda di server. Untuk akun tersebut, masuklah dengan kata sandi yang terdaftar di server.';}else{users=[];try{localStorage.removeItem(USERS_STORAGE_KEY);}catch(_){}accountMigrationNotice='';}return true;}catch(_){accountMigrationNotice='Akun lama belum tersinkron ke server. Periksa koneksi lalu coba lagi.';legacyAccountMigrationPromise=null;return false;}})();
@@ -2828,14 +2899,26 @@
         const stateResponse=await backendRequest('/api/admin/state');
         if(stateResponse.status===401){backendAdminToken='';try{sessionStorage.removeItem('ommni_admin_session');}catch(_){}throw new Error('Sesi admin ditolak backend. Muat ulang preview lalu coba login kembali.');}
         if(!stateResponse.ok) throw new Error(`Database admin tidak dapat dimuat (HTTP ${stateResponse.status}).`);
-        const state=await stateResponse.json(); backendAnalytics=state.analytics||{}; storefrontCategories=Array.isArray(state.storefrontCategories)?state.storefrontCategories:[]; developmentOrders=Array.isArray(state.developmentOrders)?state.developmentOrders:[]; developmentConsultations=Array.isArray(state.developmentConsultations)?state.developmentConsultations:[]; resellerSubscriptions=Array.isArray(state.resellerSubscriptions)?state.resellerSubscriptions:[]; customerServiceMessages=Array.isArray(state.customerServiceMessages)?state.customerServiceMessages:[];
-        const remoteHasData=(state.products||[]).length||(state.reports||[]).length||Object.values(state.reviews||{}).some(list=>Array.isArray(list)&&list.length);
-        if(remoteHasData){products=state.products||[];reports=state.reports||[];reviews=state.reviews||{};productHistory=state.productHistory||[];try{localStorage.setItem(STORAGE_KEY,JSON.stringify(products));localStorage.setItem(REPORTS_STORAGE_KEY,JSON.stringify(reports));persistReviews();localStorage.setItem(PRODUCT_HISTORY_KEY,JSON.stringify(productHistory));}catch(_){}}
-        backendAdminSession=true;
-        if(!remoteHasData){const saveResponse=await backendRequest('/api/admin/state',{method:'PUT',body:JSON.stringify(backendStatePayload())});if(!saveResponse.ok)throw new Error(`Database admin gagal disinkronkan (HTTP ${saveResponse.status}).`);}
+        const state=await migrateLegacyCatalog(await stateResponse.json());
+        backendSyncBlocked=false;applyBackendAdminState(state);backendAdminSession=true;
         renderProducts();refreshAdmin();renderAdminAnalytics();renderDevelopmentOrders();renderDevelopmentConsultations();renderResellerSubscriptions();renderCustomerServiceInquiries();lastNotificationTimestamp=Date.now()-60000;pollNotifications();notificationTimer=window.setInterval(pollNotifications,15000);const status=document.getElementById('backendStatus');if(status)status.textContent='Database bersama tersambung';
       }
-      async function pollNotifications() { if(!backendAdminSession)return; try {const response=await backendRequest(`/api/admin/notifications?after=${lastNotificationTimestamp}`);if(!response.ok)return;const data=await response.json();const stateResponse=await backendRequest('/api/admin/state');if(stateResponse.ok){const state=await stateResponse.json();storefrontCategories=Array.isArray(state.storefrontCategories)?state.storefrontCategories:[];backendAnalytics=state.analytics||{};developmentOrders=Array.isArray(state.developmentOrders)?state.developmentOrders:[];developmentConsultations=Array.isArray(state.developmentConsultations)?state.developmentConsultations:[];resellerSubscriptions=Array.isArray(state.resellerSubscriptions)?state.resellerSubscriptions:[];customerServiceMessages=Array.isArray(state.customerServiceMessages)?state.customerServiceMessages:[];renderAdminAnalytics();renderDevelopmentOrders();renderDevelopmentConsultations();renderResellerSubscriptions();renderCustomerServiceInquiries();}for(const item of data.notifications||[]){const time=Date.parse(item.createdAt)||0;if(time>lastNotificationTimestamp)lastNotificationTimestamp=time;showToast(item.message||'Aktivitas baru di toko.');}}catch(_){} }
+      async function pollNotifications() {
+        if(!backendAdminSession || backendPendingSyncs || backendSyncBlocked)return;
+        try {
+          const response=await backendRequest('/api/admin/notifications?after='+lastNotificationTimestamp);if(!response.ok)return;
+          const data=await response.json(), stateResponse=await backendRequest('/api/admin/state');
+          if(stateResponse.ok && !backendPendingSyncs && !backendSyncBlocked){
+            const state=await stateResponse.json();
+            if(backendPendingSyncs || backendSyncBlocked)return;
+            const changed=JSON.stringify(adminStateSnapshot(state))!==JSON.stringify(adminStateSnapshot());
+            applyBackendAdminState(state);
+            if(changed){renderProducts();refreshAdmin();}
+            renderAdminAnalytics();renderDevelopmentOrders();renderDevelopmentConsultations();renderResellerSubscriptions();renderCustomerServiceInquiries();
+          }
+          for(const item of data.notifications||[]){const time=Date.parse(item.createdAt)||0;if(time>lastNotificationTimestamp)lastNotificationTimestamp=time;showToast(item.message||'Aktivitas baru di toko.');}
+        } catch(_) {}
+      }
       async function disconnectBackendAdmin() { backendAdminSession=false;if(notificationTimer)window.clearInterval(notificationTimer);notificationTimer=null;try{await backendRequest('/api/admin/logout',{method:'POST'});}catch(_){}backendAdminToken='';try{sessionStorage.removeItem('ommni_admin_session');}catch(_){} }
 
       function loadProducts() {
@@ -2869,6 +2952,7 @@
       }
 
       function saveProducts() {
+        if(backendSyncBlocked){showToast('Perubahan belum tersimpan. Ekspor cadangan lalu muat ulang sebelum mengedit kembali.','error');return false;}
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
           syncAdminState();
@@ -2898,6 +2982,7 @@
       }
 
       function saveReports() {
+        if(backendSyncBlocked){showToast('Perubahan belum tersimpan. Ekspor cadangan lalu muat ulang sebelum mengedit kembali.','error');return false;}
         try {
           localStorage.setItem(REPORTS_STORAGE_KEY, JSON.stringify(reports));
           syncAdminState();
@@ -3121,7 +3206,21 @@
       function reviewData(product) { return { average: normalizeProductRating(product.rating), count: 0 }; }
       function leaveReview(product) { reviewProduct = product; reviewText.value = ''; document.getElementById('reviewTitle').textContent = `Ulasan ${product.name}`; reviewOverlay.hidden = false; reviewOverlay.inert = false; setOverlayOpen(reviewOverlay, true); window.requestAnimationFrame(() => reviewText.focus({ preventScroll: true })); }
       function closeReview() { if (!reviewOverlay.classList.contains('is-open')) return; setOverlayOpen(reviewOverlay, false); reviewOverlay.inert = true; reviewOverlay.hidden = true; reviewProduct = null; }
-      reviewForm.addEventListener('submit', async event => { event.preventDefault(); if (!reviewProduct) return; const text = reviewText.value.trim().slice(0, 500); if (!text) { reviewText.focus(); return; } const key = String(reviewProduct.id); const list = Array.isArray(reviews[key]) ? reviews[key] : []; let newReview = { id: createAccountId('review'), author: activeUser ? activeUser.username : 'Tamu', status: 'pending', comment: text, date: new Date().toISOString() }; try { const response=await backendRequest('/api/reviews',{method:'POST',body:JSON.stringify({productId:key,author:newReview.author,comment:text})}); if(response.ok)newReview=(await response.json()).review; } catch(_) {} list.push(newReview); reviews[key] = list.slice(-500); try { persistReviews(); closeReview(); renderProducts(); refreshAdminReviews(); showToast('Terima kasih atas ulasanmu!'); } catch (_) { showToast('Ulasan tidak dapat disimpan.', 'error'); } });
+      function submissionError(message) { const error = new Error(message); error.userMessage = message; return error; }
+      reviewForm.addEventListener('submit', async event => {
+        event.preventDefault();if(!reviewProduct)return;
+        const text=reviewText.value.trim().slice(0,500);if(!text){reviewText.focus();return;}
+        const key=String(reviewProduct.id), button=reviewForm.querySelector('button[type="submit"]');if(button)button.disabled=true;
+        try{
+          const response=await backendRequest('/api/reviews',{method:'POST',body:JSON.stringify({productId:key,author:activeUser?activeUser.username:'Tamu',comment:text})});
+          if(!response.ok)throw submissionError(response.status===429?'Terlalu banyak kiriman. Tunggu sebentar lalu coba lagi.':'Ulasan belum terkirim. Coba lagi.');
+          const data=await readApiJson(response);if(!data.review?.id)throw submissionError('Server belum mengonfirmasi ulasan.');
+          const list=Array.isArray(reviews[key])?reviews[key]:[];reviews[key]=[...list.filter(item=>item.id!==data.review.id),data.review].slice(-500);
+          try{localStorage.setItem(REVIEWS_KEY,JSON.stringify(reviews));}catch(_){}
+          closeReview();renderProducts();refreshAdminReviews();showToast('Terima kasih atas ulasanmu!');
+        }catch(error){showToast(error.userMessage||'Ulasan belum terkirim. Periksa koneksi lalu coba lagi.','error');}
+        finally{if(button)button.disabled=false;}
+      });
       function fuzzyDistance(a, b) { const row = Array.from({length: b.length + 1}, (_, i) => i); for (let i = 1; i <= a.length; i++) { let prev = row[0]; row[0] = i; for (let j = 1; j <= b.length; j++) { const old = row[j]; row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = old; } } return row[b.length]; }
       function matchesSearch(product, query) { const fields = `${product.name} ${product.description} ${product.category || ''} ${(product.tags || []).join(' ')}`.toLocaleLowerCase('id-ID'); if (fields.includes(query)) return true; return fields.split(/\s+/).some(word => word.length > 2 && query.length > 2 && fuzzyDistance(word, query) <= Math.max(1, Math.floor(query.length / 4))); }
       document.getElementById('catalogCartButton').addEventListener('click', showCart);
@@ -4221,7 +4320,18 @@
       const validAdminPages=new Set(['overview','products','reviews','reports','history','activity','orders','reseller-subscriptions','customer-service','ai-settings']);
       function getAdminPageFromPath(){const match=window.location.pathname.match(/^\/admin(?:\/([a-z-]+))?\/?$/);if(!match)return null;const page=match[1]||'overview';return validAdminPages.has(page)?page:null;}
       function navigateToAdminPage(name){if(!validAdminPages.has(name))return;const path=`/admin/${name}`;if(window.location.pathname!==path)window.history.pushState({adminPage:name},'',path);showAdminView(name);window.scrollTo({top:0,behavior:'smooth'});}
-      async function restoreAdminRoute(){const page=getAdminPageFromPath();if(!page)return;try{const response=await backendRequest('/api/admin/state',{cache:'no-store'});if(!response.ok){backendAdminToken='';try{sessionStorage.removeItem('ommni_admin_session');}catch(_){}openLogin();return;}const state=await response.json();backendAnalytics=state.analytics||{};storefrontCategories=Array.isArray(state.storefrontCategories)?state.storefrontCategories:[];developmentOrders=Array.isArray(state.developmentOrders)?state.developmentOrders:[];developmentConsultations=Array.isArray(state.developmentConsultations)?state.developmentConsultations:[];resellerSubscriptions=Array.isArray(state.resellerSubscriptions)?state.resellerSubscriptions:[];customerServiceMessages=Array.isArray(state.customerServiceMessages)?state.customerServiceMessages:[];const remoteHasData=(state.products||[]).length||(state.reports||[]).length||Object.values(state.reviews||{}).some(list=>Array.isArray(list)&&list.length);if(remoteHasData){products=state.products||[];reports=state.reports||[];reviews=state.reviews||{};productHistory=state.productHistory||[];try{localStorage.setItem(STORAGE_KEY,JSON.stringify(products));localStorage.setItem(REPORTS_STORAGE_KEY,JSON.stringify(reports));localStorage.setItem(REVIEWS_KEY,JSON.stringify(reviews));localStorage.setItem(PRODUCT_HISTORY_KEY,JSON.stringify(productHistory));}catch(_){}}backendAdminSession=true;renderProducts();refreshAdmin();renderAdminAnalytics();renderDevelopmentOrders();renderDevelopmentConsultations();renderResellerSubscriptions();renderCustomerServiceInquiries();lastNotificationTimestamp=Date.now()-60000;pollNotifications();if(notificationTimer)window.clearInterval(notificationTimer);notificationTimer=window.setInterval(pollNotifications,15000);const status=document.getElementById('backendStatus');if(status)status.textContent='Database bersama tersambung';adminAuthenticated=true;setOverlayOpen(adminDashboard,true);showAdminView(page);resetAdminIdleTimer();}catch(_){openLogin();}}
+      async function restoreAdminRoute(){
+        const page=getAdminPageFromPath();if(!page)return;
+        try{
+          const response=await backendRequest('/api/admin/state',{cache:'no-store'});
+          if(!response.ok){backendAdminToken='';try{sessionStorage.removeItem('ommni_admin_session');}catch(_){}openLogin();return;}
+          const state=await migrateLegacyCatalog(await response.json());
+          backendSyncBlocked=false;applyBackendAdminState(state);backendAdminSession=true;
+          renderProducts();refreshAdmin();renderAdminAnalytics();renderDevelopmentOrders();renderDevelopmentConsultations();renderResellerSubscriptions();renderCustomerServiceInquiries();
+          lastNotificationTimestamp=Date.now()-60000;pollNotifications();if(notificationTimer)window.clearInterval(notificationTimer);notificationTimer=window.setInterval(pollNotifications,15000);
+          const status=document.getElementById('backendStatus');if(status)status.textContent='Database bersama tersambung';adminAuthenticated=true;setOverlayOpen(adminDashboard,true);showAdminView(page);resetAdminIdleTimer();
+        }catch(error){openLogin();showToast(error.message||'Database admin belum dapat dimuat.','error');}
+      }
       function showAdminView(name) {
         if(name==='ai-settings')refreshAiConfigStatus();
         const pageTitles={overview:'Ringkasan toko',products:'Produk',reviews:'Ulasan',reports:'Laporan',history:'Riwayat produk',activity:'Aktivitas login',orders:'Pesanan web','reseller-subscriptions':'Langganan reseller','customer-service':'Customer Service','ai-settings':'Pengaturan AI'};
@@ -4378,23 +4488,17 @@
           reportFeedback.hidden = false;
           return;
         }
-        const report = {
-          id: createReportId(),
-          name: reportName,
-          category,
-          message,
-          createdAt: new Date().toISOString(),
-          status: 'new'
-        };
-        try { const response = await backendRequest('/api/reports', { method: 'POST', body: JSON.stringify({ name: reportName, category, message }) }); if (response.ok) Object.assign(report, (await response.json()).report); } catch (_) {}
-        const previous = reports;
-        reports = [report, ...reports].slice(0, MAX_REPORTS);
-        if (!saveReports()) { reports = previous; return; }
-        reportForm.reset();
-        reportFeedback.textContent = 'Laporan berhasil disimpan. Admin dapat meninjaunya di dashboard pada browser ini.';
-        reportFeedback.hidden = false;
-        refreshAdminReports();
-        showToast('Laporan berhasil dikirim ke admin.');
+        const button=reportForm.querySelector('button[type="submit"]');if(button)button.disabled=true;
+        try{
+          const response=await backendRequest('/api/reports',{method:'POST',body:JSON.stringify({name:reportName,category,message})});
+          if(!response.ok)throw submissionError(response.status===429?'Terlalu banyak laporan. Tunggu sebentar lalu coba lagi.':'Laporan belum terkirim. Coba lagi.');
+          const data=await readApiJson(response);if(!data.report?.id)throw submissionError('Server belum mengonfirmasi laporan.');
+          reports=[data.report,...reports.filter(item=>item.id!==data.report.id)].slice(0,MAX_REPORTS);
+          try{localStorage.setItem(REPORTS_STORAGE_KEY,JSON.stringify(reports));}catch(_){}
+          reportForm.reset();reportFeedback.textContent='Laporan berhasil dikirim dan tersimpan di server untuk ditinjau admin.';reportFeedback.hidden=false;
+          refreshAdminReports();showToast('Laporan berhasil dikirim ke admin.');
+        }catch(error){reportFeedback.textContent=error.userMessage||'Laporan belum terkirim. Periksa koneksi lalu coba lagi.';reportFeedback.hidden=false;showToast(reportFeedback.textContent,'error');}
+        finally{if(button)button.disabled=false;}
       });
 
       accountLoginForm.addEventListener('submit', async event => {

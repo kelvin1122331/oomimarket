@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-7yplxttgHsyOILVlOHeAREqAETvITHDUnDDwY19mXok='; script-src-attr 'none'; style-src 'sha256-ibF7FUHIop6Jvkv+sLYepZ1QAAbFAk/RzS4yA/byMKk='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-pYfxq2coOPh1sVT4UWHDinUUGbnK19yWAlq6AIQKAN0='; script-src-attr 'none'; style-src 'sha256-YThhFmfJRXxesFGcnfklqNrZGXg9ATabTCv096ZFsb8='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2544,28 +2544,126 @@
     #adminDashboard .login-event-field small { color:var(--a-muted); font-size:10px; line-height:1.7; }
     @media(max-width:760px) { #adminDashboard .login-event-meta { grid-template-columns:1fr; gap:16px; } #adminDashboard .admin-login-event { padding:18px 14px; gap:10px; } #adminDashboard .login-activity-toolbar { align-items:flex-start; flex-direction:column; gap:10px; padding:14px; } }
     /* intro-galaxy:styles-start */
-    #welcomeIntro { isolation:isolate; place-items:safe center; background:#060812; padding:100px 32px 64px; padding-top:max(100px,calc(env(safe-area-inset-top) + 88px)); padding-bottom:max(64px,calc(env(safe-area-inset-bottom) + 32px)); }
-    #welcomeIntro::before { z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none; background:radial-gradient(ellipse 36% 18% at 30% 60%,#9d73df36,transparent 90%),radial-gradient(ellipse 40% 18% at 71% 33%,#3658aa38,transparent 85%),radial-gradient(ellipse 17% 12% at 65% 38%,#f7a7791c,transparent 85%),linear-gradient(155deg,transparent 32%,#7360b71c 46%,transparent 62%),radial-gradient(ellipse 40% 35% at 26% 45%,#3523653b,transparent 88%); }
-    #welcomeIntro::after { position:absolute; z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none; background:radial-gradient(ellipse 28% 22% at 50% 51%,#0608127a,transparent 100%),radial-gradient(ellipse at center,transparent 25%,#03050c66 100%); content:''; pointer-events:none; }
+    #welcomeIntro {
+      --intro-rx:0deg; --intro-ry:0deg; --intro-px:0px; --intro-py:0px;
+      isolation:isolate; place-items:safe center; color:#f7f4ff; background:#040710;
+      padding:112px 32px 72px;
+      padding-top:max(112px,calc(env(safe-area-inset-top) + 100px));
+      padding-bottom:max(72px,calc(env(safe-area-inset-bottom) + 40px));
+    }
+    #welcomeIntro::before {
+      z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none;
+      background:radial-gradient(ellipse 50% 30% at 77% 22%,#5e46b42b,transparent 90%),radial-gradient(ellipse 40% 34% at 19% 73%,#244f9630,transparent 88%),radial-gradient(ellipse 35% 20% at 49% 63%,#be602323,transparent 92%),linear-gradient(150deg,transparent 25%,#6a57a918 48%,transparent 69%);
+    }
+    #welcomeIntro::after {
+      position:absolute; z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none;
+      background:radial-gradient(ellipse 25% 26% at 50% 50%,#04071088,transparent 100%),radial-gradient(ellipse at center,transparent 34%,#02040b7d 100%);
+      content:''; pointer-events:none;
+    }
     #welcomeIntro .intro-galaxy-canvas { position:absolute; z-index:0; inset:0; display:block; width:100%; height:100%; pointer-events:none; }
-    #welcomeIntro .welcome-layout { z-index:1; width:min(100%,1040px); min-height:0; }
-    #welcomeIntro .welcome-copy { max-width:100%; padding:0; }
-    #welcomeIntro .welcome-copy::before { content:''; display:block; width:30px; height:40px; margin:0 auto 30px; background:linear-gradient(145deg,#fff2d8,#ffb180); clip-path:polygon(50% 0,61% 38%,100% 50%,61% 62%,50% 100%,39% 62%,0 50%,39% 38%); }
-    #welcomeIntro .welcome-copy h1 { display:flex; flex-direction:column; align-items:center; gap:4px; max-width:100%; font-size:clamp(48px,9vw,102px); font-weight:750; letter-spacing:-.055em; line-height:1.08; text-shadow:none; }
-    #welcomeIntro .welcome-title-first { font-size:.55em; font-weight:550; letter-spacing:-.035em; color:#f4f3ff; }
-    #welcomeIntro .welcome-copy h1 .welcome-title-second { padding:0 .05em .07em; background:linear-gradient(110deg,#fff0d5 2%,#ffc294 32%,#ff966e 69%,#ffd0ac 100%); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:none; }
-    #welcomeIntro .welcome-actions { flex-direction:column; gap:18px; margin-top:34px; }
-    #welcomeIntro .welcome-enter { position:relative; min-height:62px; gap:26px; padding:10px 12px 10px 25px; border:1px solid #ffcbab80; border-radius:20px; background:linear-gradient(120deg,#ff8755,#fa6037 58%,#e63c27); box-shadow:inset 0 1px 0 #ffe4ce66,0 8px 30px #f9633d30; font-size:14px; transition:transform .25s ease,box-shadow .25s ease,filter .25s ease; }
-    #welcomeIntro .welcome-enter-icon { width:40px; height:40px; border-radius:13px; background:#ffebe51a; border-color:#fff4; }
-    #welcomeIntro .welcome-hint { display:block; font-size:11px; line-height:1.5; letter-spacing:.035em; color:#b6b9c9; }
-    #welcomeIntro .welcome-top-actions { top:max(24px,env(safe-area-inset-top)); right:max(28px,env(safe-area-inset-right)); gap:9px; padding:6px; border:1px solid #d2cbff21; background:#14142180; box-shadow:inset 0 1px 0 #ffffff08,0 8px 30px #0002; backdrop-filter:blur(12px); }
-    #welcomeIntro .welcome-top-actions button { min-height:44px; padding-inline:18px; border-radius:999px; font-size:12px; }
-    #welcomeIntro .welcome-account-button { background:#ffb18814; border-color:#e4aa8157; }
-    #welcomeIntro .welcome-skip { background:#d5ccff0c; border-color:#d7d2f52b; }
-    @media(hover:hover) and (pointer:fine) { #welcomeIntro .welcome-enter:hover { transform:translateY(-3px); filter:brightness(1.06); box-shadow:inset 0 1px 0 #ffe4ce99,0 12px 38px #f9633d42; } }
-    @media(max-width:600px) { #welcomeIntro { padding-inline:24px; } #welcomeIntro .welcome-copy h1 { font-size:clamp(40px,10vw,60px); } #welcomeIntro .welcome-copy::before { width:34px; height:34px; margin-bottom:25px; border-radius:11px; } #welcomeIntro .welcome-actions { margin-top:26px; gap:16px; } #welcomeIntro .welcome-top-actions { top:max(16px,env(safe-area-inset-top)); right:max(16px,env(safe-area-inset-right)); gap:6px; padding:5px; } #welcomeIntro .welcome-top-actions button { padding-inline:15px; } #welcomeIntro .welcome-enter { min-height:60px; } }
-    @media(max-height:540px) { #welcomeIntro { padding-top:92px; padding-bottom:30px; } #welcomeIntro .welcome-copy::before { display:none; } #welcomeIntro .welcome-copy h1 { font-size:clamp(38px,8vw,66px); } #welcomeIntro .welcome-actions { margin-top:20px; gap:12px; } }
-    @media(prefers-reduced-motion:reduce) { #welcomeIntro .intro-galaxy-canvas { opacity:.85; } #welcomeIntro .welcome-enter { transition:none; } #welcomeIntro .welcome-enter:hover { transform:none; } }
+    #welcomeIntro .welcome-layout { z-index:1; width:min(100%,1080px); min-height:0; perspective:1150px; perspective-origin:50% 45%; }
+    #welcomeIntro .welcome-copy {
+      position:relative; width:100%; max-width:100%; padding:0; transform-style:preserve-3d;
+      transform:translate3d(var(--intro-px),var(--intro-py),0) rotateX(var(--intro-rx)) rotateY(var(--intro-ry));
+      animation:none;
+    }
+    #welcomeIntro .welcome-copy::before {
+      position:relative; display:block; width:48px; height:48px; margin:0 auto 31px; border:1px solid #ffe0ba8c; border-radius:14px;
+      background:linear-gradient(135deg,#fff1c7e8 0%,#ffc58cd9 26%,#e47852c4 49%,#5e3449d9 51%,#bc7479c9 76%,#f7bb87eb 100%);
+      box-shadow:inset 3px 3px 5px #fff1d982,inset -4px -4px 7px #3617258c,0 0 0 6px #ffc79508,0 14px 30px #f78d4633;
+      transform:translateZ(75px) rotateX(22deg) rotateY(-28deg) rotateZ(-32deg);
+      animation:intro-crystal-float 7s ease-in-out infinite; pointer-events:none; content:'';
+    }
+    #welcomeIntro .welcome-copy::after {
+      position:absolute; z-index:-1; top:77%; left:50%; width:min(650px,97%); height:210px; border:1px solid #e5b59225; border-radius:50%;
+      background:radial-gradient(ellipse at center,#ee8b3f09,transparent 63%);
+      box-shadow:0 0 0 10px #e9ae7f03,0 0 0 11px #a99fe00c,inset 0 0 42px #9b8ce60a;
+      transform:translate(-50%,-50%) translateZ(-115px) rotateX(64deg) rotateZ(-12deg); pointer-events:none; content:'';
+    }
+    #welcomeIntro .welcome-copy h1 {
+      position:relative; display:flex; flex-direction:column; align-items:center; gap:9px; max-width:100%;
+      font-size:clamp(52px,9.6vw,110px); font-weight:800; letter-spacing:-.055em; line-height:1.06;
+      transform:translateZ(48px); transform-style:preserve-3d; text-shadow:none;
+    }
+    #welcomeIntro .welcome-copy h1 .welcome-title-first {
+      display:block; font-size:.42em; font-weight:650; letter-spacing:-.035em; color:#f3f1ff;
+      text-shadow:0 1px 0 #b2abc7,0 2px 0 #786f95,0 3px 0 #46405f,0 8px 20px #02030a70;
+    }
+    #welcomeIntro .welcome-copy h1 .welcome-title-second {
+      display:block; padding:0 .055em .12em;
+      background:linear-gradient(175deg,#fff4d6 3%,#ffd8ad 21%,#ffb386 43%,#ff9369 56%,#ffbe94 71%,#ffdfb7 100%);
+      background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 1px 0 #9b5137) drop-shadow(0 2px 0 #593325) drop-shadow(0 2px 0 #2f2024) drop-shadow(0 13px 20px #0503098c);
+      text-shadow:none;
+    }
+    #welcomeIntro .welcome-actions { position:relative; flex-direction:column; gap:22px; margin-top:35px; transform:none; transform-style:flat; }
+    #welcomeIntro .welcome-enter {
+      position:relative; isolation:isolate; overflow:hidden; justify-content:space-between; width:min(100%,300px); min-height:67px; gap:28px;
+      padding:10px 11px 10px 25px; border:1px solid #ffd4b5bd; border-radius:21px; color:#fffaf3;
+      background:linear-gradient(155deg,#ffb07b 0%,#ff8655 20%,#f65a35 64%,#d93a27 100%);
+      box-shadow:inset 0 1px 0 #fff0dcab,inset 0 -2px 0 #9a2f2938,0 5px 0 #782c25,0 6px 0 1px #ffad7529,0 18px 35px #ee67342c;
+      font-size:15px; font-weight:750; letter-spacing:-.015em; transform:none; translate:none;
+      transition:transform .28s cubic-bezier(.2,.8,.2,1),translate .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,filter .28s ease;
+    }
+    #welcomeIntro .welcome-enter::before {
+      position:absolute; z-index:0; inset:0; background:linear-gradient(108deg,transparent 26%,#fff2dc00 40%,#fff6e459 50%,#fff2dc00 60%,transparent 75%);
+      transform:translateX(-135%); animation:intro-button-sheen 6.8s 1s ease-in-out infinite; pointer-events:none; content:'';
+    }
+    #welcomeIntro .welcome-enter > span { position:relative; z-index:1; }
+    #welcomeIntro .welcome-enter-icon {
+      width:44px; height:44px; border:1px solid #fff0dc5e; border-radius:14px; background:linear-gradient(150deg,#fff5e823,#fff5e805);
+      box-shadow:inset 0 1px 0 #fff3,0 2px 5px #92351d15;
+    }
+    #welcomeIntro .welcome-enter-icon svg { width:20px; height:20px; transition:transform .28s ease; }
+    #welcomeIntro .welcome-hint { display:block; font-size:11px; line-height:1.5; letter-spacing:.04em; color:#b9bdcf; text-shadow:0 2px 8px #03050a; }
+    #welcomeIntro .welcome-top-actions {
+      top:max(24px,env(safe-area-inset-top)); right:max(28px,env(safe-area-inset-right)); max-width:calc(100% - 32px); gap:8px; padding:6px;
+      border:1px solid #c5c5ec2e; border-radius:999px;
+      background:linear-gradient(140deg,#bbb6dd15,#0f1223c7 54%,#3e334926);
+      box-shadow:inset 0 1px 0 #ffffff12,0 3px 0 #01030b59,0 15px 35px #0003; backdrop-filter:blur(16px);
+    }
+    #welcomeIntro .welcome-top-actions::before { position:absolute; top:0; left:23%; right:23%; height:1px; background:linear-gradient(90deg,transparent,#fff6,transparent); pointer-events:none; content:''; }
+    #welcomeIntro .welcome-top-actions button { min-height:46px; padding-inline:18px; border-radius:999px; font-size:12px; }
+    #welcomeIntro .welcome-account-button { color:#fff0e5; background:linear-gradient(145deg,#e8a06b21,#a15b4010); border-color:#e4aa8157; box-shadow:inset 0 1px 0 #ffd2ac0d; }
+    #welcomeIntro .welcome-skip { color:#edebf5; background:linear-gradient(145deg,#d5ccff12,#d5ccff05); border-color:#d7d2f52b; box-shadow:inset 0 1px 0 #e7e6ff0a; }
+    #welcomeIntro :is(.welcome-enter,.welcome-top-actions button):focus-visible { outline:3px solid #ffd5b2; outline-offset:5px; }
+    #welcomeIntro .welcome-enter:active { transform:translateY(3px) rotateX(0); box-shadow:inset 0 1px 0 #fff0dc88,0 2px 0 #782c25,0 8px 20px #ee673426; }
+    @keyframes intro-crystal-float { 0%,100% { transform:translate3d(0,0,75px) rotateX(22deg) rotateY(-28deg) rotateZ(-32deg); } 50% { transform:translate3d(0,-8px,75px) rotateX(30deg) rotateY(-12deg) rotateZ(-22deg); } }
+    @keyframes intro-button-sheen { 0%,62% { transform:translateX(-135%); } 86%,100% { transform:translateX(135%); } }
+    #welcomeIntro[data-galaxy-active='false'],#welcomeIntro[data-galaxy-active='false'] *,#welcomeIntro[data-galaxy-active='false'] *::before,#welcomeIntro[data-galaxy-active='false'] *::after { animation-play-state:paused !important; }
+    @media(hover:hover) and (pointer:fine) {
+      #welcomeIntro .welcome-enter:hover { transform:none; translate:0 -3px; filter:brightness(1.07); box-shadow:inset 0 1px 0 #fff0dcc7,0 7px 0 #782c25,0 8px 0 1px #ffad7533,0 24px 44px #ee67343d; }
+      #welcomeIntro .welcome-enter:hover .welcome-enter-icon svg { transform:translateX(3px); }
+      #welcomeIntro .welcome-top-actions button:hover { border-color:#ffe6ce80; background-color:#a3a5cd18; }
+    }
+    @media(max-width:600px) {
+      #welcomeIntro { padding-inline:22px; padding-top:max(108px,calc(env(safe-area-inset-top) + 92px)); padding-bottom:max(62px,calc(env(safe-area-inset-bottom) + 32px)); }
+      #welcomeIntro .welcome-layout { perspective:900px; }
+      #welcomeIntro .welcome-copy h1 { font-size:clamp(40px,10.6vw,64px); gap:9px; }
+      #welcomeIntro .welcome-copy h1 .welcome-title-first { font-size:.48em; }
+      #welcomeIntro .welcome-copy::before { width:39px; height:39px; margin-bottom:28px; border-radius:12px; }
+      #welcomeIntro .welcome-copy::after { top:81%; width:94%; height:160px; }
+      #welcomeIntro .welcome-actions { margin-top:29px; gap:23px; }
+      #welcomeIntro .welcome-top-actions { top:max(16px,env(safe-area-inset-top)); right:max(16px,env(safe-area-inset-right)); gap:6px; padding:5px; }
+      #welcomeIntro .welcome-top-actions button { padding-inline:15px; min-height:44px; }
+      #welcomeIntro .welcome-enter { width:min(100%,278px); min-height:64px; font-size:14px; padding-left:23px; border-radius:20px; }
+      #welcomeIntro .welcome-hint { font-size:10px; letter-spacing:.02em; }
+    }
+    @media(max-width:360px) { #welcomeIntro { padding-inline:18px; } #welcomeIntro .welcome-copy h1 { font-size:38px; } #welcomeIntro .welcome-enter { width:min(100%,258px); } #welcomeIntro .welcome-top-actions button { font-size:11px; padding-inline:13px; } }
+    @media(max-height:540px) {
+      #welcomeIntro { padding-top:max(92px,calc(env(safe-area-inset-top) + 80px)); padding-bottom:max(28px,env(safe-area-inset-bottom)); }
+      #welcomeIntro .welcome-copy::before { display:none; }
+      #welcomeIntro .welcome-copy h1 { font-size:clamp(38px,7.4vw,66px); gap:6px; }
+      #welcomeIntro .welcome-actions { margin-top:20px; gap:16px; }
+      #welcomeIntro .welcome-enter { min-height:58px; }
+      #welcomeIntro .welcome-copy::after { height:140px; }
+    }
+    @media(prefers-reduced-motion:reduce) {
+      #welcomeIntro *,#welcomeIntro *::before,#welcomeIntro *::after { animation:none !important; transition:none !important; }
+      #welcomeIntro .intro-galaxy-canvas { opacity:.92; }
+      #welcomeIntro .welcome-copy { transform:none; }
+      #welcomeIntro .welcome-enter:hover,#welcomeIntro .welcome-enter:active { transform:none; translate:none; }
+    }
     /* intro-galaxy:styles-end */
   </style>
 </head>
@@ -5416,162 +5514,195 @@
 
     /* modern-motion:end */
     /* intro-galaxy:start */
-    // A decorative canvas only: existing controls retain their input and focus behavior.
+    // Software 3D projection keeps the intro self-contained and the controls native.
     (() => {
       'use strict';
       const host = document.getElementById('welcomeIntro');
       if (!host || host.hidden) return;
-      let canvas, ctx, resizeObserver, stateObserver, frame = 0, width = 0, height = 0, dpr = 1;
-      let stars = [], waves = [], last = 0, elapsed = 0, cameraX = 0, cameraY = 0, stopped = false, interactions = 0;
-      const pointer = { x:0, y:0, active:false };
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       const saveData = Boolean(navigator.connection?.saveData);
       const palette = ['#e9edff','#b6bfff','#98d4ff','#d7c2ff','#ffd1a6'];
-      const sprites = [];
-      const visible = () => !host.hidden && !host.inert && !host.classList.contains('is-leaving') && document.visibilityState !== 'hidden';
+      const pointer = {x:0,y:0,active:false};
+      let canvas,ctx,resizeObserver,stateObserver,frame=0,width=0,height=0,dpr=1;
+      let stars=[],planets=[],crystals=[],waves=[],sprites=[],drawables=[],elapsed=0,last=0,cameraX=0,cameraY=0,stopped=false,interactions=0;
+      let yaw=0,pitch=0,cosY=1,sinY=0,cosP=1,sinP=0,focal=900,lastTilt='';
+      const visible=()=>!host.hidden&&!host.inert&&!host.classList.contains('is-leaving')&&document.visibilityState!=='hidden';
 
-      function failOpen() {
-        stopped = true;
-        if (frame) window.cancelAnimationFrame(frame); frame = 0;
-        resizeObserver?.disconnect(); stateObserver?.disconnect(); canvas?.remove();
-        host.dataset.galaxy = 'unavailable';
+      function perspectiveScale(z,focalLength) {
+        return focalLength/Math.max(focalLength*.22,focalLength+z);
       }
+      function projectPoint(x,y,z) {
+        const rx=x*cosY+z*sinY,rz=z*cosY-x*sinY;
+        const ry=y*cosP-rz*sinP,depth=y*sinP+rz*cosP;
+        const scale=perspectiveScale(depth,focal);
+        return {x:width*.5+rx*scale,y:height*.5+ry*scale,z:depth,scale};
+      }
+      function setTilt(x=0,y=0) {
+        const key=x.toFixed(2)+','+y.toFixed(2);if(key===lastTilt)return;lastTilt=key;
+        host.style.setProperty('--intro-rx',(-y*3).toFixed(2)+'deg');
+        host.style.setProperty('--intro-ry',(x*3).toFixed(2)+'deg');
+        host.style.setProperty('--intro-px',(x*9).toFixed(2)+'px');
+        host.style.setProperty('--intro-py',(y*7).toFixed(2)+'px');
+      }
+      function failOpen() {
+        stopped=true;if(frame)window.cancelAnimationFrame(frame);frame=0;
+        resizeObserver?.disconnect();stateObserver?.disconnect();canvas?.remove();setTilt();
+        host.dataset.galaxy='unavailable';host.dataset.galaxyActive='false';
+      }
+      function safe(fn) { return (...args)=>{if(stopped)return;try{return fn(...args);}catch(_){failOpen();}}; }
       function randomGenerator(seed) {
-        return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let n = Math.imul(seed ^ seed >>> 15,1 | seed); n = n + Math.imul(n ^ n >>> 7,61 | n) ^ n; return ((n ^ n >>> 14) >>> 0) / 4294967296; };
+        return ()=>{seed|=0;seed=seed+0x6D2B79F5|0;let n=Math.imul(seed^seed>>>15,1|seed);n=n+Math.imul(n^n>>>7,61|n)^n;return((n^n>>>14)>>>0)/4294967296;};
       }
       function makeSprite(color) {
-        const sprite = document.createElement('canvas'); sprite.width = sprite.height = 48;
-        const context = sprite.getContext('2d'); if (!context) return null;
-        const gradient = context.createRadialGradient(24,24,0,24,24,24);
-        gradient.addColorStop(0,'#ffffff'); gradient.addColorStop(.045,color); gradient.addColorStop(.16,color+'65'); gradient.addColorStop(.48,color+'12'); gradient.addColorStop(1,color+'00');
-        context.fillStyle = gradient; context.fillRect(0,0,48,48); return sprite;
+        const sprite=document.createElement('canvas');sprite.width=sprite.height=48;
+        const c=sprite.getContext('2d');if(!c)return null;
+        const g=c.createRadialGradient(24,24,0,24,24,24);
+        g.addColorStop(0,'#ffffff');g.addColorStop(.04,color);g.addColorStop(.16,color+'70');g.addColorStop(.48,color+'14');g.addColorStop(1,color+'00');
+        c.fillStyle=g;c.fillRect(0,0,48,48);return sprite;
+      }
+      function makePlanet(blue) {
+        // Sphere lighting and surface bands are rasterized once, never per frame.
+        const texture=document.createElement('canvas');texture.width=texture.height=256;
+        const c=texture.getContext('2d');if(!c)return null;
+        c.save();c.beginPath();c.arc(128,128,120,0,Math.PI*2);c.clip();
+        const g=c.createRadialGradient(76,68,6,128,128,157);
+        const colors=blue?['#ddf9ff','#80d0e7','#357d9e','#142b4d','#070b1b']:['#fff0ce','#edb779','#ac633c','#4a2630','#110f20'];
+        [0,.28,.57,.82,1].forEach((stop,i)=>g.addColorStop(stop,colors[i]));
+        c.fillStyle=g;c.fillRect(0,0,256,256);
+        for(let band=0;band<25;band++){
+          const y=15+band*9;c.globalAlpha=.07+(band%3)*.025;c.strokeStyle=band%2?'#ffffff':(blue?'#0c2448':'#381226');c.lineWidth=2+(band%4);
+          c.beginPath();c.ellipse(115,y,136,8+Math.sin(band)*5,-.19,0,Math.PI*2);c.stroke();
+        }
+        const shade=c.createRadialGradient(70,65,20,153,140,150);shade.addColorStop(0,'#00000000');shade.addColorStop(.45,'#00000000');shade.addColorStop(1,'#01020ed9');
+        c.globalAlpha=1;c.fillStyle=shade;c.fillRect(0,0,256,256);c.restore();return texture;
       }
       function resize() {
-        if (stopped || host.hidden) return;
-        const bounds = host.getBoundingClientRect();
-        const nextWidth = Math.max(1,Math.round(bounds.width)), nextHeight = Math.max(1,Math.round(bounds.height));
-        const nextDpr = Math.min(window.devicePixelRatio || 1,saveData?1:nextWidth<700?1.5:2);
-        if (nextWidth === width && nextHeight === height && nextDpr === dpr) return;
-        width=nextWidth; height=nextHeight; dpr=nextDpr;
-        canvas.width=Math.round(width*dpr); canvas.height=Math.round(height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
-        const count=saveData?80:Math.min(width<700?280:600,Math.max(width<700?230:300,Math.round(width*height/1800)));
-        const random=randomGenerator(21837), cos=Math.cos(-.37), sin=Math.sin(-.37);
-        stars=Array.from({length:count},(_,index)=>{
-          const dust = index > count*.36, bright=index%29===0, radius = Math.pow(random(),.6);
-          const angle = (index%2)*Math.PI+radius*5.3+(random()-.5)*.5;
-          const gx=Math.cos(angle)*radius*width*.72, gy=Math.sin(angle)*radius*height*.20;
-          return { x:dust?width*.5+gx*cos-gy*sin:random()*width, y:dust?height*.48+gx*sin+gy*cos:random()*height,
-            ox:0,oy:0,vx:0,vy:0,depth:bright?1.5:.25+random()*.8,size:bright?1.15+random()*.55:.35+Math.pow(random(),2)*.85,phase:random()*Math.PI*2,color:Math.floor(random()*palette.length),dust,bright };
+        if(stopped||host.hidden)return;
+        const b=host.getBoundingClientRect(),w=Math.max(1,Math.round(b.width)),h=Math.max(1,Math.round(b.height));
+        const resolution=Math.min(window.devicePixelRatio||1,saveData?1:w<700?1.5:2);
+        if(w===width&&h===height&&resolution===dpr)return;
+        width=w;height=h;dpr=resolution;focal=Math.max(650,Math.min(width,height)*1.15);
+        canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+        const random=randomGenerator(21837),count=saveData?80:Math.min(width<700?280:600,Math.max(width<700?230:300,Math.round(width*height/1800)));
+        stars=Array.from({length:count},(_,i)=>{
+          const dust=i>count*.4,r=Math.pow(random(),.55),a=(i%3)*Math.PI*2/3+r*6.8+(random()-.5)*.55;
+          return{x:dust?Math.cos(a)*r*width*.82:(random()-.5)*width*1.55,y:dust?Math.sin(a)*r*height*.18:(random()-.5)*height*1.5,
+            z:dust?(random()-.5)*180:random()*1000-300,phase:random()*Math.PI*2,color:Math.floor(random()*palette.length),size:.35+random()*.95,bright:i%31===0,
+            ox:0,oy:0,vx:0,vy:0,kind:'star',projected:null};
         });
-        canvas.dataset.starCount=String(stars.length); cameraX=cameraY=0; waves=[];
-        draw(0); sync();
+        const unit=Math.min(width,height),small=width<700;
+        const warmZ=70,blueZ=-70;
+        const warm={x:width*(small ? .32 : .31)*(1+warmZ/focal),y:height*(small ? -.26 : -.24)*(1+warmZ/focal),z:warmZ,radius:Math.min(small?52:108,unit*(small ? .125 : .112)),color:4,texture:planetTextures[0],kind:'planet',ring:true,phase:0};
+        const blue={x:width*(small ? -.34 : -.32)*(1+blueZ/focal),y:height*(small ? .27 : .26)*(1+blueZ/focal),z:blueZ,radius:Math.min(small?29:54,unit*.065),color:2,texture:planetTextures[1],kind:'planet',ring:false,phase:2};
+        planets=[warm,blue];
+        crystals=[{x:width*.33,y:height*.31,z:-20,radius:Math.min(25,unit*.044),phase:1,kind:'crystal'},{x:-width*.34,y:-height*.22,z:180,radius:Math.min(19,unit*.032),phase:3,kind:'crystal'}];
+        drawables=[...stars,...planets,...(saveData?[]:crystals)];
+        canvas.dataset.starCount=String(count);cameraX=cameraY=0;waves=[];setTilt();draw(0);sync();
+      }
+      function traceOrbit(radius,vertical,angle,alpha,color) {
+        ctx.beginPath();let started=false;
+        const steps=saveData?48:90;
+        for(let i=0;i<=steps;i++){
+          const t=i/steps*Math.PI*2+angle,x=Math.cos(t)*radius,y=Math.sin(t)*radius*vertical,z=Math.sin(t)*radius*.38;
+          const p=projectPoint(x*Math.cos(-.3)-y*Math.sin(-.3),x*Math.sin(-.3)+y*Math.cos(-.3),z);
+          if(!started){ctx.moveTo(p.x,p.y);started=true;}else ctx.lineTo(p.x,p.y);
+        }
+        ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=.65;ctx.stroke();
+      }
+      function ringHalf(planet,front) {
+        const spin=-.43,cp=Math.cos(spin),sp=Math.sin(spin);
+        for(let band=0;band<5;band++){
+          const r=planet.radius*(1.44+band*.14);ctx.beginPath();let started=false;
+          for(let i=0;i<=54;i++){
+            const t=i/54*Math.PI+(front?Math.PI:0),dx=Math.cos(t)*r,dy=Math.sin(t)*r*.24,dz=Math.sin(t)*r*.7;
+            const p=projectPoint(planet.wx+dx*cp-dy*sp,planet.wy+dx*sp+dy*cp,planet.z+dz);
+            if(!started){ctx.moveTo(p.x,p.y);started=true;}else ctx.lineTo(p.x,p.y);
+          }
+          ctx.globalAlpha=front ? .34 : .2;ctx.strokeStyle=band%2?'#c08b68':'#f2d5af';ctx.lineWidth=planet.projected.scale*(band===2?2:1.25);ctx.stroke();
+        }
+      }
+      function drawPlanet(planet) {
+        const p=planet.projected,r=planet.radius*p.scale;
+        if(planet.ring)ringHalf(planet,false);
+        ctx.globalCompositeOperation='screen';ctx.globalAlpha=.23;
+        if(sprites[planet.color])ctx.drawImage(sprites[planet.color],p.x-r*1.9,p.y-r*1.9,r*3.8,r*3.8);
+        ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
+        if(planet.texture)ctx.drawImage(planet.texture,p.x-r*1.067,p.y-r*1.067,r*2.134,r*2.134);
+        ctx.beginPath();ctx.arc(p.x,p.y,r,Math.PI*.95,Math.PI*1.85);ctx.strokeStyle=planet.color===4?'#ffe1b9':'#98e8ff';ctx.globalAlpha=.38;ctx.lineWidth=1;ctx.stroke();
+        if(planet.ring)ringHalf(planet,true);
+      }
+      function drawCrystal(crystal) {
+        const t=elapsed*.00012+crystal.phase,r=crystal.radius;
+        const points=[[0,-r*1.4,0],[r,0,0],[0,0,r],[-r,0,0],[0,0,-r],[0,r*1.4,0]].map(([x,y,z])=>projectPoint(crystal.wx+x*Math.cos(t)+z*Math.sin(t),crystal.wy+y,crystal.z+z*Math.cos(t)-x*Math.sin(t)));
+        const faces=[[0,1,2],[0,2,3],[0,3,4],[0,4,1],[5,2,1],[5,3,2],[5,4,3],[5,1,4]].sort((a,b)=>b.reduce((n,i)=>n+points[i].z,0)-a.reduce((n,i)=>n+points[i].z,0));
+        for(const face of faces){ctx.beginPath();face.forEach((index,i)=>{const p=points[index];if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);});ctx.closePath();ctx.globalAlpha=.08;ctx.fillStyle='#baa4ff';ctx.fill();ctx.globalAlpha=.32;ctx.strokeStyle='#c7bdff';ctx.lineWidth=.7;ctx.stroke();}
+      }
+      function drawStar(star,dt) {
+        const p=star.projected,step=Math.min(dt/16.667,2.5),animated=!reduce.matches;
+        if(animated&&dt){
+          if(pointer.active){const dx=p.x+star.ox-pointer.x,dy=p.y+star.oy-pointer.y,d=Math.hypot(dx,dy),range=Math.min(width*.32,170);if(d>1&&d<range){const f=(1-d/range)*.3*step;star.vx+=dx/d*f;star.vy+=dy/d*f;}}
+          const damping=Math.pow(.87,step);star.vx=(star.vx-star.ox*.016*step)*damping;star.vy=(star.vy-star.oy*.016*step)*damping;star.ox+=star.vx*step;star.oy+=star.vy*step;
+        }
+        const x=p.x+(animated?star.ox:0),y=p.y+(animated?star.oy:0),size=Math.max(.25,star.size*p.scale);
+        if(x<-25||y<-25||x>width+25||y>height+25)return;
+        const quiet=.32+.68*Math.min(1,Math.hypot((x-width*.5)/(width*.27),(y-height*.51)/(height*.22)));
+        ctx.globalCompositeOperation='screen';ctx.globalAlpha=Math.min(.95,(.38+p.scale*.2+Math.sin(elapsed*.0007+star.phase)*.12)*quiet);
+        if(star.bright&&sprites[star.color]){const s=size*13;ctx.drawImage(sprites[star.color],x-s/2,y-s/2,s,s);ctx.fillStyle=palette[star.color];ctx.fillRect(x-size*3,y-.3,size*6,.6);ctx.fillRect(x-.3,y-size*3,.6,size*6);}
+        ctx.fillStyle=star.bright?'#fff5df':palette[star.color];ctx.fillRect(x-size/2,y-size/2,size,size);
       }
       function draw(dt) {
-        const animated=!reduce.matches, step=Math.min(dt/16.667,2.5), ease=1-Math.exp(-dt*.004);
-        if (animated) {
-          elapsed+=dt;
-          cameraX+=((pointer.active?(pointer.x/width-.5)*40:0)-cameraX)*ease;
-          cameraY+=((pointer.active?(pointer.y/height-.5)*32:0)-cameraY)*ease;
-        } else { cameraX=cameraY=0; }
-        ctx.clearRect(0,0,width,height);
-        // Clouds are baked into CSS; tiny cached sprites avoid per-star gradients.
+        const animated=!reduce.matches,ease=1-Math.exp(-dt*.004);
+        if(animated){elapsed+=dt;cameraX+=((pointer.active?(pointer.x/width-.5)*2:0)-cameraX)*ease;cameraY+=((pointer.active?(pointer.y/height-.5)*2:0)-cameraY)*ease;}else cameraX=cameraY=0;
+        yaw=cameraX*.075+Math.sin(elapsed*.00004)*.018;pitch=cameraY*.055;
+        cosY=Math.cos(yaw);sinY=Math.sin(yaw);cosP=Math.cos(pitch);sinP=Math.sin(pitch);setTilt(cameraX,cameraY);
+        ctx.clearRect(0,0,width,height);ctx.globalCompositeOperation='screen';
+        traceOrbit(width*.56,.28,elapsed*.000018,.13,'#c0acf5');traceOrbit(width*.7,.31,-elapsed*.000012,.065,'#d7c4ae');
+        for(const body of drawables){const drift=animated?Math.sin(elapsed*.00015+body.phase):0;body.wx=body.x+(body.kind==='star'?drift*3:drift*5);body.wy=body.y+(body.kind==='star'?0:drift*8);body.projected=projectPoint(body.wx,body.wy,body.z);}
+        drawables.sort((a,b)=>b.projected.z-a.projected.z);
+        for(const body of drawables){if(body.kind==='star')drawStar(body,dt);else if(body.kind==='planet')drawPlanet(body);else drawCrystal(body);}
         ctx.globalCompositeOperation='screen';
-        // Fine orbital paths anchor the composition without following the text.
-        for (let orbit=0;orbit<2;orbit++) {
-          ctx.globalAlpha=orbit?.07:.12;ctx.strokeStyle=orbit?'#b6c6ff':'#d6b8ff';ctx.lineWidth=.65;
-          ctx.beginPath();ctx.ellipse(width*.5+cameraX*.25,height*.48+cameraY*.25,width*(orbit?.59:.47),height*(orbit?.24:.19),-.37,.12+orbit*.7,Math.PI*1.8+orbit*.35);ctx.stroke();
-        }
-        const influence=Math.min(width*.32,165);
-        for (const star of stars) {
-          const drift=animated?Math.sin(elapsed*.00013+star.phase)*4*star.depth:0;
-          const baseX=star.x+cameraX*star.depth+drift, baseY=star.y+cameraY*star.depth+drift*.5;
-          if (animated && dt) {
-            if (pointer.active) {
-              const dx=baseX+star.ox-pointer.x,dy=baseY+star.oy-pointer.y,distance=Math.hypot(dx,dy);
-              if (distance<influence && distance>1) { const force=(1-distance/influence)*.26*step; star.vx+=dx/distance*force;star.vy+=dy/distance*force; }
-            }
-            const damping=Math.pow(.87,step);
-            star.vx=(star.vx-star.ox*.016*step)*damping; star.vy=(star.vy-star.oy*.016*step)*damping;
-            star.ox+=star.vx*step;star.oy+=star.vy*step;
-          }
-          const x=baseX+(animated?star.ox:0),y=baseY+(animated?star.oy:0);
-          if (x < -20 || y < -20 || x > width+20 || y > height+20) continue;
-          const centerDistance=Math.hypot((x-width*.5)/(width*.24),(y-height*.51)/(height*.19));
-          const quiet=.28+.72*Math.min(1,centerDistance);
-          ctx.globalAlpha=((star.dust ? .48 : .67)+(animated?Math.sin(elapsed*.00065+star.phase)*.12:.06))*quiet;
-          if (star.bright && sprites[star.color]) {
-            const size=star.size*10;ctx.drawImage(sprites[star.color],x-size/2,y-size/2,size,size);
-            ctx.fillStyle=palette[star.color];ctx.globalAlpha*=.45;ctx.fillRect(x-star.size*2.7,y-.3,star.size*5.4,.6);ctx.fillRect(x-.3,y-star.size*2.7,.6,star.size*5.4);ctx.globalAlpha=Math.min(1,ctx.globalAlpha*2);
-          }
-          ctx.fillStyle=star.bright?'#fff6e8':palette[star.color];ctx.fillRect(x-star.size/2,y-star.size/2,star.size,star.size);
-        }
-        if (animated) {
-          for (const wave of waves) {
-            wave.age+=dt;const progress=Math.min(1,wave.age/1100),radius=12+progress*Math.min(width*.42,220);
-            ctx.globalAlpha=(1-progress)*.34;ctx.strokeStyle='#dfc8ff';ctx.lineWidth=.8;
-            ctx.beginPath();ctx.arc(wave.x,wave.y,radius,0,Math.PI*2);ctx.stroke();
-            for(let spark=0;spark<12;spark++) {
-              const angle=spark*Math.PI/6+wave.phase,travel=radius*(.5+(spark%3)*.15),size=(1-progress)*1.7;
-              ctx.globalAlpha=(1-progress)*.7;ctx.fillStyle=spark%2?'#d6d0ff':'#ffd0a8';ctx.fillRect(wave.x+Math.cos(angle)*travel,wave.y+Math.sin(angle)*travel,size,size);
-            }
-            if (sprites[2]) { ctx.globalAlpha=(1-progress)*.1;const size=radius*2;ctx.drawImage(sprites[2],wave.x-radius,wave.y-radius,size,size); }
-          }
-          waves=waves.filter(wave=>wave.age<1100);
+        if(animated){
+          for(const wave of waves){wave.age+=dt;const progress=Math.min(1,wave.age/1250),radius=10+progress*Math.min(width*.5,280);ctx.globalAlpha=(1-progress)*.35;ctx.strokeStyle='#e4cfff';ctx.lineWidth=.8;ctx.beginPath();ctx.ellipse(wave.x,wave.y,radius,radius*.6,-.25,0,Math.PI*2);ctx.stroke();
+            for(let i=0;i<16;i++){const a=i*Math.PI/8+wave.phase,s=(1-progress)*2;ctx.globalAlpha=(1-progress)*.8;ctx.fillStyle=i%2?'#ffd0a0':'#c9c6ff';ctx.fillRect(wave.x+Math.cos(a)*radius*.75,wave.y+Math.sin(a)*radius*.75,s,s);}}
+          waves=waves.filter(w=>w.age<1250);
+          // A single quiet meteor per cycle, disabled on data saver.
+          const phase=(elapsed+4000)%16000;if(!saveData&&phase<1050){const p=phase/1050,x=width*(.12+p*.46),y=height*(.12+p*.15);for(let i=0;i<6;i++){ctx.globalAlpha=Math.sin(p*Math.PI)*(1-i/6)*.4;ctx.strokeStyle='#dae9ff';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(x-i*9,y-i*3);ctx.lineTo(x-(i+1)*9,y-(i+1)*3);ctx.stroke();}}
         }
         ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
       }
       function tick(time) {
-        frame=0;
-        if (stopped || !visible() || reduce.matches) { sync(); return; }
-        const minimum=1000/(saveData?24:60);
-        if (!last || time-last>=minimum-1) {
-          try { draw(last?Math.min(42,time-last):16.667);last=time; } catch (_) { failOpen();return; }
-        }
+        frame=0;if(stopped||!visible()||reduce.matches){sync();return;}
+        if(!last||time-last>=1000/(saveData?24:60)-1){try{draw(last?Math.min(42,time-last):16.667);last=time;}catch(_){failOpen();return;}}
         frame=window.requestAnimationFrame(tick);
       }
       function sync() {
-        if (stopped) return;
-        if (!visible() || reduce.matches) {
-          if (frame) window.cancelAnimationFrame(frame);frame=0;last=0;
-          canvas.dataset.galaxyState=reduce.matches?'reduced':'paused';
-          if (visible() && reduce.matches) { waves=[];draw(0); }
-        } else if (!frame && width) { last=0;canvas.dataset.galaxyState='running';frame=window.requestAnimationFrame(tick); }
+        if(stopped)return;
+        const active=visible()&&!reduce.matches;host.dataset.galaxyActive=String(active);
+        if(!active){if(frame)window.cancelAnimationFrame(frame);frame=0;last=0;setTilt();canvas.dataset.galaxyState=reduce.matches?'reduced':'paused';if(visible()&&reduce.matches){waves=[];draw(0);}}
+        else if(!frame&&width){last=0;canvas.dataset.galaxyState='running';frame=window.requestAnimationFrame(tick);}
       }
       function move(event) {
-        if (!visible() || stopped || reduce.matches) return;
-        const bounds=host.getBoundingClientRect();pointer.x=event.clientX-bounds.left;pointer.y=event.clientY-bounds.top;pointer.active=true;
+        if(!visible()||stopped||reduce.matches)return;const b=host.getBoundingClientRect();pointer.x=Math.max(0,Math.min(width,event.clientX-b.left));pointer.y=Math.max(0,Math.min(height,event.clientY-b.top));pointer.active=true;
       }
-      function leave() { pointer.active=false; }
-      function release(event) { if(event.pointerType!=='mouse')leave(); }
+      function leave(){pointer.active=false;cameraX=cameraY=0;setTilt();}
+      function release(event){if(event.pointerType!=='mouse')leave();}
       function press(event) {
-        if (event.target.closest('button,a,input,textarea,select,[role="button"]') || (event.button !== undefined && event.button !== 0)) return;
-        move(event);
-        if (!visible() || stopped || reduce.matches) return;
-        interactions++;canvas.dataset.galaxyInteractions=String(interactions);
-        waves.push({x:pointer.x,y:pointer.y,age:0,phase:interactions*.7});waves=waves.slice(-4);
-        const radius=Math.min(width*.5,240);
-        for (const star of stars) {
-          const dx=star.x+star.ox-pointer.x,dy=star.y+star.oy-pointer.y,distance=Math.hypot(dx,dy);
-          if (distance>1 && distance<radius) { const force=(1-distance/radius)*3.5;star.vx+=dx/distance*force;star.vy+=dy/distance*force; }
-        }
+        if(event.target.closest('button,a,input,textarea,select,[role="button"]')||(event.button!==undefined&&event.button!==0))return;
+        move(event);if(!visible()||stopped||reduce.matches)return;
+        canvas.dataset.galaxyInteractions=String(++interactions);waves.push({x:pointer.x,y:pointer.y,age:0,phase:interactions*.7});waves=waves.slice(-4);
+        const radius=Math.min(width*.5,240);for(const star of stars){const p=star.projected,dx=p.x+star.ox-pointer.x,dy=p.y+star.oy-pointer.y,d=Math.hypot(dx,dy);if(d>1&&d<radius){const f=(1-d/radius)*4;star.vx+=dx/d*f;star.vy+=dy/d*f;}}
       }
+      let planetTextures=[];
       try {
-        canvas=document.createElement('canvas');canvas.className='intro-galaxy-canvas';canvas.setAttribute('aria-hidden','true');
-        ctx=canvas.getContext('2d',{alpha:true});if (!ctx) { failOpen();return; }
-        host.prepend(canvas);palette.forEach(color=>sprites.push(makeSprite(color)));
-        host.dataset.galaxy='ready';canvas.dataset.galaxyInteractions='0';
-        host.addEventListener('pointermove',move,{passive:true});host.addEventListener('pointerdown',press,{passive:true});
-        host.addEventListener('pointerleave',leave,{passive:true});host.addEventListener('pointercancel',leave,{passive:true});
-        host.addEventListener('pointerup',release,{passive:true});
-        stateObserver=new MutationObserver(()=>{if(visible())resize();sync();});stateObserver.observe(host,{attributes:true,attributeFilter:['hidden','inert','class','aria-hidden']});
-        if ('ResizeObserver' in window) { resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host); }
-        else window.addEventListener('resize',resize,{passive:true});
-        reduce.addEventListener('change',()=>{stars.forEach(star=>{star.ox=star.oy=star.vx=star.vy=0;});pointer.active=false;sync();});
-        document.addEventListener('visibilitychange',sync);
-        window.addEventListener('pagehide',()=>{if(frame)window.cancelAnimationFrame(frame);frame=0;last=0;});
-        window.addEventListener('pageshow',()=>{resize();sync();});
+        canvas=document.createElement('canvas');canvas.className='intro-galaxy-canvas';canvas.setAttribute('aria-hidden','true');ctx=canvas.getContext('2d',{alpha:true});if(!ctx){failOpen();return;}
+        host.prepend(canvas);sprites=palette.map(makeSprite);planetTextures=[makePlanet(false),makePlanet(true)];host.dataset.galaxy='ready';canvas.dataset.galaxyRenderer='perspective-3d';canvas.dataset.galaxyInteractions='0';
+        host.addEventListener('pointermove',safe(move),{passive:true});host.addEventListener('pointerdown',safe(press),{passive:true});host.addEventListener('pointerleave',leave,{passive:true});host.addEventListener('pointercancel',leave,{passive:true});host.addEventListener('pointerup',release,{passive:true});
+        stateObserver=new MutationObserver(safe(()=>{if(visible())resize();sync();}));stateObserver.observe(host,{attributes:true,attributeFilter:['hidden','inert','class','aria-hidden']});
+        if('ResizeObserver'in window){resizeObserver=new ResizeObserver(safe(resize));resizeObserver.observe(host);}else window.addEventListener('resize',safe(resize),{passive:true});
+        reduce.addEventListener('change',safe(()=>{stars.forEach(s=>{s.ox=s.oy=s.vx=s.vy=0;});pointer.active=false;cameraX=cameraY=0;sync();}));
+        document.addEventListener('visibilitychange',safe(sync));window.addEventListener('pagehide',()=>{if(frame)window.cancelAnimationFrame(frame);frame=0;last=0;host.dataset.galaxyActive='false';setTilt();});window.addEventListener('pageshow',safe(()=>{resize();sync();}));
         resize();sync();
-      } catch (_) { failOpen(); }
+      }catch(_){failOpen();}
     })();
 
     /* intro-galaxy:end */

@@ -705,7 +705,7 @@ const server = http.createServer(async (req, res) => {
       return json(res, 404, { error: 'not found' });
     }
 
-    const adminPages = new Set(['overview', 'products', 'reviews', 'reports', 'history', 'activity', 'orders', 'reseller-subscriptions', 'customer-service', 'ai-settings']);
+    const adminPages = new Set(["overview","products","product-editor","analytics","orders","consultations","reseller-subscriptions","customer-service","reviews","reports","history","activity","ai-settings","backup"]);
     const adminRouteMatch = url.pathname.match(/^\/admin(?:\/([a-z-]+))?\/?$/);
     const adminPage = adminRouteMatch ? (adminRouteMatch[1] || 'overview') : '';
     const isAdminPage = Boolean(adminRouteMatch && adminPages.has(adminPage));

@@ -52,6 +52,8 @@ function clientFunction(name) {
   const rest = clientScript.slice(start);
   const firstLine = rest.split('\n')[0];
   if (firstLine.trim().endsWith('}')) return firstLine;
+  const closing = rest.indexOf('\n      }');
+  if (closing >= 0) return rest.slice(0, closing + 8);
   const next = rest.slice(1).search(/\n      (?:async )?function /);
   return next < 0 ? rest : rest.slice(0, next + 1);
 }
@@ -217,4 +219,57 @@ test('chatbot stores and returns only the final Gemini answer', async t => {
   const response = await request('POST', '/api/customer-service', { question: 'Berapa batas ukuran gambar brand?' });
   assert.equal(response.status, 200); assert.equal(response.data.ok, true); assert.equal(response.data.answer, 'Ukuran gambar maksimal 2,5 MB.');
   const saved = (await request('GET', '/api/admin/state', undefined, true)).data.customerServiceMessages[0]; assert.equal(saved.answer, response.data.answer);
+});
+
+test('every admin feature has a distinct route that supports direct loading', async t => {
+  const { request } = backend(t);
+  const pages = JSON.parse(clientScript.match(/const ADMIN_PAGES = (\{[^\n]+\});/)[1]);
+  assert.equal(Object.keys(pages).length, 14);
+  for (const name of Object.keys(pages)) {
+    const response = await request('GET', '/admin/' + name);
+    assert.equal(response.status, 200, name);
+    assert.ok(response.data.includes('id="adminView-' + name + '"'), name);
+  }
+  assert.equal((await request('GET', '/admin/not-a-page')).status, 404);
+  assert.equal((await request('GET', '/api/admin/state')).status, 401);
+});
+
+test('admin route recognition accepts feature links and rejects unknown pages', () => {
+  const pages = JSON.parse(clientScript.match(/const ADMIN_PAGES = (\{[^\n]+\});/)[1]);
+  const ctx = client({ window: { location: { pathname: '/admin/overview' } }, validAdminPages: new Set(Object.keys(pages)) }, ['getAdminPageFromPath']);
+  for (const name of Object.keys(pages)) { ctx.window.location.pathname = '/admin/' + name; assert.equal(ctx.getAdminPageFromPath(), name); }
+  ctx.window.location.pathname = '/admin/'; assert.equal(ctx.getAdminPageFromPath(), 'overview');
+  ctx.window.location.pathname = '/admin/not-a-page'; assert.equal(ctx.getAdminPageFromPath(), null);
+  ctx.window.location.pathname = '/'; assert.equal(ctx.getAdminPageFromPath(), null);
+});
+
+test('admin navigation has real links, dedicated panels and separate product editing', () => {
+  const admin = html.slice(html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'), html.indexOf('  <datalist id="productSuggestions">'));
+  const pages = JSON.parse(clientScript.match(/const ADMIN_PAGES = (\{[^\n]+\});/)[1]);
+  for (const key of Object.keys(pages)) { assert.ok(admin.includes('href="/admin/' + key + '"'), key); assert.equal([...admin.matchAll(new RegExp('id="adminView-' + key + '"', 'g'))].length, 1, key); }
+  const productList = admin.slice(admin.indexOf('id="adminView-products"'), admin.indexOf('id="adminView-product-editor"'));
+  assert.ok(productList.includes('id="adminProductList"')); assert.equal(productList.includes('id="productForm"'), false);
+  assert.ok(admin.includes('aria-controls="adminSidebar"')); assert.ok(admin.includes('id="adminCommandInput"'));
+});
+
+test('admin redesign preserves the complete visitor-facing HTML', () => {
+  const visitor = html.slice(html.indexOf('<body'), html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'));
+  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '5ff19c8e3b35521e61fbe00aee96887c8dce4921bb34dc89c48cd5c0f144b6e8');
+});
+
+test('product edit deep links restore the selected product and reject missing IDs', () => {
+  const pages = JSON.parse(clientScript.match(/const ADMIN_PAGES = (\{[^\n]+\});/)[1]);
+  const nodes = new Map(), views = Object.keys(pages).map(name => ({ id: 'adminView-' + name, hidden: false }));
+  let restored, redirected;
+  const ctx = { ADMIN_PAGES: pages, validAdminPages: new Set(Object.keys(pages)), URLSearchParams,
+    window: { location: { pathname: '/admin/product-editor', search: '?product=p1' } }, editingProductId: null, products: [product],
+    document: { getElementById(id) { if (!nodes.has(id)) nodes.set(id, { textContent: '', hidden: false }); return nodes.get(id); }, querySelectorAll(selector) { return selector.includes('adminView-') ? views : []; } },
+    adminDashboard: { classList: { contains: () => true } }, getAdminPageFromPath: () => 'product-editor',
+    populateProductEditor(item) { restored = item; ctx.editingProductId = item.id; },
+    navigateToAdminPage(name) { redirected = name; }, showToast() {}, closeAdminCommand() {}, setAdminMenu() {}, updateAdminNavigation() {}, refreshAiConfigStatus() {}, renderAdminOverview() {}, refreshAdminOverviewConnection() {}
+  };
+  client(ctx, ['showAdminView']); ctx.showAdminView('product-editor');
+  assert.equal(restored.id, 'p1'); assert.equal(nodes.get('adminPageTitle').textContent, 'Edit produk');
+  assert.deepEqual(views.filter(view => !view.hidden).map(view => view.id), ['adminView-product-editor']);
+  ctx.window.location.search = '?product=missing'; ctx.showAdminView('product-editor'); assert.equal(redirected, 'products');
 });

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-VamTgHltkaGwEEwNt8EO48GVtGpGlNdHhY7rvERBysI='; script-src-attr 'none'; style-src 'sha256-CVWXDkoYw671uXidUD5y8NjtnUJLSdz5JFri/u1yfWU='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-WDv2SpHtdrXL5cnQj5ai0hDytul3OgrUsxheBm+bvFY='; script-src-attr 'none'; style-src 'sha256-QRKM+S2s3tpXhCq/g9l1AnI5DbIKFaBBq43Brmy+e4U='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2188,6 +2188,279 @@
     .product-card.product-card-reveal-pending.product-card-revealed { animation:product-card-scroll-in .68s cubic-bezier(.2,.75,.2,1) both; animation-delay:var(--scroll-reveal-delay,0ms); }
     @keyframes product-card-scroll-in { from { opacity:0; transform:translate3d(0,26px,0) scale(.985); } to { opacity:1; transform:translate3d(0,0,0) scale(1); } }
     @media(prefers-reduced-motion:reduce) { .product-card.product-card-reveal-pending { opacity:1; transform:none; } .product-card.product-card-reveal-pending.product-card-revealed { animation:none; } }
+    /* Admin workspace: every rule is scoped to the authenticated admin shell. */
+    #adminDashboard { --a-ink:#202738; --a-muted:#7b8292; --a-line:#e8ebf1; --a-page:#f5f6fa; --a-accent:#f2663c; background:var(--a-page); color:var(--a-ink); font-size:13px; line-height:1.6; overscroll-behavior:contain; }
+    #adminDashboard * { box-sizing:border-box; }
+    #adminDashboard [hidden] { display:none !important; }
+    #adminDashboard :is(button,a,input,select,textarea):focus-visible { outline:3px solid #f7a184; outline-offset:3px; }
+    #adminDashboard a { text-decoration:none; }
+    #adminDashboard svg { width:20px; height:20px; flex:none; }
+    #adminDashboard .admin-sidebar { position:fixed; z-index:24; inset:0 auto 0 0; width:240px; display:flex; flex-direction:column; overflow-y:auto; padding:28px 16px 18px; background:#191f2d; color:#bdc4d2; scrollbar-width:thin; scrollbar-color:#3a4355 transparent; }
+    #adminDashboard .admin-workspace-brand { display:flex; align-items:center; gap:11px; padding:0 12px 30px; color:#fff; }
+    #adminDashboard .admin-workspace-mark { display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:#f2663c; box-shadow:0 5px 15px #0002; color:#fff; }
+    #adminDashboard .admin-workspace-brand strong { display:block; font-size:21px; letter-spacing:-1px; line-height:1.2; }
+    #adminDashboard .admin-workspace-brand small { font-size:8px; font-weight:600; letter-spacing:2.3px; color:#8490a6; }
+    #adminDashboard #adminFeatureNavigation { display:block !important; flex:1; min-height:0; overflow-y:auto; margin:0; padding:0 !important; border:0; border-radius:0; background:none; box-shadow:none; scrollbar-width:thin; }
+    #adminDashboard .admin-nav-group + .admin-nav-group { margin-top:22px; }
+    #adminDashboard .admin-nav-heading { margin:0 0 9px; padding:0 14px; font-size:9px; font-weight:600; letter-spacing:1.6px; color:#738098; }
+    #adminDashboard .admin-nav-link { display:flex; align-items:center; gap:11px; min-height:43px; margin:4px 0; padding:10px 13px; border:1px solid transparent; border-radius:9px; color:#bdc5d5; font-size:11px; font-weight:500; transition:background .15s,color .15s; }
+    #adminDashboard .admin-nav-link svg { width:17px; height:17px; opacity:.85; }
+    #adminDashboard .admin-nav-link:hover { color:#fff; background:#252d3e; }
+    #adminDashboard .admin-nav-link[aria-current="page"] { color:#fff; background:#f2663c; box-shadow:0 5px 15px #0002; }
+    #adminDashboard .admin-nav-label { flex:1; }
+    #adminDashboard .admin-nav-badge { display:grid; place-items:center; min-width:21px; height:21px; padding:0 5px; border-radius:6px; background:#30394c; color:#f8c4b3; font-size:9px; font-weight:600; }
+    #adminDashboard .admin-nav-link[aria-current="page"] .admin-nav-badge { color:#fff; background:#fff3; }
+    #adminDashboard .admin-sidebar-footer { margin-top:auto; padding:28px 10px 0; }
+    #adminDashboard .admin-sidebar-store { display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #354052; border-radius:11px; color:#d9dfeb; font-size:11px; }
+    #adminDashboard .admin-sidebar-store span { flex:1; }
+    #adminDashboard .admin-sidebar-note { display:block; margin-top:15px; color:#6e7b92; text-align:center; font-size:9px; }
+    #adminDashboard .admin-workspace { margin-left:240px; min-height:100dvh; }
+    #adminDashboard .dashboard-header { position:sticky; top:0; z-index:15; display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:80px; padding:12px 36px; border-bottom:1px solid var(--a-line); background:#ffffffed; backdrop-filter:blur(16px); box-shadow:none; }
+    #adminDashboard .admin-header-left,#adminDashboard .admin-header-right { display:flex; align-items:center; gap:18px; min-width:0; }
+    #adminDashboard .admin-breadcrumb { display:flex; align-items:center; gap:12px; color:#9aa1ae; font-size:11px; white-space:nowrap; }
+    #adminDashboard .admin-breadcrumb strong { color:#424c60; font-weight:500; overflow:hidden; text-overflow:ellipsis; }
+    #adminDashboard .admin-header-search { display:flex; align-items:center; gap:9px; width:215px; min-height:38px; padding:0 12px; border:1px solid #e8ebf1; border-radius:9px; background:#fafbfc; color:#8b93a3; font:inherit; font-size:10px; cursor:pointer; }
+    #adminDashboard .admin-header-search svg { width:15px; height:15px; }
+    #adminDashboard .admin-header-search kbd { margin-left:auto; padding:1px 5px; border:1px solid #dce1e9; border-radius:4px; background:#fff; font-family:inherit; font-size:8px; }
+    #adminDashboard .admin-user { display:flex; align-items:center; gap:9px; border-left:1px solid var(--a-line); padding-left:18px; }
+    #adminDashboard .admin-avatar { display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#fcece5; color:#d26240; font-size:12px; font-weight:600; }
+    #adminDashboard .admin-user strong,#adminDashboard .admin-user small { display:block; line-height:1.5; }
+    #adminDashboard .admin-user strong { font-size:10px; font-weight:600; }
+    #adminDashboard .admin-user small { font-size:8px; color:#9ba3b1; }
+    #adminDashboard .logout-button { min-width:35px; min-height:35px; padding:7px; border:1px solid var(--a-line); border-radius:8px; color:#8a91a0; background:#fff; }
+    #adminDashboard .logout-button svg { width:16px; height:16px; }
+    #adminDashboard .logout-button:hover { color:#d7573c; border-color:#efb9a6; background:#fff7f2; }
+    #adminDashboard .admin-icon-button { display:grid; place-items:center; width:40px; min-height:40px; border:1px solid var(--a-line); border-radius:9px; background:#fff; color:#596277; cursor:pointer; }
+    #adminDashboard .admin-menu-toggle { display:none; }
+    #adminDashboard .admin-sidebar-close { display:none; }
+    #adminDashboard .dashboard-content { width:auto; max-width:1440px; margin:0 auto; padding:32px 36px 24px; }
+    #adminDashboard .admin-page-header { display:flex; align-items:center; justify-content:space-between; gap:20px; margin:0 0 27px; padding:0; border:0; border-radius:0; background:none; box-shadow:none; }
+    #adminDashboard .admin-page-eyebrow { display:block; color:#9aa1ae; font-size:9px; font-weight:600; letter-spacing:1.8px; }
+    #adminDashboard #adminPageTitle { margin:5px 0 5px; color:#212a3b; font-size:28px; font-weight:600; line-height:1.3; letter-spacing:-1px; outline-offset:6px; }
+    #adminDashboard #adminPageDescription { margin:0; color:#9299a7; font-size:11px; line-height:1.7; }
+    #adminDashboard .admin-page-actions { display:flex; align-items:center; gap:9px; }
+    #adminDashboard .admin-primary-link,#adminDashboard .admin-secondary-link { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:10px 16px; border:1px solid #f2663c; border-radius:9px; background:#f2663c; color:#fff; font-size:10px; font-weight:600; transition:transform .15s,box-shadow .15s; }
+    #adminDashboard .admin-primary-link:hover { transform:translateY(-1px); box-shadow:0 5px 13px #f2663c30; }
+    #adminDashboard .admin-primary-link svg,#adminDashboard .admin-secondary-link svg { width:16px; height:16px; }
+    #adminDashboard .admin-secondary-link { color:#636e82; border-color:var(--a-line); background:#fff; }
+    #adminDashboard .admin-view { min-width:0; min-height:0; }
+    #adminDashboard .admin-view:not([hidden]) { animation:admin-view-in .2s ease both; }
+    #adminDashboard .admin-hero { position:relative; display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:214px; overflow:hidden; padding:32px 34px; border:1px solid #2d3547; border-radius:15px; background:#202738; color:#fff; }
+    #adminDashboard .admin-hero-copy { position:relative; z-index:1; max-width:500px; }
+    #adminDashboard .admin-hero-kicker { display:inline-flex; align-items:center; gap:7px; margin-bottom:12px; color:#e5ab94; font-size:8px; letter-spacing:2px; font-weight:600; }
+    #adminDashboard .admin-hero-kicker i { width:5px; height:5px; border-radius:50%; background:#f08b64; }
+    #adminDashboard .admin-hero h2 { margin:0; font-size:30px; font-weight:500; line-height:1.3; letter-spacing:-1px; }
+    #adminDashboard .admin-hero h2 em { color:#f2ab8c; font-style:normal; }
+    #adminDashboard .admin-hero p { max-width:420px; margin:10px 0 20px; color:#a1aec3; font-size:10px; line-height:1.8; }
+    #adminDashboard .admin-hero .admin-primary-link { min-height:36px; padding:8px 13px; font-size:9px; }
+    #adminDashboard .admin-hero-art { position:relative; width:250px; height:160px; flex:none; margin-right:25px; }
+    #adminDashboard .admin-orbit { position:absolute; left:50%; top:50%; width:190px; height:190px; border:1px solid #ffffff0c; border-radius:50%; transform:translate(-50%,-50%); }
+    #adminDashboard .admin-orbit::before,#adminDashboard .admin-orbit::after { content:''; position:absolute; inset:22px; border:1px solid #ffffff0b; border-radius:50%; }
+    #adminDashboard .admin-orbit::after { inset:-27px; }
+    #adminDashboard .admin-art-tile { position:absolute; display:grid; place-items:center; width:54px; height:54px; border:1px solid #ffffff20; border-radius:15px; background:#30394c; color:#c7d0e2; box-shadow:0 14px 25px #0002; transform:rotate(-9deg); }
+    #adminDashboard .admin-art-tile svg { width:24px; height:24px; }
+    #adminDashboard .admin-art-tile.main { left:85px; top:50px; width:76px; height:76px; color:#fff; background:#f58b61; border-color:#ffa27b; transform:rotate(-10deg); }
+    #adminDashboard .admin-art-tile.main svg { width:36px; height:36px; }
+    #adminDashboard .admin-art-tile.one { left:16px; top:14px; }
+    #adminDashboard .admin-art-tile.two { right:8px; top:4px; transform:rotate(13deg); }
+    #adminDashboard .admin-art-tile.three { right:0; bottom:-1px; width:43px; height:43px; transform:rotate(9deg); }
+    #adminDashboard .admin-art-dot { position:absolute; width:7px; height:7px; border:2px solid #a2b0cb; border-radius:50%; }
+    #adminDashboard .admin-art-dot.one { top:11px; left:128px; }
+    #adminDashboard .admin-art-dot.two { bottom:10px; left:49px; border-color:#f29773; }
+    #adminDashboard .admin-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-top:22px; }
+    #adminDashboard .admin-metric { min-width:0; padding:20px 21px 17px; border:1px solid var(--a-line); border-radius:13px; background:#fff; }
+    #adminDashboard .admin-metric-label { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:14px; color:#8a92a2; font-size:10px; }
+    #adminDashboard .admin-metric-icon { display:grid; place-items:center; width:29px; height:29px; border-radius:8px; background:#fff0e9; color:#e38a65; }
+    #adminDashboard .admin-metric-icon svg { width:15px; height:15px; }
+    #adminDashboard .admin-metric:nth-child(2) .admin-metric-icon { color:#6d87d5; background:#edf2ff; }
+    #adminDashboard .admin-metric:nth-child(3) .admin-metric-icon { color:#66a58f; background:#edf7f2; }
+    #adminDashboard .admin-metric:nth-child(4) .admin-metric-icon { color:#aa82c5; background:#f5effb; }
+    #adminDashboard .admin-metric strong { display:block; color:#222c3f; font-size:30px; font-weight:600; line-height:1.15; letter-spacing:-1px; font-variant-numeric:tabular-nums; }
+    #adminDashboard .admin-metric small { display:block; margin-top:9px; color:#a0a7b4; font-size:8px; }
+    #adminDashboard .admin-overview-grid { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(265px,1fr); gap:22px; margin-top:23px; }
+    #adminDashboard .admin-panel { overflow:hidden; border:1px solid var(--a-line); border-radius:13px; background:#fff; box-shadow:0 3px 8px #1e293b02; }
+    #adminDashboard .report-admin-panel { margin:0; }
+    #adminDashboard .panel-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:68px; padding:19px 23px; border-bottom:1px solid #eff1f5; }
+    #adminDashboard .panel-heading h3 { display:flex; align-items:center; gap:9px; margin:0; color:#3a465b; font-size:12px; font-weight:600; letter-spacing:-.15px; }
+    #adminDashboard .panel-heading > span { color:#9ba4b2; font-size:9px; text-align:right; }
+    #adminDashboard .admin-panel-link { display:inline-flex; align-items:center; gap:5px; color:#9ba4b2; font-size:9px; }
+    #adminDashboard .admin-panel-link svg { width:13px; height:13px; }
+    #adminDashboard .admin-task-list { padding:5px 23px 10px; }
+    #adminDashboard .admin-task { display:flex; align-items:center; gap:13px; min-height:73px; border-bottom:1px solid #f0f2f6; color:#485469; }
+    #adminDashboard .admin-task:last-child { border:0; }
+    #adminDashboard .admin-task-icon { display:grid; place-items:center; width:34px; height:34px; border:1px solid #e8ebf2; border-radius:10px; color:#8c98ac; background:#fafbfc; }
+    #adminDashboard .admin-task-icon svg { width:17px; height:17px; }
+    #adminDashboard .admin-task-copy { flex:1; min-width:0; }
+    #adminDashboard .admin-task-copy strong { display:block; color:#566176; font-size:10px; font-weight:500; }
+    #adminDashboard .admin-task-copy small { color:#a0a7b4; font-size:8px; }
+    #adminDashboard .admin-task-count { min-width:26px; padding:3px 8px; border-radius:7px; background:#f3f5f8; color:#8b96a9; font-size:10px; text-align:center; }
+    #adminDashboard .admin-task > svg { width:14px; height:14px; color:#b0b8c7; }
+    #adminDashboard .admin-performance { padding:22px 23px; }
+    #adminDashboard .admin-performance-row { margin-bottom:22px; }
+    #adminDashboard .admin-performance-row:last-child { margin-bottom:0; }
+    #adminDashboard .admin-performance-label { display:flex; align-items:center; justify-content:space-between; margin-bottom:9px; color:#8e97a7; font-size:9px; }
+    #adminDashboard .admin-performance-label strong { color:#59667d; font-size:11px; font-weight:500; }
+    #adminDashboard .admin-performance-track { height:5px; border-radius:5px; background:#f0f2f7; overflow:hidden; }
+    #adminDashboard .admin-performance-track i { display:block; width:0; height:100%; border-radius:5px; background:#f29e7f; transition:width .3s; }
+    #adminDashboard .admin-performance-row:nth-child(2) i { background:#8fa8e7; }
+    #adminDashboard .admin-performance-row:nth-child(3) i { background:#80b9a4; }
+    #adminDashboard .admin-performance-note { margin:21px 0 0; padding-top:15px; border-top:1px solid #eff1f5; color:#a1a9b6; font-size:8px; }
+    #adminDashboard .admin-integration { display:flex; align-items:center; gap:12px; margin-top:20px; padding:18px 20px; border:1px solid var(--a-line); border-radius:13px; background:#fff; }
+    #adminDashboard .admin-integration .admin-task-icon { background:#f2f5ff; color:#8d9cc8; border:0; }
+    #adminDashboard .admin-integration > div { flex:1; min-width:0; }
+    #adminDashboard .admin-integration strong { display:block; color:#59647b; font-size:10px; font-weight:500; }
+    #adminDashboard .admin-integration small { display:block; margin-top:2px; color:#a0a8b8; font-size:8px; }
+    #adminDashboard .admin-dot-status { color:#8b96a7; font-size:8px; white-space:nowrap; }
+    #adminDashboard .admin-dot-status[data-state="ready"] { color:#5b9b81; }
+    #adminDashboard .admin-dot-status::before { content:''; display:inline-block; width:5px; height:5px; margin-right:5px; border-radius:50%; background:currentColor; }
+    #adminDashboard .admin-bottom-status { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:30px; padding-top:18px; border-top:1px solid var(--a-line); }
+    #adminDashboard .admin-bottom-status span { color:#9ba4b3; font-size:8px; font-weight:400; }
+    #adminDashboard .admin-bottom-status #backendStatus::before { content:''; display:inline-block; width:5px; height:5px; margin-right:7px; border-radius:50%; background:#82b09a; }
+    #adminDashboard .admin-bottom-status .live-label { display:block; padding:0; min-height:0; border:0; border-radius:0; background:none; box-shadow:none; }
+    #adminDashboard .admin-page-intro { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    #adminDashboard .admin-page-intro p { margin:0; color:#939cac; font-size:11px; }
+    #adminDashboard .admin-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 22px; padding:26px; }
+    #adminDashboard .admin-form .form-field { min-width:0; margin:0; }
+    #adminDashboard .admin-form .form-field-wide,#adminDashboard .admin-form .form-actions,#adminDashboard .admin-form .form-hint,#adminDashboard .admin-form .ai-config-status,#adminDashboard .admin-form .ai-settings-description { grid-column:1/-1; }
+    #adminDashboard .admin-form label { display:block; margin-bottom:7px; color:#626d82; font-size:11px; font-weight:500; }
+    #adminDashboard .admin-form :is(input,select,textarea),#adminDashboard .admin-view input[type="search"],#adminDashboard .admin-view select { width:100%; min-height:44px; padding:11px 13px !important; border:1px solid #e6eaf1 !important; border-radius:8px !important; background:#fff; color:#526078; font:inherit; font-size:12px !important; box-shadow:none; }
+    #adminDashboard .admin-form textarea { min-height:110px; }
+    #adminDashboard .admin-form input::placeholder,#adminDashboard .admin-form textarea::placeholder { color:#a5adbb; font-size:11px; }
+    #adminDashboard .admin-form input:focus,#adminDashboard .admin-form select:focus,#adminDashboard .admin-form textarea:focus { border-color:#eaaa91 !important; outline:2px solid #f5c8b528; }
+    #adminDashboard .discount-input-hint,#adminDashboard .form-hint { color:#a1a9b6; font-size:9px; line-height:1.7; }
+    #adminDashboard .admin-form-section { grid-column:1/-1; margin:7px 0 0; padding:0 0 13px; border-bottom:1px solid #eff1f5; color:#434f65; font-size:12px; font-weight:600; }
+    #adminDashboard .admin-action,#adminDashboard .form-submit,#adminDashboard .cancel-edit { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:38px; padding:9px 13px; border:1px solid #e6eaf0; border-radius:8px; background:#fff; color:#78849a; font:inherit; font-size:10px; font-weight:500; }
+    #adminDashboard .admin-action svg { width:14px; height:14px; }
+    #adminDashboard .form-submit { min-height:42px; border-color:#f2663c; background:#f2663c; color:#fff; }
+    #adminDashboard .admin-action:hover { color:#cc6c46; border-color:#efc5b3; background:#fff9f6; }
+    #adminDashboard .admin-action.delete-action { color:#bf7172; background:#fff8f8; border-color:#f3dfe0; }
+    #adminDashboard .form-actions { display:flex; justify-content:flex-end; gap:9px; padding-top:12px; }
+    #adminDashboard .admin-list-tools { display:flex; flex-wrap:wrap; align-items:center; gap:9px; padding:17px 23px; border-bottom:1px solid #eff1f5; }
+    #adminDashboard .admin-list-tools input { flex:1; min-width:160px; }
+    #adminDashboard .admin-list-tools select { width:auto; max-width:180px; }
+    #adminDashboard .admin-product { padding:20px 23px; gap:17px; border-color:#eff1f5; }
+    #adminDashboard .admin-product-thumb { width:65px; height:65px; border-radius:10px; background:#f8f9fb; }
+    #adminDashboard .admin-product-info h4 { margin:0 0 4px; color:#3e4a60; font-size:13px; font-weight:600; }
+    #adminDashboard .admin-product-info p { font-size:11px; color:#929baa; line-height:1.7; }
+    #adminDashboard .admin-product-price strong { color:#e1825e; font-size:13px; }
+    #adminDashboard .admin-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; min-height:230px; padding:36px 26px; color:#98a2b3; text-align:center; font-size:12px; line-height:1.8; }
+    #adminDashboard .admin-empty > span:first-child { display:grid; place-items:center; width:52px; height:52px; border:1px solid #edf0f5; border-radius:15px; background:#fafbfc; color:#bac2cf; font-size:26px; }
+    #adminDashboard .admin-report,#adminDashboard .customer-service-admin-card,#adminDashboard .development-order-admin-card { padding:22px 24px; border-color:#eff1f5; }
+    #adminDashboard .admin-report-category,#adminDashboard .customer-service-admin-title,#adminDashboard .development-order-admin-title { color:#526078; font-size:12px; }
+    #adminDashboard .admin-report-message,#adminDashboard .customer-service-admin-question,#adminDashboard .customer-service-admin-answer,#adminDashboard .development-order-admin-info p { font-size:12px; line-height:1.85; }
+    #adminDashboard .admin-report-date,#adminDashboard .admin-report-name,#adminDashboard .customer-service-admin-footer small,#adminDashboard .development-order-admin-info small { color:#a0a8b6; font-size:10px; }
+    #adminDashboard .admin-note-input { padding:11px 13px !important; border:1px solid #e8ecf2 !important; border-radius:8px !important; background:#fcfcfe; font-size:11px !important; line-height:1.7; }
+    #adminDashboard .admin-report-status,#adminDashboard .development-order-status { font-size:9px; }
+    #adminDashboard .storefront-category-manager { border-color:#e9edf4; border-radius:10px; background:#fafbfd; }
+    #adminDashboard .storefront-category-manager h4 { font-size:11px; color:#637089; }
+    #adminDashboard .storefront-category-manager p,#adminDashboard .storefront-category-list small { font-size:9px; color:#9ba5b5; }
+    #adminDashboard .ai-settings-description { color:#8b96a8; font-size:12px; line-height:1.9; }
+    #adminDashboard .ai-config-status { padding:13px 15px; border:1px solid #e8eef1; border-radius:8px; background:#f8fbfa; color:#79968a; font-size:11px; line-height:1.8; }
+    #adminDashboard .admin-backup-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+    #adminDashboard .admin-backup-card { padding:26px; border:1px solid var(--a-line); border-radius:13px; background:#fff; }
+    #adminDashboard .admin-backup-card > .admin-task-icon { width:43px; height:43px; margin-bottom:20px; }
+    #adminDashboard .admin-backup-card h3 { margin:0 0 9px; font-size:14px; font-weight:600; color:#505e75; }
+    #adminDashboard .admin-backup-card p { margin:0 0 22px; color:#929dae; font-size:11px; line-height:1.9; }
+    #adminDashboard .admin-backup-actions { display:flex; flex-wrap:wrap; gap:8px; }
+    #adminDashboard .admin-command { position:fixed; z-index:60; inset:0; display:flex; align-items:flex-start; justify-content:center; padding:15vh 20px 30px; background:#10192e80; backdrop-filter:blur(4px); }
+    #adminDashboard .admin-command-panel { width:min(540px,100%); max-height:70dvh; display:flex; flex-direction:column; overflow:hidden; border:1px solid #fff5; border-radius:16px; background:#fff; box-shadow:0 30px 80px #10203c40; }
+    #adminDashboard .admin-command-search { display:flex; align-items:center; gap:10px; min-height:65px; padding:12px 20px; border-bottom:1px solid #edf0f4; }
+    #adminDashboard .admin-command-search svg { color:#a1aabe; width:19px; height:19px; }
+    #adminDashboard #adminCommandInput { flex:1; min-width:0; padding:8px 0; border:0; outline:none; font:inherit; font-size:13px; color:#627089; }
+    #adminDashboard .admin-command-results { overflow-y:auto; padding:8px; }
+    #adminDashboard .admin-command-result { display:flex; align-items:center; gap:12px; min-height:50px; margin:3px 0; padding:9px 14px; border-radius:9px; color:#63718a; }
+    #adminDashboard .admin-command-result:hover,#adminDashboard .admin-command-result:focus { background:#fff3ed; color:#dc825c; }
+    #adminDashboard .admin-command-result strong { display:block; font-size:11px; font-weight:500; }
+    #adminDashboard .admin-command-result small { display:block; color:#a5adba; font-size:9px; }
+    #adminDashboard .admin-command-footer { display:flex; justify-content:space-between; gap:10px; padding:12px 22px; border-top:1px solid #edf0f4; color:#a1abbd; font-size:9px; }
+    #adminDashboard .admin-command-empty { margin:10px; padding:25px; color:#98a2b4; text-align:center; font-size:12px; }
+    #adminDashboard .admin-menu-scrim { display:none; }
+    @media(min-width:1550px) { #adminDashboard .dashboard-content { padding-top:40px; } #adminDashboard .admin-hero { min-height:240px; } }
+    @media(max-width:1200px) and (min-width:901px) { #adminDashboard .admin-sidebar { width:218px; } #adminDashboard .admin-workspace { margin-left:218px; } #adminDashboard .dashboard-content { padding:26px 24px; } #adminDashboard .dashboard-header { padding-inline:24px; } #adminDashboard .admin-header-search { width:170px; } #adminDashboard .admin-user div { display:none; } #adminDashboard .admin-hero-art { width:190px; margin-right:0; } #adminDashboard .admin-metric { padding:16px; } #adminDashboard .admin-overview-grid { gap:16px; grid-template-columns:1.2fr 1fr; } }
+    @media(max-width:900px) {
+      #adminDashboard .admin-sidebar { z-index:40; width:268px; padding-top:24px; transform:translateX(-100%); visibility:hidden; transition:transform .2s,visibility .2s; box-shadow:20px 0 70px #111b3020; }
+      #adminDashboard.admin-menu-open .admin-sidebar { transform:translateX(0); visibility:visible; }
+      #adminDashboard .admin-workspace { margin-left:0; }
+      #adminDashboard .admin-menu-toggle { display:grid; }
+      #adminDashboard .admin-sidebar-close { position:absolute; top:27px; right:14px; display:grid; place-items:center; width:34px; height:34px; padding:0; border:1px solid #354052; border-radius:9px; color:#b6c0d0; background:#252e40; }
+      #adminDashboard .admin-menu-scrim { position:fixed; z-index:35; inset:0; display:block; width:100%; border:0; background:#101a3266; backdrop-filter:blur(2px); }
+      #adminDashboard .dashboard-header { min-height:70px; padding:12px 24px; }
+      #adminDashboard .admin-header-left,#adminDashboard .admin-header-right { gap:13px; }
+      #adminDashboard .admin-breadcrumb > span { display:none; }
+      #adminDashboard .admin-user { border:0; padding:0; }
+      #adminDashboard .admin-user div { display:none; }
+      #adminDashboard .dashboard-content { padding:26px 24px; }
+      #adminDashboard .admin-hero-art { width:220px; margin-right:10px; }
+      #adminDashboard .admin-stats { gap:12px; }
+      #adminDashboard .admin-overview-grid { gap:17px; }
+    }
+    @media(max-width:600px) {
+      #adminDashboard .dashboard-header { min-height:68px; gap:12px; padding:12px 17px; }
+      #adminDashboard .admin-header-left,#adminDashboard .admin-header-right { gap:10px; }
+      #adminDashboard .admin-breadcrumb { max-width:170px; font-size:11px; }
+      #adminDashboard .admin-header-search { width:38px; min-height:38px; justify-content:center; padding:0; background:#fff; }
+      #adminDashboard .admin-header-search span,#adminDashboard .admin-header-search kbd { display:none; }
+      #adminDashboard .admin-header-search svg { width:17px; height:17px; }
+      #adminDashboard .admin-user { display:none; }
+      #adminDashboard .logout-button { min-height:38px; width:38px; }
+      #adminDashboard .dashboard-content { padding:23px 17px 25px; }
+      #adminDashboard .admin-page-header { align-items:flex-start; margin-bottom:21px; gap:12px; }
+      #adminDashboard #adminPageTitle { margin-top:4px; font-size:24px; }
+      #adminDashboard #adminPageDescription { max-width:280px; font-size:10px; }
+      #adminDashboard .admin-page-eyebrow { font-size:8px; letter-spacing:1.5px; }
+      #adminDashboard .admin-page-actions { padding-top:15px; }
+      #adminDashboard .admin-page-actions .admin-primary-link { min-height:38px; padding:9px 12px; font-size:10px; }
+      #adminDashboard .admin-page-actions .admin-primary-link span { display:none; }
+      #adminDashboard .admin-hero { min-height:225px; padding:26px; border-radius:13px; }
+      #adminDashboard .admin-hero h2 { max-width:240px; font-size:27px; }
+      #adminDashboard .admin-hero p { max-width:220px; font-size:9px; }
+      #adminDashboard .admin-hero-art { position:absolute; right:-67px; top:57px; margin:0; opacity:.23; transform:scale(.85); }
+      #adminDashboard .admin-hero-copy { max-width:100%; }
+      #adminDashboard .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:16px; }
+      #adminDashboard .admin-metric { padding:16px; }
+      #adminDashboard .admin-metric-label { margin-bottom:12px; font-size:10px; }
+      #adminDashboard .admin-metric strong { font-size:27px; }
+      #adminDashboard .admin-metric small { margin-top:8px; font-size:8px; }
+      #adminDashboard .admin-overview-grid { grid-template-columns:1fr; margin-top:18px; }
+      #adminDashboard .panel-heading { min-height:65px; padding:18px; }
+      #adminDashboard .panel-heading h3 { font-size:12px; }
+      #adminDashboard .panel-heading > span { max-width:135px; font-size:8px; }
+      #adminDashboard .admin-task-list { padding:4px 18px 8px; }
+      #adminDashboard .admin-task { min-height:75px; }
+      #adminDashboard .admin-task-copy strong { font-size:11px; }
+      #adminDashboard .admin-task-copy small { font-size:9px; }
+      #adminDashboard .admin-performance { padding:22px 18px; }
+      #adminDashboard .admin-performance-label { font-size:10px; }
+      #adminDashboard .admin-performance-note { font-size:9px; }
+      #adminDashboard .admin-form { grid-template-columns:1fr; gap:19px; padding:20px 18px; }
+      #adminDashboard .admin-page-intro { align-items:flex-start; flex-direction:column; gap:8px; }
+      #adminDashboard .admin-page-intro .admin-panel-link { font-size:11px; white-space:nowrap; }
+      #adminDashboard .admin-page-intro p { font-size:10px; }
+      #adminDashboard .admin-form :is(input,select,textarea) { font-size:13px !important; }
+      #adminDashboard .admin-form label { font-size:12px; }
+      #adminDashboard .form-actions { flex-wrap:wrap; justify-content:stretch; }
+      #adminDashboard .form-actions > * { flex:1; min-height:43px; }
+      #adminDashboard .admin-list-tools { padding:16px 18px; }
+      #adminDashboard .admin-list-tools input { flex-basis:100%; }
+      #adminDashboard .admin-list-tools select { flex:1; max-width:none; }
+      #adminDashboard .admin-action { min-height:40px; font-size:11px; }
+      #adminDashboard .admin-product { grid-template-columns:20px 52px minmax(0,1fr) !important; gap:11px; padding:18px; }
+      #adminDashboard .admin-product-thumb { width:52px; height:52px; }
+      #adminDashboard .admin-product .admin-actions { grid-column:2/-1; }
+      #adminDashboard .admin-report,#adminDashboard .customer-service-admin-card,#adminDashboard .development-order-admin-card { padding:20px 18px; }
+      #adminDashboard .admin-report-actions,#adminDashboard .development-order-admin-actions { display:flex; flex-wrap:wrap; gap:7px; }
+      #adminDashboard .admin-integration { padding:17px; }
+      #adminDashboard .admin-integration small { font-size:9px; }
+      #adminDashboard .admin-backup-grid { grid-template-columns:1fr; gap:16px; }
+      #adminDashboard .admin-backup-card { padding:23px; }
+      #adminDashboard .admin-bottom-status { display:grid; gap:8px; margin-top:23px; }
+      #adminDashboard .admin-bottom-status span { font-size:9px; }
+      #adminDashboard .admin-command { padding:12vh 12px 18px; }
+      #adminDashboard .admin-command-panel { max-height:75dvh; border-radius:13px; }
+      #adminDashboard .admin-command-result { min-height:56px; }
+    }
+    @media(prefers-reduced-motion:reduce) { #adminDashboard *,#adminDashboard *::before,#adminDashboard *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+
   </style>
 </head>
 <body class="intro-active">
@@ -2544,47 +2817,23 @@
   </div>
 
   <section class="dashboard-overlay" id="adminDashboard" aria-hidden="true" aria-label="Dashboard Admin" inert>
-    <header class="dashboard-header">
-      <div class="dashboard-brand">
-        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 8.5h15l-1.2 11h-12.6l-1.2-11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 9V6.8a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-        <h1>Dashboard Admin</h1><span class="admin-badge"><svg viewBox="0 0 24 24" fill="none"><path d="m12 3 7 3v5.5c0 4.4-3 7.7-7 9.5-4-1.8-7-5.1-7-9.5V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Admin</span>
-      </div>
-      <button class="logout-button" id="logoutButton" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5m4-4 4-4-4-4m4 4H8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Logout</button>
-    </header>
-    <main class="dashboard-content">
-      <div class="dashboard-welcome" id="adminDashboardWelcome">
-        <div><h2>Ringkasan toko</h2><p>Kelola produk dan tinjau laporan yang masuk di sini.</p></div>
-        <div class="dashboard-toolbar">
-          <div class="dashboard-toolbar-actions"><button class="admin-action edit-action" id="exportDataButton" type="button">Ekspor data</button><button class="admin-action edit-action" id="importDataButton" type="button">Impor data</button><button class="admin-action edit-action" id="exportProductsCsv" type="button">Produk CSV</button><button class="admin-action edit-action" id="exportReportsCsv" type="button">Laporan CSV</button><button class="admin-action edit-action" id="exportReviewsCsv" type="button">Ulasan CSV</button><input id="importDataFile" type="file" accept="application/json,.json" hidden></div>
-          <div class="dashboard-toolbar-status"><span class="live-label" id="backendStatus">Memeriksa database…</span><span class="live-label" id="backupReminder"><span class="live-dot"></span> Tersimpan otomatis · cadangan belum dibuat</span></div>
-        </div>
-      </div>
-      <section class="admin-page-header" id="adminPageHeader" aria-labelledby="adminPageTitle" hidden><button type="button" class="admin-back-button" id="adminBackToOverview">Kembali ke ringkasan</button><div><span class="admin-page-eyebrow">HALAMAN ADMIN</span><h2 id="adminPageTitle">Produk</h2><p id="adminPageDescription"></p></div></section>
-      <nav id="adminFeatureNavigation" aria-label="Navigasi admin" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px;padding:10px;border:1px solid #eee7e2;border-radius:15px;background:#fff;box-shadow:0 4px 14px rgba(49,34,28,.035)">
-        <button type="button" class="admin-action edit-action" data-admin-target="overview" aria-current="page">Ringkasan</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="products">Produk</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="reviews">Ulasan</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="reports">Laporan</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="history">Riwayat produk</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="activity">Aktivitas login</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="orders">Pesanan web</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="reseller-subscriptions">Langganan reseller</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="customer-service">Customer Service</button>
-        <button type="button" class="admin-action edit-action" data-admin-target="ai-settings">Pengaturan AI</button>
-      </nav>
-      <section id="adminView-overview" class="admin-view"><div class="stats-grid">
-        <div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 8.5h15l-1.2 11h-12.6l-1.2-11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 9V6.8a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><small>Total Produk</small><strong id="totalProducts">0</strong></span></div>
-        <div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16v13H4zM8 7V5a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9.5 13 1.7 1.7 3.6-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><small>Produk aktif</small><strong id="activeProducts">0</strong></span></div>
-        <div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v14H4z" stroke="currentColor" stroke-width="1.7"/><path d="M4 9h16M9 9v10" stroke="currentColor" stroke-width="1.7"/><path d="m6 7 1-1m2 1 1-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span><small>Terhubung dengan</small><strong style="font-size:14px">Shopee</strong></span></div>
-        <div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5.5h14v11H9l-4 3v-14Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 9h7M8.5 12.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span><small>Laporan baru</small><strong id="newReportCount">0</strong></span></div>
-        <div class="stat-card"><span class="stat-icon">✎</span><span><small>Ulasan masuk</small><strong id="summaryReviewCount">0</strong></span></div>
-        <div class="stat-card"><span class="stat-icon">⚠</span><span><small>Peringatan produk</small><strong id="summaryWarningCount">0</strong></span></div>
-      </div><section class="admin-panel" style="margin-top:18px" aria-labelledby="analyticsHeading"><div class="panel-heading"><h3 id="analyticsHeading">Analitik produk</h3><span>Interaksi yang tercatat di server bersama</span></div><div id="adminAnalyticsSummary" style="padding:16px;color:#82797d;font-size:10px">Memuat analitik…</div><div id="adminAnalyticsList" class="admin-report-list"></div></section></section>
-      <section id="adminView-products" class="admin-view" hidden><div class="admin-layout">
-        <section class="admin-panel" aria-labelledby="formHeading">
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Menu admin"><a class="admin-workspace-brand" href="/admin/overview" data-admin-target="overview"><span class="admin-workspace-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1 13H5L4 8ZM8 8V6a4 4 0 0 1 8 0v2"/></svg></span><span><strong>ommni<span style="color:#f39977">.</span></strong><small>ADMIN WORKSPACE</small></span></a><button class="admin-sidebar-close" id="adminSidebarClose" type="button" aria-label="Tutup menu admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button><nav id="adminFeatureNavigation" aria-label="Navigasi admin"><div class="admin-nav-group"><p class="admin-nav-heading">WORKSPACE</p><a href="/admin/overview" data-admin-target="overview" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9v11h5v-6h4v6h5V9"/></svg><span class="admin-nav-label">Ringkasan</span><span class="admin-nav-badge" data-admin-badge="overview" hidden></span></a><a href="/admin/products" data-admin-target="products" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 8v9l9 5 9-5V8M12 13v9M7.5 5.5l9 5"/></svg><span class="admin-nav-label">Produk</span><span class="admin-nav-badge" data-admin-badge="products" hidden></span></a><a href="/admin/analytics" data-admin-target="analytics" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11h4v9M10 20V4h4v16M16 20v-7h4v7"/></svg><span class="admin-nav-label">Analitik</span><span class="admin-nav-badge" data-admin-badge="analytics" hidden></span></a></div><div class="admin-nav-group"><p class="admin-nav-heading">OPERASIONAL</p><a href="/admin/orders" data-admin-target="orders" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3ZM9 7h6M9 11h6"/></svg><span class="admin-nav-label">Pesanan website</span><span class="admin-nav-badge" data-admin-badge="orders" hidden></span></a><a href="/admin/consultations" data-admin-target="consultations" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2v-9.5A8.5 8.5 0 1 1 21 11.5ZM7 10h8M7 14h5"/></svg><span class="admin-nav-label">Konsultasi</span><span class="admin-nav-badge" data-admin-badge="consultations" hidden></span></a><a href="/admin/reseller-subscriptions" data-admin-target="reseller-subscriptions" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM21 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1 21v-3a5 5 0 0 1 10 0v3M13 21v-3a5 5 0 0 1 10 0v3"/></svg><span class="admin-nav-label">Langganan reseller</span><span class="admin-nav-badge" data-admin-badge="reseller-subscriptions" hidden></span></a></div><div class="admin-nav-group"><p class="admin-nav-heading">INBOX</p><a href="/admin/customer-service" data-admin-target="customer-service" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14v-3a8 8 0 0 1 16 0v6a3 3 0 0 1-3 3h-4M4 10H2v7h4v-7H4ZM20 10h2v7h-4v-7h2Z"/></svg><span class="admin-nav-label">Customer Service</span><span class="admin-nav-badge" data-admin-badge="customer-service" hidden></span></a><a href="/admin/reviews" data-admin-target="reviews" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3Z"/></svg><span class="admin-nav-label">Ulasan</span><span class="admin-nav-badge" data-admin-badge="reviews" hidden></span></a><a href="/admin/reports" data-admin-target="reports" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v18M5 4h13l-2 4 2 4H5"/></svg><span class="admin-nav-label">Laporan</span><span class="admin-nav-badge" data-admin-badge="reports" hidden></span></a></div><div class="admin-nav-group"><p class="admin-nav-heading">PENGELOLAAN</p><a href="/admin/history" data-admin-target="history" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.7 7M3 4v7h7M12 7v5l3 2"/></svg><span class="admin-nav-label">Riwayat produk</span><span class="admin-nav-badge" data-admin-badge="history" hidden></span></a><a href="/admin/activity" data-admin-target="activity" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2M15 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0M17 7l2 2 3-3"/></svg><span class="admin-nav-label">Aktivitas login</span><span class="admin-nav-badge" data-admin-badge="activity" hidden></span></a><a href="/admin/ai-settings" data-admin-target="ai-settings" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 6.4L21 12l-6.4 2.6L12 21l-2.6-6.4L3 12l6.4-2.6L12 3Z"/></svg><span class="admin-nav-label">Pengaturan AI</span><span class="admin-nav-badge" data-admin-badge="ai-settings" hidden></span></a><a href="/admin/backup" data-admin-target="backup" class="admin-nav-link" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12H3v9h18v-9h-2"/></svg><span class="admin-nav-label">Cadangan data</span><span class="admin-nav-badge" data-admin-badge="backup" hidden></span></a></div></nav><div class="admin-sidebar-footer"><a class="admin-sidebar-store" href="/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7m-1-6-9 9M10 3H3v18h18v-7"/></svg><span>Lihat toko</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><small class="admin-sidebar-note">OmmniMarket · Ruang kendali toko</small></div></aside>
+    <button type="button" class="admin-menu-scrim" id="adminMenuScrim" aria-label="Tutup menu admin" tabindex="-1" hidden></button>
+    <div class="admin-workspace" id="adminWorkspace"><header class="dashboard-header"><div class="admin-header-left"><button type="button" class="admin-icon-button admin-menu-toggle" id="adminMenuToggle" aria-label="Buka menu admin" aria-expanded="false" aria-controls="adminSidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="admin-breadcrumb"><span>Workspace</span><span>/</span><strong id="adminBreadcrumb">Ringkasan</strong></div></div><div class="admin-header-right"><button class="admin-header-search" id="adminCommandOpen" type="button" aria-haspopup="dialog" aria-controls="adminCommandDialog" aria-label="Cari fitur admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.5-2 5 5"/></svg><span>Cari fitur...</span><kbd>Ctrl K</kbd></button><div class="admin-user"><span class="admin-avatar" aria-hidden="true">A</span><div><strong>Administrator</strong><small>OmmniMarket</small></div></div><button class="logout-button" id="logoutButton" type="button" aria-label="Keluar dari admin" title="Keluar dari admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v16h5M13 7l5 5-5 5M7 12h13"/></svg></button></div></header>
+    <main class="dashboard-content" id="adminMain"><section class="admin-page-header" id="adminPageHeader" aria-labelledby="adminPageTitle"><div><span class="admin-page-eyebrow" id="adminPageEyebrow">WORKSPACE</span><h1 id="adminPageTitle" tabindex="-1">Ringkasan toko</h1><p id="adminPageDescription">Selamat datang kembali. Mari buat toko semakin baik.</p></div><div class="admin-page-actions" id="adminPageActions"><a href="/admin/product-editor" data-admin-target="product-editor" class="admin-primary-link" aria-label="Tambah produk" data-admin-new-product><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Tambah produk</span></a></div></section>
+      <section id="adminView-overview" class="admin-view">
+  <section class="admin-hero" id="adminDashboardWelcome" aria-labelledby="adminWelcomeTitle"><div class="admin-hero-copy"><span class="admin-hero-kicker"><i></i> YOUR STORE, YOUR CONTROL</span><h2 id="adminWelcomeTitle">Ruang kerja baru.<br><em>Kendali sepenuhnya.</em></h2><p>Atur etalase, tangani pesanan, dan terhubung dengan pelanggan. Semua dimulai dari sini.</p><a href="/admin/product-editor" data-admin-target="product-editor" class="admin-primary-link" aria-label="Tambah produk" data-admin-new-product><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Tambah produk</span></a></div><div class="admin-hero-art" aria-hidden="true"><div class="admin-orbit"></div><span class="admin-art-tile one"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11h4v9M10 20V4h4v16M16 20v-7h4v7"/></svg></span><span class="admin-art-tile main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1 13H5L4 8ZM8 8V6a4 4 0 0 1 8 0v2"/></svg></span><span class="admin-art-tile two"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 8v9l9 5 9-5V8M12 13v9M7.5 5.5l9 5"/></svg></span><span class="admin-art-tile three"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><i class="admin-art-dot one"></i><i class="admin-art-dot two"></i></div></section>
+  <div class="admin-stats"><article class="admin-metric"><div class="admin-metric-label"><span>Total produk</span><span class="admin-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 8v9l9 5 9-5V8M12 13v9M7.5 5.5l9 5"/></svg></span></div><strong id="totalProducts">0</strong><small>Seluruh produk di workspace</small></article><article class="admin-metric"><div class="admin-metric-label"><span>Produk aktif</span><span class="admin-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></div><strong id="activeProducts">0</strong><small>Tampil di etalase pengunjung</small></article><article class="admin-metric"><div class="admin-metric-label"><span>Pesanan menunggu</span><span class="admin-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3ZM9 7h6M9 11h6"/></svg></span></div><strong id="overviewPendingOrders">0</strong><small>Perlu konfirmasi admin</small></article><article class="admin-metric"><div class="admin-metric-label"><span>Konsultasi baru</span><span class="admin-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2v-9.5A8.5 8.5 0 1 1 21 11.5ZM7 10h8M7 14h5"/></svg></span></div><strong id="overviewPendingConsultations">0</strong><small>Siap untuk ditindaklanjuti</small></article></div>
+  <div class="admin-overview-grid"><section class="admin-panel"><div class="panel-heading"><h3>Perlu perhatianmu</h3><span>Jangan lewatkan yang penting</span></div><div class="admin-task-list"><a href="/admin/customer-service" data-admin-target="customer-service" class="admin-task" ><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14v-3a8 8 0 0 1 16 0v6a3 3 0 0 1-3 3h-4M4 10H2v7h4v-7H4ZM20 10h2v7h-4v-7h2Z"/></svg></span><span class="admin-task-copy"><strong>Pesan pelanggan</strong><small>Pertanyaan yang belum ditangani</small></span><span class="admin-task-count" id="overviewInboxCount">0</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><a href="/admin/reviews" data-admin-target="reviews" class="admin-task" ><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3Z"/></svg></span><span class="admin-task-copy"><strong>Ulasan masuk</strong><small>Tinjau masukan dari pelanggan</small></span><span class="admin-task-count" id="summaryReviewCount">0</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><a href="/admin/reports" data-admin-target="reports" class="admin-task" ><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v18M5 4h13l-2 4 2 4H5"/></svg></span><span class="admin-task-copy"><strong>Laporan baru</strong><small>Bantu selesaikan kendala pengunjung</small></span><span class="admin-task-count" id="newReportCount">0</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><a href="/admin/products" data-admin-target="products" class="admin-task" ><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 8v9l9 5 9-5V8M12 13v9M7.5 5.5l9 5"/></svg></span><span class="admin-task-copy"><strong>Kondisi produk</strong><small>Produk yang perlu diperiksa</small></span><span class="admin-task-count" id="summaryWarningCount">0</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div></section><div><section class="admin-panel"><div class="panel-heading"><h3>Interaksi etalase</h3><a href="/admin/analytics" data-admin-target="analytics" class="admin-panel-link" >Lihat detail <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div><div class="admin-performance"><div class="admin-performance-row"><div class="admin-performance-label"><span>Produk dilihat</span><strong id="overviewViews">0</strong></div><div class="admin-performance-track"><i id="overviewViewsBar"></i></div></div><div class="admin-performance-row"><div class="admin-performance-label"><span>Ditambahkan ke keranjang</span><strong id="overviewCart">0</strong></div><div class="admin-performance-track"><i id="overviewCartBar"></i></div></div><div class="admin-performance-row"><div class="admin-performance-label"><span>Klik beli</span><strong id="overviewBuy">0</strong></div><div class="admin-performance-track"><i id="overviewBuyBar"></i></div></div><p class="admin-performance-note">Data berdasarkan interaksi yang tercatat di toko.</p></div></section><a href="/admin/ai-settings" data-admin-target="ai-settings" class="admin-integration" ><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 6.4L21 12l-6.4 2.6L12 21l-2.6-6.4L3 12l6.4-2.6L12 3Z"/></svg></span><div><strong>Asisten Gemini</strong><small>Chatbot &amp; pencarian pintar</small></div><span class="admin-dot-status" id="adminAiConnection">Memeriksa</span></a></div></div>
+</section>
+      <section id="adminView-products" class="admin-view" hidden><section class="admin-panel" aria-labelledby="listHeading">
+          <div class="panel-heading"><h3 id="listHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M9 10v9" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M6.5 7.5h.01M8.5 7.5h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Daftar Produk</h3><span id="adminListCount">0 produk</span></div>
+          <div class="admin-list-tools"><input id="adminProductSearch" type="search" placeholder="Cari produk..." aria-label="Cari produk admin" style="flex:1;min-width:0;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"><button type="button" class="admin-action edit-action" id="bulkArchiveProducts">Arsipkan terpilih</button><button type="button" class="admin-action delete-action" id="bulkDeleteProducts">Hapus</button></div><div class="admin-product-list" id="adminProductList"></div>
+        </section></section>
+      <section id="adminView-product-editor" class="admin-view" hidden><div class="admin-page-intro"><a href="/admin/products" data-admin-target="products" class="admin-panel-link" >← Kembali ke produk</a><p>Detail yang baik membuat produk lebih mudah ditemukan.</p></div><section class="admin-panel" aria-labelledby="formHeading">
           <div class="panel-heading"><h3 id="formHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span id="formHeadingText">Tambah Produk</span></h3><span>Isi detail produk</span></div>
           <form class="admin-form" id="productForm">
-            <datalist id="productCategoryOptions"><option value="sepatu"><option value="celana"><option value="baju"><option value="skincare"><option value="perabotan"><option value="hoodie"><option value="jaket"><option value="jas"><option value="makanan"><option value="minuman"></datalist>
+            <div class="admin-form-section">Informasi produk</div><datalist id="productCategoryOptions"><option value="sepatu"><option value="celana"><option value="baju"><option value="skincare"><option value="perabotan"><option value="hoodie"><option value="jaket"><option value="jas"><option value="makanan"><option value="minuman"></datalist>
             <div class="form-field"><label for="productName">Nama Produk</label><input id="productName" name="name" type="text" placeholder="Contoh: Headphone Wireless" maxlength="120" required></div>
             <div class="form-field"><label for="productCategory">Penempatan etalase</label><input id="productCategory" name="category" type="text" list="productCategoryOptions" maxlength="60" placeholder="Pilih atau ketik kategori"></div>
             <section class="storefront-category-manager form-field-wide" aria-labelledby="storefrontCategoryManagerTitle"><div class="storefront-category-manager-heading"><div><h4 id="storefrontCategoryManagerTitle">Tambah penempatan etalase</h4><p>Buat nama kategori sendiri untuk dipakai pada produk dan filter etalase.</p></div></div><div class="storefront-category-add-row"><input id="storefrontCategoryName" type="text" maxlength="60" placeholder="Contoh: Perlengkapan rumah" aria-label="Nama penempatan etalase baru"><button type="button" class="admin-action edit-action" id="addStorefrontCategory">Tambah nama</button></div><div class="storefront-category-list" id="storefrontCategoryList" aria-live="polite"></div></section>
@@ -2592,7 +2841,7 @@
             <div class="form-field"><label for="productStatus">Status publikasi</label><select id="productStatus" name="status" style="width:100%;min-height:40px;padding:8px;border:1px solid #eae4e1;border-radius:9px;background:#fff"><option value="active">Aktif</option><option value="draft">Draf</option><option value="archived">Arsip</option></select></div>
             <div class="form-field"><label for="productImage">URL Gambar Produk</label><input id="productImage" name="image" type="url" maxlength="2048" placeholder="https://..." required></div>
             <div class="form-field form-field-wide"><label for="productDescription">Deskripsi Produk</label><textarea id="productDescription" name="description" placeholder="Ceritakan produk secara singkat..." maxlength="500" required></textarea></div>
-            <div class="form-field"><label for="productPrice">Harga Produk (Rp)</label><input id="productPrice" name="price" type="number" inputmode="numeric" min="0" step="1" placeholder="150000" required></div>
+            <div class="admin-form-section">Harga &amp; inventori</div><div class="form-field"><label for="productPrice">Harga Produk (Rp)</label><input id="productPrice" name="price" type="number" inputmode="numeric" min="0" step="1" placeholder="150000" required></div>
             <div class="form-field"><label for="productDiscount">Diskon (%)</label><input id="productDiscount" name="discount" type="number" inputmode="numeric" min="0" max="99" step="1" value="0" required aria-describedby="discountInputHint"><p class="discount-input-hint" id="discountInputHint">Isi 0 jika tanpa diskon. Harga promo dihitung otomatis.</p></div>
             <div class="form-field"><label for="productRating">Rating Produk (0–5)</label><input id="productRating" name="rating" type="number" inputmode="decimal" min="0" max="5" step="0.1" value="5" required aria-describedby="productRatingHint"><p class="discount-input-hint" id="productRatingHint">Gunakan skala 0 sampai 5, maksimal satu angka desimal.</p></div>
             <div class="form-field"><label for="productPurchaseCount">Jumlah Pembelian</label><input id="productPurchaseCount" name="purchaseCount" type="number" inputmode="numeric" min="0" step="1" value="0" required aria-describedby="productPurchaseCountHint"><p class="discount-input-hint" id="productPurchaseCountHint">Masukkan jumlah produk yang sudah terjual.</p></div>
@@ -2601,34 +2850,31 @@
             <p class="form-hint">Gunakan URL gambar dan tautan Shopee yang diawali http:// atau https://.</p>
             <div class="form-actions"><button class="admin-action edit-action" id="previewProductButton" type="button">Pratinjau</button><button class="form-submit" id="submitProduct" type="submit"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Tambah Produk</span></button><button class="cancel-edit" id="cancelEdit" type="button" hidden>Batal Edit</button></div>
           </form>
-        </section>
-        <section class="admin-panel" aria-labelledby="listHeading">
-          <div class="panel-heading"><h3 id="listHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M9 10v9" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M6.5 7.5h.01M8.5 7.5h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Daftar Produk</h3><span id="adminListCount">0 produk</span></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #f1edeb"><input id="adminProductSearch" type="search" placeholder="Cari produk..." aria-label="Cari produk admin" style="flex:1;min-width:0;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"><button type="button" class="admin-action edit-action" id="bulkArchiveProducts">Arsipkan terpilih</button><button type="button" class="admin-action delete-action" id="bulkDeleteProducts">Hapus</button></div><div class="admin-product-list" id="adminProductList"></div>
-        </section>
-      </div>
-      <div class="overlay" id="productPreviewOverlay" aria-hidden="true" hidden><section class="purchase-modal" role="dialog" aria-modal="true" aria-labelledby="productPreviewTitle"><button class="modal-close" id="closeProductPreview" type="button" aria-label="Tutup pratinjau">×</button><span class="purchase-eyebrow">PRATINJAU</span><img id="productPreviewImage" alt="" style="display:none;width:100%;max-height:220px;object-fit:cover;margin:10px 0 14px;border-radius:13px"><h2 id="productPreviewTitle">Nama produk</h2><p id="productPreviewCategory" class="purchase-modal-intro"></p><div id="productPreviewTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"></div><p id="productPreviewDescription" class="purchase-modal-intro"></p><strong id="productPreviewPrice" style="color:#ee4d2d;font-size:18px"></strong><div class="purchase-actions"><button class="purchase-cancel" id="dismissProductPreview" type="button">Tutup</button><button class="purchase-confirm" id="editProductFromPreview" type="button">Lanjut edit</button></div></section></div>
-      </section>
+        </section></section>
+      <section id="adminView-analytics" class="admin-view" hidden><section class="admin-panel" aria-labelledby="analyticsHeading"><div class="panel-heading"><h3 id="analyticsHeading">Analitik produk</h3><span>Interaksi yang tercatat di server bersama</span></div><div id="adminAnalyticsSummary" style="padding:16px;color:#82797d;font-size:10px">Memuat analitik…</div><div id="adminAnalyticsList" class="admin-report-list"></div></section></section>
+      <section id="adminView-orders" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="developmentOrdersHeading"><div class="panel-heading"><h3 id="developmentOrdersHeading">Pesanan Website Development</h3><span id="developmentOrderCount">0 pesanan</span></div><div class="admin-report-list" id="developmentOrderList" aria-live="polite"></div></section></section>
+      <section id="adminView-consultations" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="developmentConsultationsHeading"><div class="panel-heading"><h3 id="developmentConsultationsHeading">Konsultasi Website</h3><span id="developmentConsultationCount">0 konsultasi</span></div><div class="admin-report-list" id="developmentConsultationList" aria-live="polite"></div></section></section>
       <section id="adminView-reports" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="reportsHeading">
         <div class="panel-heading"><h3 id="reportsHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5.5h14v11H9l-4 3v-14Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 9h7M8.5 12.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Laporan Masalah</h3><span id="adminReportCount">0 laporan</span></div>
-        <div style="padding:12px 16px;border-bottom:1px solid #f1edeb"><input id="adminReportSearch" type="search" placeholder="Cari laporan..." aria-label="Cari laporan admin" style="width:100%;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"></div><div class="admin-report-list" id="adminReportList" aria-live="polite"></div>
+        <div class="admin-list-tools"><input id="adminReportSearch" type="search" placeholder="Cari laporan..." aria-label="Cari laporan admin" style="width:100%;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"></div><div class="admin-report-list" id="adminReportList" aria-live="polite"></div>
       </section></section>
-      <section id="adminView-reviews" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="adminReviewsHeading">
+<section id="adminView-reviews" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="adminReviewsHeading">
         <div class="panel-heading"><h3 id="adminReviewsHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 14.6 9l6 .9-4.3 4.2 1 5.9-5.3-2.8-5.4 2.8 1-5.9-4.3-4.2 6-.9L12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Ulasan Pengguna</h3><span id="adminReviewCount">0 ulasan</span></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #f1edeb"><input id="adminReviewSearch" type="search" placeholder="Cari ulasan / pengguna..." aria-label="Cari ulasan" style="flex:1;min-width:0;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"><select id="adminReviewFilter" aria-label="Filter status ulasan" style="padding:10px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"><option value="all">Semua status</option><option value="pending">Perlu ditinjau</option><option value="approved">Sudah ditinjau</option></select><button type="button" class="admin-action edit-action" id="bulkApproveReviews">Tandai ditinjau</button><button type="button" class="admin-action delete-action" id="bulkDeleteReviews">Hapus</button></div><div class="admin-report-list" id="adminReviewList" aria-live="polite"></div>
+        <div class="admin-list-tools"><input id="adminReviewSearch" type="search" placeholder="Cari ulasan / pengguna..." aria-label="Cari ulasan" style="flex:1;min-width:0;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"><select id="adminReviewFilter" aria-label="Filter status ulasan" style="padding:10px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"><option value="all">Semua status</option><option value="pending">Perlu ditinjau</option><option value="approved">Sudah ditinjau</option></select><button type="button" class="admin-action edit-action" id="bulkApproveReviews">Tandai ditinjau</button><button type="button" class="admin-action delete-action" id="bulkDeleteReviews">Hapus</button></div><div class="admin-report-list" id="adminReviewList" aria-live="polite"></div>
       </section></section>
-      <section id="adminView-history" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="productHistoryHeading"><div class="panel-heading"><h3 id="productHistoryHeading">Riwayat Perubahan Produk</h3><span id="productHistoryCount">0 perubahan</span></div><div style="padding:12px 16px;border-bottom:1px solid #f1edeb"><input id="productHistorySearch" type="search" placeholder="Cari riwayat produk..." aria-label="Cari riwayat produk" style="width:100%;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"></div><div class="admin-report-list" id="productHistoryList" aria-live="polite"></div></section></section>
-
-
-      <section id="adminView-customer-service" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="customerServiceInboxHeading"><div class="panel-heading"><h3 id="customerServiceInboxHeading">Pertanyaan Customer Service</h3><span id="customerServiceInquiryCount">0 pertanyaan</span></div><div class="admin-report-list" id="customerServiceInquiryList" aria-live="polite"></div></section></section>
-      <section id="adminView-ai-settings" class="admin-view" hidden><section class="admin-panel ai-settings-panel" aria-labelledby="aiSettingsHeading"><div class="panel-heading"><h3 id="aiSettingsHeading">Kunci Google Gemini AI</h3><span>Konfigurasi server</span></div><form id="aiConfigForm" class="admin-form ai-settings-form"><p class="ai-settings-description">Masukkan API key Gemini agar chatbot Customer Service dapat menjawab untuk semua pengunjung. Key dikirim langsung ke backend dan tidak pernah dikirim ke browser pengunjung. Key yang diatur dari halaman ini disimpan di file privat server dengan izin akses terbatas, sehingga tetap aktif setelah restart selama volume data server tetap ada. Untuk konfigurasi deployment, kamu juga bisa memakai environment secret <code>GEMINI_API_KEY</code>.</p><div class="form-field form-field-wide"><label for="geminiApiKeyInput">Google AI Studio API key</label><input id="geminiApiKeyInput" type="password" autocomplete="new-password" maxlength="512" placeholder="Tempel API key Gemini di sini" required></div><p id="aiConfigStatus" class="ai-config-status" role="status" aria-live="polite">Memeriksa konfigurasi…</p><div class="form-actions"><button class="form-submit" id="saveGeminiApiKey" type="submit">Simpan API key</button><button class="admin-action delete-action" id="clearGeminiApiKey" type="button">Hapus key dari server</button></div></form></section></section>
-      <section id="adminView-orders" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="developmentOrdersHeading"><div class="panel-heading"><h3 id="developmentOrdersHeading">Pesanan Website Development</h3><span id="developmentOrderCount">0 pesanan</span></div><div class="admin-report-list" id="developmentOrderList" aria-live="polite"></div></section><section class="admin-panel report-admin-panel" style="margin-top:16px" aria-labelledby="developmentConsultationsHeading"><div class="panel-heading"><h3 id="developmentConsultationsHeading">Konsultasi Website</h3><span id="developmentConsultationCount">0 konsultasi</span></div><div class="admin-report-list" id="developmentConsultationList" aria-live="polite"></div></section></section>
-      <section id="adminView-reseller-subscriptions" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="resellerSubscriptionAdminHeading"><div class="panel-heading"><h3 id="resellerSubscriptionAdminHeading">Pendaftaran Langganan Reseller</h3><span id="resellerSubscriptionCount">0 pendaftar</span></div><div class="admin-report-list" id="resellerSubscriptionList" aria-live="polite"></div></section></section>
-      <section id="adminView-activity" class="admin-view" hidden><section class="admin-panel login-activity-panel" aria-labelledby="loginActivityHeading">
+<section id="adminView-history" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="productHistoryHeading"><div class="panel-heading"><h3 id="productHistoryHeading">Riwayat Perubahan Produk</h3><span id="productHistoryCount">0 perubahan</span></div><div class="admin-list-tools"><input id="productHistorySearch" type="search" placeholder="Cari riwayat produk..." aria-label="Cari riwayat produk" style="width:100%;padding:10px 12px;border:1px solid #ece5e2;border-radius:10px;font:inherit;font-size:10px"></div><div class="admin-report-list" id="productHistoryList" aria-live="polite"></div></section></section>
+<section id="adminView-customer-service" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="customerServiceInboxHeading"><div class="panel-heading"><h3 id="customerServiceInboxHeading">Pertanyaan Customer Service</h3><span id="customerServiceInquiryCount">0 pertanyaan</span></div><div class="admin-report-list" id="customerServiceInquiryList" aria-live="polite"></div></section></section>
+<section id="adminView-ai-settings" class="admin-view" hidden><section class="admin-panel ai-settings-panel" aria-labelledby="aiSettingsHeading"><div class="panel-heading"><h3 id="aiSettingsHeading">Hubungkan asisten AI</h3><span>Integrasi Gemini</span></div><form id="aiConfigForm" class="admin-form ai-settings-form"><p class="ai-settings-description">Hubungkan akun Gemini untuk mengaktifkan chatbot Customer Service dan pencarian pintar. API key disimpan secara privat dan tetap tersedia setelah server dimulai ulang.</p><div class="form-field form-field-wide"><label for="geminiApiKeyInput">Google AI Studio API key</label><input id="geminiApiKeyInput" type="password" autocomplete="new-password" maxlength="512" placeholder="Tempel API key Gemini di sini" required></div><p id="aiConfigStatus" class="ai-config-status" role="status" aria-live="polite">Memeriksa konfigurasi…</p><div class="form-actions"><button class="form-submit" id="saveGeminiApiKey" type="submit">Simpan API key</button><button class="admin-action delete-action" id="clearGeminiApiKey" type="button">Hapus key dari server</button></div></form></section></section>
+<section id="adminView-reseller-subscriptions" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="resellerSubscriptionAdminHeading"><div class="panel-heading"><h3 id="resellerSubscriptionAdminHeading">Pendaftaran Langganan Reseller</h3><span id="resellerSubscriptionCount">0 pendaftar</span></div><div class="admin-report-list" id="resellerSubscriptionList" aria-live="polite"></div></section></section>
+<section id="adminView-activity" class="admin-view" hidden><section class="admin-panel login-activity-panel" aria-labelledby="loginActivityHeading">
         <div class="panel-heading"><h3 id="loginActivityHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m17 5 2 2 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aktivitas Login</h3><span id="loginActivityCount">0 aktivitas login</span></div>
         <div class="admin-login-activity-list" id="adminLoginActivityList" aria-live="polite"></div>
       </section></section>
-    </main>
+      <section id="adminView-backup" class="admin-view" hidden><div class="admin-backup-grid"><article class="admin-backup-card"><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12H3v9h18v-9h-2"/></svg></span><h3>Cadangan lengkap</h3><p>Simpan salinan produk, laporan, ulasan, dan riwayat perubahan. Pulihkan kembali dari file cadangan saat dibutuhkan.</p><div class="admin-backup-actions"><button class="form-submit" id="exportDataButton" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12H3v9h18v-9h-2"/></svg>Ekspor cadangan</button><button class="admin-action" id="importDataButton" type="button">Impor cadangan</button><input id="importDataFile" type="file" accept="application/json,.json" hidden></div></article><article class="admin-backup-card"><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11h4v9M10 20V4h4v16M16 20v-7h4v7"/></svg></span><h3>Ekspor untuk laporan</h3><p>Unduh data dalam format CSV untuk diolah di spreadsheet atau disimpan sebagai laporan terpisah.</p><div class="admin-backup-actions"><button class="admin-action" id="exportProductsCsv" type="button">Produk CSV</button><button class="admin-action" id="exportReportsCsv" type="button">Laporan CSV</button><button class="admin-action" id="exportReviewsCsv" type="button">Ulasan CSV</button></div></article></div></section>
+      <div class="overlay" id="productPreviewOverlay" aria-hidden="true" hidden><section class="purchase-modal" role="dialog" aria-modal="true" aria-labelledby="productPreviewTitle"><button class="modal-close" id="closeProductPreview" type="button" aria-label="Tutup pratinjau">×</button><span class="purchase-eyebrow">PRATINJAU</span><img id="productPreviewImage" alt="" style="display:none;width:100%;max-height:220px;object-fit:cover;margin:10px 0 14px;border-radius:13px"><h2 id="productPreviewTitle">Nama produk</h2><p id="productPreviewCategory" class="purchase-modal-intro"></p><div id="productPreviewTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"></div><p id="productPreviewDescription" class="purchase-modal-intro"></p><strong id="productPreviewPrice" style="color:#ee4d2d;font-size:18px"></strong><div class="purchase-actions"><button class="purchase-cancel" id="dismissProductPreview" type="button">Tutup</button><button class="purchase-confirm" id="editProductFromPreview" type="button">Lanjut edit</button></div></section></div>
+      <footer class="admin-bottom-status"><span class="live-label" id="backendStatus">Memeriksa database…</span><span class="live-label" id="backupReminder">Cadangan belum dibuat</span></footer>
+    </main></div>
+    <div class="admin-command" id="adminCommandDialog" hidden><section class="admin-command-panel" role="dialog" aria-modal="true" aria-label="Pencarian fitur admin"><div class="admin-command-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.5-2 5 5"/></svg><input id="adminCommandInput" type="search" placeholder="Ke halaman mana?" aria-label="Cari halaman admin" autocomplete="off"><button type="button" class="admin-icon-button" id="adminCommandClose" aria-label="Tutup pencarian fitur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div class="admin-command-results" id="adminCommandResults"></div><div class="admin-command-footer"><span>Temukan fitur, langsung ke halamannya</span><span>Esc untuk tutup</span></div></section></div>
   </section>
 
   <datalist id="productSuggestions"></datalist>
@@ -2845,7 +3091,7 @@
       }
       function persistReviews() { try { localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews)); syncAdminState(); return true; } catch (_) { showToast('Ulasan gagal disimpan.', 'error'); return false; } }
       function trackAnalytics(kind, product) { if (!product || !product.id) return; fetch('/api/events', { method: 'POST', credentials: 'same-origin', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind, productId: String(product.id) }) }).catch(() => {}); }
-      function renderAdminAnalytics() { const list = document.getElementById('adminAnalyticsList'); if (!list) return; const rows = products.map(product => ({ product, metrics: backendAnalytics[String(product.id)] || { view: 0, cart_add: 0, buy_click: 0 } })).sort((a,b) => (b.metrics.view+b.metrics.cart_add+b.metrics.buy_click)-(a.metrics.view+a.metrics.cart_add+a.metrics.buy_click)); const totals = rows.reduce((sum,row) => ({view:sum.view+row.metrics.view,cart:sum.cart+row.metrics.cart_add,buy:sum.buy+row.metrics.buy_click}),{view:0,cart:0,buy:0}); document.getElementById('adminAnalyticsSummary').textContent = `Dilihat ${totals.view} kali · ditambahkan ke keranjang ${totals.cart} kali · klik beli ${totals.buy} kali`; list.replaceChildren(); rows.slice(0,10).forEach(({product,metrics}) => { const row=makeElement('article','admin-report'); const content=makeElement('div','admin-report-content'); content.append(makeElement('strong','admin-report-category',product.name),makeElement('p','admin-report-message',`Dilihat ${metrics.view} · Keranjang ${metrics.cart_add} · Klik beli ${metrics.buy_click}`)); row.append(content); list.append(row); }); }
+      function renderAdminAnalytics() { renderAdminOverview(); const list = document.getElementById('adminAnalyticsList'); if (!list) return; const rows = products.map(product => ({ product, metrics: backendAnalytics[String(product.id)] || { view: 0, cart_add: 0, buy_click: 0 } })).sort((a,b) => (b.metrics.view+b.metrics.cart_add+b.metrics.buy_click)-(a.metrics.view+a.metrics.cart_add+a.metrics.buy_click)); const totals = rows.reduce((sum,row) => ({view:sum.view+row.metrics.view,cart:sum.cart+row.metrics.cart_add,buy:sum.buy+row.metrics.buy_click}),{view:0,cart:0,buy:0}); document.getElementById('adminAnalyticsSummary').textContent = `Dilihat ${totals.view} kali · ditambahkan ke keranjang ${totals.cart} kali · klik beli ${totals.buy} kali`; list.replaceChildren(); rows.slice(0,10).forEach(({product,metrics}) => { const row=makeElement('article','admin-report'); const content=makeElement('div','admin-report-content'); content.append(makeElement('strong','admin-report-category',product.name),makeElement('p','admin-report-message',`Dilihat ${metrics.view} · Keranjang ${metrics.cart_add} · Klik beli ${metrics.buy_click}`)); row.append(content); list.append(row); }); }
       async function bootstrapBackend() {
         try {
           const response=await fetch('/api/products',{cache:'no-store'}); if(!response.ok)return;
@@ -3760,6 +4006,7 @@
 
       function setOverlayOpen(element, isOpen) {
         if (element === adminDashboard) {
+          siteHeader.inert=isOpen;homeView.inert=isOpen;siteFooter.inert=isOpen;
           if (isOpen && !adminAuthenticated) return false;
           if (!isOpen) {
             window.clearTimeout(adminIdleTimer);
@@ -3956,7 +4203,7 @@
         Object.entries(reviews).forEach(([productId, list]) => { if (!Array.isArray(list)) return; const product = products.find(item => String(item.id) === String(productId)); list.forEach(review => rows.push({ ...review, status: review.status === 'approved' ? 'approved' : 'pending', productId, productName: product ? product.name : 'Produk sudah dihapus' })); });
         rows.sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0));
         const reviewQuery = (document.getElementById('adminReviewSearch')?.value || '').trim().toLocaleLowerCase('id-ID'); const reviewFilter = document.getElementById('adminReviewFilter')?.value || 'all'; const visibleRows = rows.filter(item => (reviewFilter === 'all' || item.status === reviewFilter) && (!reviewQuery || `${item.productName} ${item.author} ${item.comment}`.toLocaleLowerCase('id-ID').includes(reviewQuery)));
-        adminReviewCount.textContent = `${rows.length} ulasan · ${rows.filter(item => item.status === 'pending').length} perlu ditinjau`; const pending = rows.filter(item => item.status === 'pending').length; document.getElementById('summaryReviewCount').textContent = String(rows.length); const pendingQuestions=customerServiceMessages.filter(item=>item.status==='pending').length; const serviceTab=document.querySelector('[data-admin-target="customer-service"]'); if(serviceTab)serviceTab.textContent=pendingQuestions?`Customer Service (${pendingQuestions} baru)`:'Customer Service'; const pendingOrders=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length; const ordersTab=document.querySelector('[data-admin-target="orders"]'); if(ordersTab)ordersTab.textContent=pendingOrders?`Pesanan web (${pendingOrders} baru)`:'Pesanan web'; const reviewTab = document.querySelector('[data-admin-target="reviews"]'); if (reviewTab) reviewTab.textContent = pending ? `Ulasan (${pending} baru)` : 'Ulasan';
+        adminReviewCount.textContent = `${rows.length} ulasan · ${rows.filter(item => item.status === 'pending').length} perlu ditinjau`; const pending = rows.filter(item => item.status === 'pending').length; document.getElementById('summaryReviewCount').textContent = String(rows.length); const pendingQuestions=customerServiceMessages.filter(item=>item.status==='pending').length; const serviceTab=document.querySelector('[data-admin-target="customer-service"]'); updateAdminNavigation(); const pendingOrders=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length; const ordersTab=document.querySelector('[data-admin-target="orders"]'); updateAdminNavigation(); const reviewTab = document.querySelector('[data-admin-target="reviews"]'); updateAdminNavigation();
         adminReviewList.replaceChildren();
         if (!visibleRows.length) { const empty = makeElement('div', 'admin-empty'); empty.append(makeElement('span', '', '✎'), makeElement('div', '', 'Belum ada ulasan dari pengguna. Ulasan baru akan muncul di sini.')); adminReviewList.append(empty); return; }
         visibleRows.forEach(review => { const row = makeElement('article', 'admin-report admin-review-row'); const select = makeElement('input'); select.type='checkbox'; select.className='admin-review-select'; select.dataset.productId=review.productId; select.value=String(review.id); select.setAttribute('aria-label', `Pilih ulasan dari ${review.author || 'Tamu'}`); row.append(select); const content = makeElement('div', 'admin-report-content'); const top = makeElement('div', 'admin-report-topline'); top.append(makeElement('strong', 'admin-report-category', review.productName), makeElement('span', `admin-report-status${review.status === 'approved' ? ' resolved' : ''}`, review.status === 'approved' ? 'Ditinjau' : 'Perlu ditinjau'), makeElement('span', 'admin-report-name', review.author || 'Tamu')); const date = new Date(review.date); const time = makeElement('time', 'admin-report-date', Number.isNaN(date.getTime()) ? 'Waktu tidak tersedia' : new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(date)); if (!Number.isNaN(date.getTime())) time.dateTime = date.toISOString(); top.append(time); content.append(top, makeElement('p', 'admin-report-message', review.comment || '')); const note = makeElement('textarea', 'admin-note-input'); note.placeholder = 'Catatan internal admin (tidak terlihat publik)'; note.maxLength = 1000; note.value = review.adminNote || ''; note.style.cssText = 'width:100%;min-height:55px;margin-top:8px;padding:9px;border:1px solid #ece5e2;border-radius:9px;font:inherit;font-size:9px'; note.addEventListener('change', () => updateAdminNote('review', review.productId, review.id, note.value)); content.append(note); const actions = makeElement('div', 'admin-report-actions'); const moderate = makeElement('button', 'admin-action edit-action', review.status === 'approved' ? 'Batalkan tinjauan' : 'Tandai ditinjau'); moderate.type = 'button'; moderate.addEventListener('click', () => { const list = reviews[String(review.productId)] || []; const target = list.find(item => item.id === review.id); if (target) target.status = target.status === 'approved' ? 'pending' : 'approved'; try { persistReviews(); refreshAdminReviews(); } catch (_) { showToast('Status ulasan gagal disimpan.', 'error'); } }); const remove = makeElement('button', 'admin-action delete-action', 'Hapus'); remove.type = 'button'; remove.addEventListener('click', () => { if (!window.confirm('Hapus ulasan ini?')) return; const list = Array.isArray(reviews[String(review.productId)]) ? reviews[String(review.productId)] : []; reviews[String(review.productId)] = list.filter(item => item.id !== review.id); try { persistReviews(); renderProducts(); refreshAdminReviews(); showToast('Ulasan dihapus.'); } catch (_) { showToast('Ulasan tidak dapat dihapus.', 'error'); } }); row.append(content, actions); actions.append(moderate, remove); adminReviewList.append(row); });
@@ -4090,7 +4337,7 @@
       function refreshAdminWarningCount() { const count = products.filter(product => !safeWebUrl(product.image) || !safeShopeeUrl(product.shopeeLink) || !product.description.trim() || failedImageProductIds.has(String(product.id)) || (Number.isSafeInteger(product.stockCount) && product.stockCount <= 3) || Number(product.price) <= 0 || !productHistory.some(entry => String(entry.productId) === String(product.id) && entry.action !== 'Dihapus' && Date.now() - (Date.parse(entry.createdAt) || 0) <= 90 * 86400000)).length; const target = document.getElementById('summaryWarningCount'); if (target) target.textContent = String(count); }
       function renderDevelopmentOrders() {
         const list=document.getElementById('developmentOrderList'); if(!list)return;
-        const count=document.getElementById('developmentOrderCount'); if(count)count.textContent=`${developmentOrders.length} pesanan`; const pending=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length; const ordersTab=document.querySelector('[data-admin-target="orders"]'); if(ordersTab)ordersTab.textContent=pending?`Pesanan web (${pending} baru)`:'Pesanan web';
+        const count=document.getElementById('developmentOrderCount'); if(count)count.textContent=`${developmentOrders.length} pesanan`; const pending=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length; const ordersTab=document.querySelector('[data-admin-target="orders"]'); updateAdminNavigation();
         list.replaceChildren();
         if(!developmentOrders.length){list.append(makeElement('div','admin-empty','Belum ada pesanan website development.'));return;}
         [...developmentOrders].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0)).forEach(order=>{
@@ -4129,8 +4376,8 @@
       function openResellerSubscription(packageName){if(!resellerSubscriptionPrices[packageName])return;selectedResellerSubscription=packageName;document.getElementById('resellerSubscriptionSummary').textContent=`Paket ${packageName} · ${resellerSubscriptionPrices[packageName]}`;resellerSubscriptionForm.reset();resellerSubscriptionForm.hidden=false;document.getElementById('resellerSubscriptionSuccess').hidden=true;document.getElementById('resellerSubscriptionFeedback').hidden=true;resellerSubscriptionOverlay.hidden=false;resellerSubscriptionOverlay.inert=false;setOverlayOpen(resellerSubscriptionOverlay,true);document.getElementById('resellerSubscriptionEmail').focus({preventScroll:true});}
       function closeResellerSubscription(){if(!resellerSubscriptionOverlay.classList.contains('is-open'))return;setOverlayOpen(resellerSubscriptionOverlay,false);resellerSubscriptionOverlay.inert=true;resellerSubscriptionOverlay.hidden=true;selectedResellerSubscription=null;}
       async function submitResellerSubscription(event){event.preventDefault();if(!selectedResellerSubscription)return;const button=document.getElementById('submitResellerSubscription'),feedback=document.getElementById('resellerSubscriptionFeedback');button.disabled=true;feedback.hidden=true;try{const response=await backendRequest('/api/reseller-subscriptions',{method:'POST',body:JSON.stringify({package:selectedResellerSubscription,email:document.getElementById('resellerSubscriptionEmail').value.trim(),whatsapp:document.getElementById('resellerSubscriptionWhatsapp').value.trim()})});const data=await readApiJson(response);if(!response.ok||!data.ok)throw new Error('subscription failed');resellerSubscriptionForm.hidden=true;document.getElementById('resellerSubscriptionSuccess').hidden=false;document.getElementById('closeResellerSubscriptionSuccess').focus({preventScroll:true});}catch(_){feedback.textContent='Permintaan belum terkirim. Periksa email dan nomor WhatsApp, lalu coba lagi.';feedback.hidden=false;}finally{button.disabled=false;}}
-      function renderDevelopmentConsultations(){const list=document.getElementById('developmentConsultationList');if(!list)return;const count=document.getElementById('developmentConsultationCount');if(count)count.textContent=`${developmentConsultations.length} konsultasi`;const pending=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length;const tab=document.querySelector('[data-admin-target="orders"]');if(tab)tab.textContent=pending?`Pesanan web (${pending} baru)`:'Pesanan web';list.replaceChildren();if(!developmentConsultations.length){list.append(makeElement('div','admin-empty','Belum ada permintaan konsultasi website.'));return;}[...developmentConsultations].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0)).forEach(item=>{const card=makeElement('article','development-order-admin-card');const info=makeElement('div','development-order-admin-info');info.append(makeElement('strong','development-order-admin-title',item.service||'Konsultasi website'),makeElement('p','',`Layanan: ${item.package||'—'}`),makeElement('p','',`Email: ${item.email||'—'}`),makeElement('p','',`WhatsApp: ${item.whatsapp||'—'}`),makeElement('small','',item.createdAt?new Date(item.createdAt).toLocaleString('id-ID'):'Waktu tidak tersedia'));const actions=makeElement('div','development-order-admin-actions');[['new','Baru'],['contacted','Sudah dihubungi'],['closed','Selesai']].forEach(([status,label])=>{const btn=makeElement('button','admin-action edit-action',label);btn.type='button';btn.disabled=item.status===status;btn.addEventListener('click',()=>setDevelopmentConsultationStatus(item.id,status));actions.append(btn);});card.append(info,actions);list.append(card);});}
-      function renderResellerSubscriptions(){const list=document.getElementById('resellerSubscriptionList');if(!list)return;const count=document.getElementById('resellerSubscriptionCount');if(count)count.textContent=`${resellerSubscriptions.length} pendaftar`;const pending=resellerSubscriptions.filter(item=>item.status==='new').length;const tab=document.querySelector('[data-admin-target="reseller-subscriptions"]');if(tab)tab.textContent=pending?`Langganan reseller (${pending} baru)`:'Langganan reseller';list.replaceChildren();if(!resellerSubscriptions.length){list.append(makeElement('div','admin-empty','Belum ada pendaftaran langganan reseller.'));return;}const statusNames={new:'Baru',contacted:'Sudah dihubungi',confirmed:'Terkonfirmasi',cancelled:'Dibatalkan'};[...resellerSubscriptions].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0)).forEach(item=>{const card=makeElement('article','development-order-admin-card reseller-subscription-admin-card');const head=makeElement('div','development-order-admin-head');head.append(makeElement('strong','development-order-admin-title',`Paket ${item.package||'Reseller'}`),makeElement('span',`development-order-status ${item.status==='cancelled'?'status-cancelled':item.status==='new'?'status-pending':'status-confirmed'}`,statusNames[item.status]||'Baru'));const info=makeElement('div','development-order-admin-info');info.append(makeElement('p','',`Harga: ${item.price||'—'}`),makeElement('p','',`Email: ${item.email||'—'}`),makeElement('p','',`WhatsApp: ${item.whatsapp||'—'}`),makeElement('small','',item.createdAt?new Date(item.createdAt).toLocaleString('id-ID'):'Waktu tidak tersedia'));const links=makeElement('div','reseller-subscription-contact-links');const emailLink=makeElement('a','admin-action edit-action','Kirim email');emailLink.href=`mailto:${encodeURIComponent(item.email||'')}`;emailLink.rel='noopener noreferrer';links.append(emailLink);const digits=String(item.whatsapp||'').replace(/\D/g,'');const waNumber=digits.startsWith('0')?'62'+digits.slice(1):digits;const waLink=makeElement('a','admin-action edit-action','Hubungi WhatsApp');waLink.href=`https://wa.me/${waNumber}?text=${encodeURIComponent(`Halo, saya admin OomniMarket. Kami menerima permintaan berlangganan Paket ${item.package||'Reseller'} (${item.price||''}). Kami akan membantu proses dan konfirmasinya.`)}`;waLink.target='_blank';waLink.rel='noopener noreferrer';links.append(waLink);const actions=makeElement('div','development-order-admin-actions');[['new','Baru'],['contacted','Sudah dihubungi'],['confirmed','Terkonfirmasi'],['cancelled','Dibatalkan']].forEach(([status,label])=>{const button=makeElement('button','admin-action edit-action',label);button.type='button';button.disabled=item.status===status;button.addEventListener('click',()=>setResellerSubscriptionStatus(item.id,status));actions.append(button);});card.append(head,info,links,actions);list.append(card);});}
+      function renderDevelopmentConsultations(){const list=document.getElementById('developmentConsultationList');if(!list)return;const count=document.getElementById('developmentConsultationCount');if(count)count.textContent=`${developmentConsultations.length} konsultasi`;const pending=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length;const tab=document.querySelector('[data-admin-target="orders"]');updateAdminNavigation();list.replaceChildren();if(!developmentConsultations.length){list.append(makeElement('div','admin-empty','Belum ada permintaan konsultasi website.'));return;}[...developmentConsultations].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0)).forEach(item=>{const card=makeElement('article','development-order-admin-card');const info=makeElement('div','development-order-admin-info');info.append(makeElement('strong','development-order-admin-title',item.service||'Konsultasi website'),makeElement('p','',`Layanan: ${item.package||'—'}`),makeElement('p','',`Email: ${item.email||'—'}`),makeElement('p','',`WhatsApp: ${item.whatsapp||'—'}`),makeElement('small','',item.createdAt?new Date(item.createdAt).toLocaleString('id-ID'):'Waktu tidak tersedia'));const actions=makeElement('div','development-order-admin-actions');[['new','Baru'],['contacted','Sudah dihubungi'],['closed','Selesai']].forEach(([status,label])=>{const btn=makeElement('button','admin-action edit-action',label);btn.type='button';btn.disabled=item.status===status;btn.addEventListener('click',()=>setDevelopmentConsultationStatus(item.id,status));actions.append(btn);});card.append(info,actions);list.append(card);});}
+      function renderResellerSubscriptions(){const list=document.getElementById('resellerSubscriptionList');if(!list)return;const count=document.getElementById('resellerSubscriptionCount');if(count)count.textContent=`${resellerSubscriptions.length} pendaftar`;const pending=resellerSubscriptions.filter(item=>item.status==='new').length;const tab=document.querySelector('[data-admin-target="reseller-subscriptions"]');updateAdminNavigation();list.replaceChildren();if(!resellerSubscriptions.length){list.append(makeElement('div','admin-empty','Belum ada pendaftaran langganan reseller.'));return;}const statusNames={new:'Baru',contacted:'Sudah dihubungi',confirmed:'Terkonfirmasi',cancelled:'Dibatalkan'};[...resellerSubscriptions].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0)).forEach(item=>{const card=makeElement('article','development-order-admin-card reseller-subscription-admin-card');const head=makeElement('div','development-order-admin-head');head.append(makeElement('strong','development-order-admin-title',`Paket ${item.package||'Reseller'}`),makeElement('span',`development-order-status ${item.status==='cancelled'?'status-cancelled':item.status==='new'?'status-pending':'status-confirmed'}`,statusNames[item.status]||'Baru'));const info=makeElement('div','development-order-admin-info');info.append(makeElement('p','',`Harga: ${item.price||'—'}`),makeElement('p','',`Email: ${item.email||'—'}`),makeElement('p','',`WhatsApp: ${item.whatsapp||'—'}`),makeElement('small','',item.createdAt?new Date(item.createdAt).toLocaleString('id-ID'):'Waktu tidak tersedia'));const links=makeElement('div','reseller-subscription-contact-links');const emailLink=makeElement('a','admin-action edit-action','Kirim email');emailLink.href=`mailto:${encodeURIComponent(item.email||'')}`;emailLink.rel='noopener noreferrer';links.append(emailLink);const digits=String(item.whatsapp||'').replace(/\D/g,'');const waNumber=digits.startsWith('0')?'62'+digits.slice(1):digits;const waLink=makeElement('a','admin-action edit-action','Hubungi WhatsApp');waLink.href=`https://wa.me/${waNumber}?text=${encodeURIComponent(`Halo, saya admin OomniMarket. Kami menerima permintaan berlangganan Paket ${item.package||'Reseller'} (${item.price||''}). Kami akan membantu proses dan konfirmasinya.`)}`;waLink.target='_blank';waLink.rel='noopener noreferrer';links.append(waLink);const actions=makeElement('div','development-order-admin-actions');[['new','Baru'],['contacted','Sudah dihubungi'],['confirmed','Terkonfirmasi'],['cancelled','Dibatalkan']].forEach(([status,label])=>{const button=makeElement('button','admin-action edit-action',label);button.type='button';button.disabled=item.status===status;button.addEventListener('click',()=>setResellerSubscriptionStatus(item.id,status));actions.append(button);});card.append(head,info,links,actions);list.append(card);});}
       async function setResellerSubscriptionStatus(id,status){if(!backendAdminSession)return showToast('Sesi admin server diperlukan.','error');try{const response=await backendRequest(`/api/admin/reseller-subscriptions/${encodeURIComponent(id)}/status`,{method:'PUT',body:JSON.stringify({status})});if(!response.ok)throw new Error();const data=await response.json();resellerSubscriptions=resellerSubscriptions.map(item=>item.id===id?data.subscription:item);renderResellerSubscriptions();showToast('Status langganan reseller diperbarui.');}catch(_){showToast('Status langganan reseller gagal diperbarui.','error');}}
       async function setDevelopmentConsultationStatus(id,status){try{const response=await backendRequest(`/api/admin/development-consultations/${encodeURIComponent(id)}/status`,{method:'PUT',body:JSON.stringify({status})});if(!response.ok)throw new Error();const data=await response.json();developmentConsultations=developmentConsultations.map(item=>item.id===id?data.consultation:item);renderDevelopmentConsultations();showToast('Status konsultasi diperbarui.');}catch(_){showToast('Status konsultasi gagal diperbarui.','error');}}
       function openDevelopmentOrder(packageSelection) {
@@ -4147,7 +4394,7 @@
       function renderCustomerServiceInquiries() {
         const list=document.getElementById('customerServiceInquiryList'); if(!list)return;
         const count=document.getElementById('customerServiceInquiryCount'); if(count)count.textContent=`${customerServiceMessages.length} pertanyaan`;
-        const pending=customerServiceMessages.filter(item=>item.status==='pending').length; const tab=document.querySelector('[data-admin-target="customer-service"]'); if(tab)tab.textContent=pending?`Customer Service (${pending} baru)`:'Customer Service';
+        const pending=customerServiceMessages.filter(item=>item.status==='pending').length; const tab=document.querySelector('[data-admin-target="customer-service"]'); updateAdminNavigation();
         list.replaceChildren();
         if(!customerServiceMessages.length){list.append(makeElement('div','admin-empty','Belum ada pertanyaan Customer Service.'));return;}
         [...customerServiceMessages].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0)).forEach(item=>{
@@ -4188,7 +4435,7 @@
         refreshProductHistory();
         renderAdminAnalytics();
         document.getElementById('totalProducts').textContent = String(products.length);
-        document.getElementById('activeProducts').textContent = String(products.length);
+        document.getElementById('activeProducts').textContent = String(products.filter(item=>(item.status||'active')==='active').length);
         document.getElementById('summaryReviewCount').textContent = String(Object.values(reviews).reduce((sum, list) => sum + (Array.isArray(list) ? list.length : 0), 0));
         refreshAdminWarningCount();
         document.getElementById('adminListCount').textContent = `${products.length} ${products.length === 1 ? 'produk' : 'produk'}`;
@@ -4243,8 +4490,7 @@
         });
       }
 
-      function beginEdit(product) {
-        if (!isAdminSessionActive()) return;
+      function populateProductEditor(product) {
         editingProductId = product.id;
         document.getElementById('productName').value = product.name;
         document.getElementById('productCategory').value = product.category || '';
@@ -4264,9 +4510,9 @@
           ['path', { d: 'm5 12 4 4L19 6', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }]
         ]);
         document.getElementById('cancelEdit').hidden = false;
-        productForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        document.getElementById('productName').focus({ preventScroll: true });
       }
+
+      function beginEdit(product) { if(!isAdminSessionActive())return;populateProductEditor(product);navigateToAdminPage('product-editor',{productId:product.id});document.getElementById('productName').focus({preventScroll:true}); }
 
       function resetProductForm() {
         productForm.reset();
@@ -4317,9 +4563,19 @@
         try{const response=await backendRequest('/api/admin/ai-config');if(!response.ok)throw new Error('Tidak dapat memeriksa konfigurasi AI.');const data=await readApiJson(response);status.textContent=data.configured?(data.source==='environment'?'Gemini aktif melalui konfigurasi environment server.':'Gemini aktif untuk pengguna situs; key admin tersimpan di file privat server.'):'API key belum diatur. Masukkan key agar chatbot dapat menjawab.';status.dataset.state=data.configured?'ready':'missing';}
         catch(error){status.textContent=error.message||'Status konfigurasi AI tidak dapat dimuat.';status.dataset.state='error';}
       }
-      const validAdminPages=new Set(['overview','products','reviews','reports','history','activity','orders','reseller-subscriptions','customer-service','ai-settings']);
+      const ADMIN_PAGES = {"overview":["Ringkasan","Kendali toko dan aktivitas terbaru.","Workspace"],"products":["Produk","Semua produk, tersusun dan mudah dikelola.","Workspace"],"product-editor":["Tambah produk","Siapkan detail produk sebelum tampil di etalase.","Workspace"],"analytics":["Analitik","Pahami interaksi pengunjung dengan produkmu.","Workspace"],"orders":["Pesanan website","Tinjau dan proses pesanan pembuatan website.","Operasional"],"consultations":["Konsultasi","Tindak lanjuti kebutuhan website pelanggan.","Operasional"],"reseller-subscriptions":["Langganan reseller","Kelola pendaftar dan status langganan reseller.","Operasional"],"customer-service":["Customer Service","Semua pertanyaan dan percakapan AI di satu inbox.","Inbox"],"reviews":["Ulasan","Tinjau ulasan dan dengarkan pelangganmu.","Inbox"],"reports":["Laporan","Pantau masalah dan selesaikan laporan yang masuk.","Inbox"],"history":["Riwayat produk","Lacak perubahan dan pulihkan versi sebelumnya.","Pengelolaan"],"activity":["Aktivitas login","Tinjau aktivitas akun yang tercatat di browser ini.","Pengelolaan"],"ai-settings":["Pengaturan AI","Hubungkan Gemini untuk membantu pelangganmu.","Pengelolaan"],"backup":["Cadangan data","Simpan, ekspor, dan pulihkan data toko.","Pengelolaan"]};
+      const validAdminPages = new Set(Object.keys(ADMIN_PAGES));
+      const adminMobileMedia = window.matchMedia('(max-width:900px)');
+      let adminCommandReturnFocus = null;
       function getAdminPageFromPath(){const match=window.location.pathname.match(/^\/admin(?:\/([a-z-]+))?\/?$/);if(!match)return null;const page=match[1]||'overview';return validAdminPages.has(page)?page:null;}
-      function navigateToAdminPage(name){if(!validAdminPages.has(name))return;const path=`/admin/${name}`;if(window.location.pathname!==path)window.history.pushState({adminPage:name},'',path);showAdminView(name);window.scrollTo({top:0,behavior:'smooth'});}
+      function navigateToAdminPage(name, options = {}) {
+        if(!validAdminPages.has(name)||!isAdminSessionActive())return;
+        const query=name==='product-editor'&&options.productId!==undefined?'?product='+encodeURIComponent(options.productId):'';
+        const next='/admin/'+name+query;
+        if(window.location.pathname+window.location.search!==next)window.history.pushState({adminPage:name},'',next);
+        showAdminView(name);adminDashboard.scrollTo({top:0,behavior:'auto'});
+        document.getElementById('adminPageTitle').focus({preventScroll:true});
+      }
       async function restoreAdminRoute(){
         const page=getAdminPageFromPath();if(!page)return;
         try{
@@ -4332,27 +4588,116 @@
           const status=document.getElementById('backendStatus');if(status)status.textContent='Database bersama tersambung';adminAuthenticated=true;setOverlayOpen(adminDashboard,true);showAdminView(page);resetAdminIdleTimer();
         }catch(error){openLogin();showToast(error.message||'Database admin belum dapat dimuat.','error');}
       }
-      function showAdminView(name) {
-        if(name==='ai-settings')refreshAiConfigStatus();
-        const pageTitles={overview:'Ringkasan toko',products:'Produk',reviews:'Ulasan',reports:'Laporan',history:'Riwayat produk',activity:'Aktivitas login',orders:'Pesanan web','reseller-subscriptions':'Langganan reseller','customer-service':'Customer Service','ai-settings':'Pengaturan AI'};
-        const pageDescriptions={overview:'Pilih bagian yang ingin dikelola.',products:'Tambah, atur penempatan, dan perbarui produk etalase.',reviews:'Tinjau dan moderasi ulasan pelanggan.',reports:'Periksa laporan masalah yang dikirim pengunjung.',history:'Lihat perubahan dan aktivitas pada data produk.',activity:'Tinjau aktivitas login akun pelanggan.',orders:'Kelola pesanan dan permintaan konsultasi layanan website.','reseller-subscriptions':'Tindak lanjuti pendaftaran paket reseller top up game.','customer-service':'Tinjau pertanyaan dan percakapan Customer Service.', 'ai-settings':'Atur koneksi Gemini untuk layanan Customer Service.'};
-        const isOverview=name==='overview';
-        if(getAdminPageFromPath()||adminDashboard.classList.contains('is-open'))document.title=`${pageTitles[name]||'Halaman admin'} · OmmniMarket Admin`;
-        document.querySelectorAll('[id^="adminView-"]').forEach(view=>{view.hidden=view.id!==`adminView-${name}`;});
-        document.getElementById('adminDashboardWelcome').hidden=!isOverview;
-        document.getElementById('adminFeatureNavigation').hidden=!isOverview;
-        const pageHeader=document.getElementById('adminPageHeader');pageHeader.hidden=isOverview;
-        if(!isOverview){document.getElementById('adminPageTitle').textContent=pageTitles[name]||'Halaman admin';document.getElementById('adminPageDescription').textContent=pageDescriptions[name]||'';}
-        document.querySelectorAll('[data-admin-target]').forEach(button=>{const active=button.dataset.adminTarget===name;button.setAttribute('aria-current',active?'page':'false');button.style.background=active?'#ee4d2d':'#f1f6ff';button.style.borderColor=active?'#ee4d2d':'#dce9ff';button.style.color=active?'#fff':'#3472cf';});
-        const pendingReviews=Object.values(reviews).reduce((sum,list)=>sum+(Array.isArray(list)?list.filter(item=>item.status!=='approved').length:0),0);
-        const pendingOrders=developmentOrders.filter(order=>order.status==='pending').length+developmentConsultations.filter(item=>item.status==='new').length;
-        const ordersTab=document.querySelector('[data-admin-target="orders"]');if(ordersTab)ordersTab.textContent=pendingOrders?`Pesanan web (${pendingOrders} baru)`:'Pesanan web';
-        const resellerPending=resellerSubscriptions.filter(item=>item.status==='new').length;const resellerTab=document.querySelector('[data-admin-target="reseller-subscriptions"]');if(resellerTab)resellerTab.textContent=resellerPending?`Langganan reseller (${resellerPending} baru)`:'Langganan reseller';
-        const reviewTab=document.querySelector('[data-admin-target="reviews"]');if(reviewTab)reviewTab.textContent=pendingReviews?`Ulasan (${pendingReviews} baru)`:'Ulasan';
+
+      function updateAdminNavigation() {
+        const counts={orders:developmentOrders.filter(item=>item.status==='pending').length,consultations:developmentConsultations.filter(item=>item.status==='new').length,'customer-service':customerServiceMessages.filter(item=>item.status==='pending').length,'reseller-subscriptions':resellerSubscriptions.filter(item=>item.status==='new').length,reviews:Object.values(reviews).reduce((sum,list)=>sum+(Array.isArray(list)?list.filter(item=>item.status!=='approved').length:0),0),reports:reports.filter(item=>item.status!=='resolved').length};
+        document.querySelectorAll('#adminFeatureNavigation [data-admin-target]').forEach(link=>{
+          const key=link.dataset.adminTarget,count=counts[key]||0,badge=link.querySelector('[data-admin-badge]');
+          if(badge){badge.textContent=String(count);badge.hidden=count===0;}
+          link.setAttribute('aria-label',ADMIN_PAGES[key][0]+(count?', '+count+' baru':''));
+        });
       }
-      document.querySelectorAll('[data-admin-target]').forEach(button => button.addEventListener('click', () => navigateToAdminPage(button.dataset.adminTarget)));
-      document.getElementById('adminBackToOverview').addEventListener('click',()=>navigateToAdminPage('overview'));
-      window.addEventListener('popstate',()=>{const page=getAdminPageFromPath();if(page&&adminAuthenticated){showAdminView(page);window.scrollTo({top:0,behavior:'smooth'});}else if(!page&&adminAuthenticated){window.history.replaceState({adminPage:'overview'},'','/admin/overview');showAdminView('overview');}else if(page){restoreAdminRoute();}});
+      function renderAdminOverview() {
+        const set=(id,value)=>{const element=document.getElementById(id);if(element)element.textContent=String(value);};
+        set('overviewPendingOrders',developmentOrders.filter(item=>item.status==='pending').length);
+        set('overviewPendingConsultations',developmentConsultations.filter(item=>item.status==='new').length);
+        set('overviewInboxCount',customerServiceMessages.filter(item=>item.status==='pending').length);
+        const totals=Object.values(backendAnalytics).reduce((sum,item)=>({views:sum.views+(Number(item.view)||0),cart:sum.cart+(Number(item.cart_add)||0),buy:sum.buy+(Number(item.buy_click)||0)}),{views:0,cart:0,buy:0});
+        const maximum=Math.max(1,totals.views,totals.cart,totals.buy);
+        for(const [key,value] of [['Views',totals.views],['Cart',totals.cart],['Buy',totals.buy]]){set('overview'+key,new Intl.NumberFormat('id-ID').format(value));const bar=document.getElementById('overview'+key+'Bar');if(bar)bar.style.width=(value/maximum*100)+'%';}
+        updateAdminNavigation();
+      }
+      async function refreshAdminOverviewConnection() {
+        const label=document.getElementById('adminAiConnection');if(!backendAdminSession||!label)return;
+        try{const response=await backendRequest('/api/admin/ai-config');if(!response.ok)throw new Error();const data=await readApiJson(response);label.textContent=data.configured?'Terhubung':'Belum diatur';label.dataset.state=data.configured?'ready':'missing';}
+        catch(_){label.textContent='Periksa koneksi';label.dataset.state='unknown';}
+      }
+      function setAdminMenu(open, returnFocus = false) {
+        const mobile=adminMobileMedia.matches,expanded=mobile&&open,sidebar=document.getElementById('adminSidebar');
+        adminDashboard.classList.toggle('admin-menu-open',expanded);
+        document.getElementById('adminMenuToggle').setAttribute('aria-expanded',String(expanded));
+        document.getElementById('adminMenuToggle').setAttribute('aria-label',expanded?'Tutup menu admin':'Buka menu admin');
+        document.getElementById('adminMenuScrim').hidden=!expanded;
+        document.getElementById('adminWorkspace').inert=expanded;
+        sidebar.inert=mobile&&!expanded;
+        sidebar.setAttribute('role',expanded?'dialog':'complementary');
+        if(expanded){sidebar.setAttribute('aria-modal','true');window.requestAnimationFrame(()=>{if(adminDashboard.classList.contains('admin-menu-open'))sidebar.querySelector('[data-admin-target]').focus({preventScroll:true});});}
+        else{sidebar.removeAttribute('aria-modal');if(returnFocus)document.getElementById('adminMenuToggle').focus();}
+      }
+      function closeAdminCommand(returnFocus = true) {
+        const dialog=document.getElementById('adminCommandDialog');if(dialog.hidden)return;
+        dialog.hidden=true;document.getElementById('adminWorkspace').inert=false;
+        document.getElementById('adminSidebar').inert=adminMobileMedia.matches;
+        if(returnFocus&&adminCommandReturnFocus?.isConnected)adminCommandReturnFocus.focus();
+      }
+      function renderAdminCommands() {
+        const query=document.getElementById('adminCommandInput').value.trim().toLocaleLowerCase('id-ID'),list=document.getElementById('adminCommandResults');list.replaceChildren();
+        for(const [key,meta] of Object.entries(ADMIN_PAGES)){
+          if(query&&!meta.join(' ').toLocaleLowerCase('id-ID').includes(query))continue;
+          const link=makeElement('a','admin-command-result');link.href='/admin/'+key;link.dataset.adminTarget=key;if(key==='product-editor')link.dataset.adminNewProduct='';
+          const original=document.querySelector('#adminFeatureNavigation [data-admin-target="'+(key==='product-editor'?'products':key)+'"] svg');if(original)link.append(original.cloneNode(true));
+          const copy=makeElement('span');copy.append(makeElement('strong','',meta[0]),makeElement('small','',meta[1]));link.append(copy);list.append(link);
+        }
+        if(!list.children.length)list.append(makeElement('p','admin-command-empty','Halaman tidak ditemukan. Coba kata kunci lain.'));
+      }
+      function openAdminCommand() {
+        if(!isAdminSessionActive())return;adminCommandReturnFocus=document.activeElement;setAdminMenu(false);
+        const dialog=document.getElementById('adminCommandDialog');dialog.hidden=false;
+        document.getElementById('adminWorkspace').inert=true;document.getElementById('adminSidebar').inert=true;
+        const input=document.getElementById('adminCommandInput');input.value='';renderAdminCommands();input.focus();
+      }
+      function trapAdminFocus(event,container) {
+        if(event.key!=='Tab')return;
+        const targets=[...container.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])')].filter(element=>element.getClientRects().length&&element.tabIndex!==-1);
+        if(!targets.length)return;const first=targets[0],last=targets[targets.length-1];
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+      }
+      function showAdminView(name) {
+        if(!validAdminPages.has(name))return;
+        if(name==='product-editor'){
+          const id=new URLSearchParams(window.location.search).get('product');
+          if(id&&String(editingProductId)!==id){const product=products.find(item=>String(item.id)===id);if(product)populateProductEditor(product);else{showToast('Produk yang akan diedit tidak ditemukan.','error');navigateToAdminPage('products');return;}}
+        }
+        const meta=ADMIN_PAGES[name],title=name==='overview'?'Ringkasan toko':name==='product-editor'&&editingProductId!==null?'Edit produk':meta[0];
+        if(getAdminPageFromPath()||adminDashboard.classList.contains('is-open'))document.title=title+' · OmmniMarket Admin';
+        document.querySelectorAll('[id^="adminView-"]').forEach(view=>{view.hidden=view.id!=='adminView-'+name;});
+        document.getElementById('adminPageTitle').textContent=title;document.getElementById('adminPageDescription').textContent=name==='overview'?'Selamat datang kembali. Mari buat toko semakin baik.':meta[1];
+        document.getElementById('adminPageEyebrow').textContent=meta[2].toUpperCase();document.getElementById('adminBreadcrumb').textContent=meta[0];
+        document.getElementById('adminPageActions').hidden=name!=='products';
+        document.querySelectorAll('#adminFeatureNavigation [data-admin-target]').forEach(link=>{if(link.dataset.adminTarget===(name==='product-editor'?'products':name))link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
+        closeAdminCommand(false);setAdminMenu(false);updateAdminNavigation();
+        if(name==='ai-settings')refreshAiConfigStatus();if(name==='overview'){renderAdminOverview();refreshAdminOverviewConnection();}
+      }
+      adminDashboard.addEventListener('click',event=>{
+        const link=event.target.closest('a[data-admin-target]');if(!link||!adminDashboard.contains(link)||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+        event.preventDefault();if(link.hasAttribute('data-admin-new-product'))resetProductForm();navigateToAdminPage(link.dataset.adminTarget);
+      });
+      document.getElementById('adminMenuToggle').addEventListener('click',()=>setAdminMenu(!adminDashboard.classList.contains('admin-menu-open'),true));
+      document.getElementById('adminMenuScrim').addEventListener('click',()=>setAdminMenu(false,true));
+      document.getElementById('adminSidebarClose').addEventListener('click',()=>setAdminMenu(false,true));
+      adminMobileMedia.addEventListener('change',()=>setAdminMenu(false));
+      document.getElementById('adminCommandOpen').addEventListener('click',openAdminCommand);
+      document.getElementById('adminCommandClose').addEventListener('click',()=>closeAdminCommand());
+      document.getElementById('adminCommandInput').addEventListener('input',renderAdminCommands);
+      document.getElementById('adminCommandInput').addEventListener('keydown',event=>{if(event.key==='Enter'){const first=document.querySelector('#adminCommandResults a');if(first){event.preventDefault();first.click();}}});
+      document.getElementById('adminCommandDialog').addEventListener('click',event=>{if(event.target===event.currentTarget)closeAdminCommand();});
+      document.getElementById('adminCommandDialog').addEventListener('keydown',event=>{
+        if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closeAdminCommand();return;}
+        trapAdminFocus(event,event.currentTarget);
+        if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+          const results=[...document.querySelectorAll('#adminCommandResults a')];if(!results.length)return;event.preventDefault();const index=results.indexOf(document.activeElement),direction=event.key==='ArrowDown'?1:-1;results[index<0?(direction===1?0:results.length-1):(index+direction+results.length)%results.length].focus();
+        }
+      });
+      document.getElementById('adminSidebar').addEventListener('keydown',event=>{if(!adminDashboard.classList.contains('admin-menu-open'))return;if(event.key==='Escape'){event.preventDefault();setAdminMenu(false,true);}else trapAdminFocus(event,event.currentTarget);});
+      document.addEventListener('keydown',event=>{if(!isAdminSessionActive())return;if(event.key==='Escape'&&adminDashboard.classList.contains('admin-menu-open')){event.preventDefault();setAdminMenu(false,true);}else if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();if(document.getElementById('adminCommandDialog').hidden)openAdminCommand();else closeAdminCommand();}});
+      window.addEventListener('popstate',()=>{
+        const page=getAdminPageFromPath();if(page&&adminAuthenticated){showAdminView(page);adminDashboard.scrollTo({top:0});document.getElementById('adminPageTitle').focus({preventScroll:true});}
+        else if(!page&&adminAuthenticated){closeAdminCommand(false);setAdminMenu(false);setOverlayOpen(adminDashboard,false);if(notificationTimer)window.clearInterval(notificationTimer);notificationTimer=null;document.title='ommnimarket — Belanja Pilihan, Harga Bersahabat';}
+        else if(page)restoreAdminRoute();
+      });
+      setAdminMenu(false);
+
       aiConfigForm.addEventListener('submit',async event=>{event.preventDefault();const input=document.getElementById('geminiApiKeyInput'),button=document.getElementById('saveGeminiApiKey'),status=document.getElementById('aiConfigStatus');const apiKey=input.value.trim();if(!apiKey)return;button.disabled=true;status.textContent='Menyimpan key secara aman ke server…';try{const response=await backendRequest('/api/admin/ai-config',{method:'PUT',body:JSON.stringify({apiKey})});const data=await readApiJson(response);if(!response.ok||data.ok===false)throw new Error(data.error||'Key gagal disimpan.');input.value='';status.textContent='Gemini aktif untuk pengguna situs; key admin tersimpan di file privat server.';status.dataset.state='ready';showToast('API key Gemini berhasil disimpan di server.');}catch(error){status.textContent=error.message||'Key gagal disimpan.';status.dataset.state='error';}finally{button.disabled=false;}});
       document.getElementById('clearGeminiApiKey').addEventListener('click',async()=>{if(!window.confirm('Hapus API key Gemini yang dimasukkan dari halaman admin?'))return;const button=document.getElementById('clearGeminiApiKey'),status=document.getElementById('aiConfigStatus');button.disabled=true;try{const response=await backendRequest('/api/admin/ai-config',{method:'DELETE'});const data=await readApiJson(response);if(!response.ok||data.ok===false)throw new Error(data.error||'Key gagal dihapus.');status.textContent=data.configured?'Key admin dihapus; konfigurasi environment GEMINI_API_KEY masih aktif.':'API key belum diatur. Masukkan key agar chatbot dapat menjawab.';status.dataset.state=data.configured?'ready':'missing';showToast('Key yang dimasukkan dari halaman admin telah dihapus.');}catch(error){status.textContent=error.message||'Key gagal dihapus.';status.dataset.state='error';}finally{button.disabled=false;}});
       showAdminView('overview');
@@ -4658,7 +5003,7 @@
           resetAdminIdleTimer();
         }
       });
-      document.getElementById('cancelEdit').addEventListener('click', resetProductForm);
+      document.getElementById('cancelEdit').addEventListener('click',()=>{resetProductForm();navigateToAdminPage('products');});
 
       document.getElementById('addStorefrontCategory').addEventListener('click',addStorefrontCategory);
       document.getElementById('storefrontCategoryName').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();addStorefrontCategory();}});
@@ -4735,6 +5080,7 @@
         renderProducts();
         refreshAdmin();
         resetProductForm();
+        navigateToAdminPage('products');
         showToast(isEditing ? 'Produk berhasil diupdate.' : 'Produk berhasil ditambahkan.');
       });
 

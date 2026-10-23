@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
+const { createLoginAudit } = require('./login-audit.cjs');
 
 const ROOT = __dirname;
 const DATA_DIR = process.env.OOMNI_DATA_DIR || path.join(ROOT, '.data');
@@ -60,6 +61,7 @@ const emptyDb = () => ({ version: 1, catalogInitialized: false, products: [], re
 fs.mkdirSync(DATA_DIR, { recursive: true, mode: 0o700 });
 try { fs.chmodSync(DATA_DIR, 0o700); } catch {}
 fs.mkdirSync(BRAND_UPLOAD_DIR, { recursive: true, mode: 0o700 });
+const loginAudit = createLoginAudit({ dataDir:DATA_DIR, proxies:String(process.env.OOMNI_TRUSTED_PROXIES || '').split(',').map(ip => ip.trim()).filter(Boolean) });
 if (!runtimeGeminiApiKey) {
   try {
     const storedGeminiKey = fs.readFileSync(GEMINI_KEY_FILE, 'utf8').trim();
@@ -556,6 +558,7 @@ const server = http.createServer(async (req, res) => {
         try { persistAccounts(); } catch { accounts.pop(); return json(res, 500, { error: 'account storage unavailable' }); }
         const token = crypto.randomBytes(32).toString('base64url');
         userSessions.set(token, { userId: user.id, expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+        loginAudit.record(req,{...safeAccount(user),role:'customer'},body.loginContext,'register');
         return json(res, 201, { ok: true, user: safeAccount(user) }, { 'Set-Cookie': authCookie(req, 'oomni_user', token, 30 * 24 * 60 * 60) });
       }
       if (url.pathname === '/api/accounts/login' && req.method === 'POST') {
@@ -575,6 +578,7 @@ const server = http.createServer(async (req, res) => {
         if (!credentialsMatch) return json(res, 401, { error: 'invalid credentials' });
         const token = crypto.randomBytes(32).toString('base64url');
         userSessions.set(token, { userId: account.id, expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+        loginAudit.record(req,{...safeAccount(account),role:'customer'},body.loginContext);
         return json(res, 200, { ok: true, user: safeAccount(account) }, { 'Set-Cookie': authCookie(req, 'oomni_user', token, 30 * 24 * 60 * 60) });
       }
       if (url.pathname === '/api/accounts/me' && req.method === 'GET') {
@@ -600,6 +604,7 @@ const server = http.createServer(async (req, res) => {
         loginAttempts.delete(clientIp);
         const token = crypto.randomBytes(32).toString('base64url');
         sessions.set(token, Date.now() + 8 * 60 * 60 * 1000);
+        loginAudit.record(req,{id:'admin',username:ADMIN_USERNAME,role:'admin'},body.loginContext);
         const forwardedProto = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim().toLowerCase();
         const originIsHttps = (() => { try { return new URL(req.headers.origin || '').protocol === 'https:'; } catch { return false; } })();
         const secure = forwardedProto === 'https' || originIsHttps;
@@ -672,6 +677,11 @@ const server = http.createServer(async (req, res) => {
         if (!subscription) return json(res, 404, { error: 'subscription not found' });
         subscription.status = body.status; subscription.updatedAt = new Date().toISOString(); persist();
         return json(res, 200, { ok: true, subscription });
+      }
+      if (req.method === 'GET' && url.pathname === '/api/admin/login-activity') {
+        if (!adminSession(req)) return json(res,401,{error:'unauthorized'});
+        res.setHeader('Cache-Control','no-store');
+        return json(res,200,{activities:loginAudit.list(),retentionDays:90,limit:500});
       }
       if (req.method === 'GET' && url.pathname === '/api/admin/state') {
         if (!adminSession(req)) return json(res, 401, { error: 'unauthorized' });

@@ -2,9 +2,10 @@
 
 ## Menjalankan situs dan backend
 
-Aplikasi menggunakan Node.js bawaan tanpa dependensi npm:
+Aplikasi memakai Node.js 24 atau lebih baru. Instal dependensi GeoIP lokal sebelum menjalankan server:
 
 ```sh
+npm ci
 npm start
 ```
 
@@ -69,6 +70,14 @@ Pencarian Gemini meminta JSON dengan `responseJsonSchema`, membatasi thinking ke
 
 ## Workspace admin
 
+Aktivitas login sekarang dicatat server untuk admin dan pelanggan yang berhasil masuk, termasuk login pertama setelah pendaftaran. Halaman **Aktivitas login** menampilkan nama akun/jenis akun, merek dan model perangkat bila dilaporkan browser, browser/OS, waktu server lengkap dalam WIB, serta perkiraan kota/negara dari IP. Merek komputer Windows tidak selalu tersedia; antarmuka menampilkannya sebagai tidak dilaporkan, tanpa menebak merek. Data lama dari localStorage tetap ditampilkan sebagai **Catatan lama**, tanpa mengisi perangkat atau lokasi yang dahulu belum dicatat.
+
+Riwayat disimpan privat dan atomik di `OOMNI_DATA_DIR/login-activity.json`, maksimal 500 login terbaru selama 90 hari. Hanya endpoint admin terautentikasi `/api/admin/login-activity` yang dapat membacanya; data ini tidak masuk katalog publik atau payload sinkronisasi produk. Password, token sesi, dan koordinat GPS tidak dicatat. Kegagalan penyimpanan riwayat tidak menggagalkan autentikasi; file rusak dipertahankan dan halaman aktivitas melaporkan ketidaktersediaan riwayat.
+
+Lokasi dicari secara lokal memakai **geoip-lite** dengan data GeoLite dari [MaxMind](https://www.maxmind.com/); IP login tidak dikirim ke API lokasi lain. Hasil merupakan perkiraan jaringan dan dapat berbeda jika pengguna memakai VPN. Alamat privat/localhost ditandai **Jaringan lokal**. Ikuti [petunjuk geoip-lite](https://github.com/geoip-lite/node-geoip#built-in-updater) untuk memperbarui basis data GeoIP dengan lisensi MaxMind sendiri bila diperlukan.
+
+Jika server berada di balik reverse proxy, isi `OOMNI_TRUSTED_PROXIES` dengan alamat IP proxy langsung yang benar-benar dikelola (dipisahkan koma). Secara default header `X-Forwarded-For` diabaikan. Rantai proxy diperiksa dari kanan ke kiri dan berhenti pada alamat pertama yang tidak dipercaya; jangan mengisi daftar dengan alamat klien umum. Waktu perangkat/zona waktu bukan bukti lokasi fisik. API [Client Hints](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUAData/getHighEntropyValues) hanya dipakai bila tersedia dan tidak menghalangi login bila ditolak atau lambat.
+
 Klik satu kali teks/logo **ommnimarket** di beranda untuk membuka formulir login admin, atau buka `/admin/overview` langsung. Pintasan ini tetap memerlukan username dan password admin. Aktivasi keyboard lewat Enter juga didukung; Ctrl/Cmd+klik membuka alamat admin secara normal di tab baru.
 
 Setiap fitur admin memiliki alamat sendiri di `/admin/`: `overview`, `products`, `product-editor`, `analytics`, `orders`, `consultations`, `reseller-subscriptions`, `customer-service`, `reviews`, `reports`, `history`, `activity`, `ai-settings`, dan `backup`. Sidebar tetap tersedia saat berpindah halaman; pada HP sidebar menjadi menu geser. Browser Back/Forward dan pemuatan langsung URL didukung. Tautan edit produk memakai `/admin/product-editor?product=ID` agar dapat dimuat ulang.
@@ -86,4 +95,4 @@ Hover memakai perpindahan kecil, perubahan border, dan glow sesuai warna toko. M
 
 Mode prefers-reduced-motion dan Save-Data menonaktifkan peningkatan gerak. Perubahan preferensi saat halaman terbuka membatalkan animasi aktif. Konten tidak disembunyikan sambil menunggu observer; kegagalan observer/animasi mengembalikan tampilan dasar. Memakai kontrol langsung menghentikan animasi masuknya, dan penggantian baris inbox yang tidak berubah saat polling tidak mengulang animasi.
 
-Jalankan npm test untuk 30 pengujian, termasuk fallback animasi, perubahan preferensi gerak, elemen dinamis, pelepasan observer, polling inbox, dan akses login melalui logo. Angka 60 FPS merupakan target desain, bukan hasil benchmark di semua perangkat.
+Jalankan npm test untuk pengujian integritas data, autentikasi, riwayat login privat, deteksi perangkat, perlindungan header proxy, retensi, waktu WIB, serta fallback animasi. Angka 60 FPS merupakan target desain, bukan hasil benchmark di semua perangkat.

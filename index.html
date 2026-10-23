@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-YqE15XyiUodN0CuFguVeZ852ad+vGUSCDJT4dTZzaU4='; script-src-attr 'none'; style-src 'sha256-EF1X28PZmV7Iy/i45dvR+GfdOS/7+CuVbRrq4MDn1/o='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-ZcWSqrhoiF9gM3TH7FqOXfyjcfltzNP/EQ0Za8kSIfE='; script-src-attr 'none'; style-src 'sha256-AcHk/smgosfYIGkLrjExu0EHRZLE3uOJwwXrsEhMIe0='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2525,6 +2525,24 @@
     }
     html[data-motion="reduced"],html[data-motion="reduced"] body *,html[data-motion="reduced"] body *::before,html[data-motion="reduced"] body *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
 
+
+    /* modern-motion:styles-end */
+    /* Shared login audit: device, authoritative time, and approximate location. */
+    #adminDashboard .admin-login-activity-list { max-height:none; }
+    #adminDashboard .login-activity-toolbar { display:flex; justify-content:space-between; align-items:center; gap:18px; padding:14px 20px; border-bottom:1px solid var(--a-line); }
+    #adminDashboard .login-activity-toolbar p { margin:0; color:var(--a-muted); font-size:11px; line-height:1.7; }
+    #adminDashboard .login-activity-toolbar button { flex:none; }
+    #adminDashboard .admin-login-event { align-items:start; gap:14px; padding:22px; }
+    #adminDashboard .admin-login-icon { width:40px; height:40px; font-size:23px; }
+    #adminDashboard .login-event-heading { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:0 0 15px; }
+    #adminDashboard .admin-login-message { font-size:13px; }
+    #adminDashboard .login-event-role { padding:3px 8px; border:1px solid #f4dfd4; border-radius:7px; color:#b45237; background:#fff6f0; font-size:9px; }
+    #adminDashboard .login-event-meta { display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:20px; }
+    #adminDashboard .login-event-field { display:flex; flex-direction:column; gap:5px; min-width:0; overflow-wrap:anywhere; }
+    #adminDashboard .login-event-label { color:var(--a-muted); font-size:9px; font-weight:650; letter-spacing:.4px; text-transform:uppercase; }
+    #adminDashboard .login-event-field strong,#adminDashboard .login-event-field time { color:var(--a-ink); font-size:11px; font-weight:600; }
+    #adminDashboard .login-event-field small { color:var(--a-muted); font-size:10px; line-height:1.7; }
+    @media(max-width:760px) { #adminDashboard .login-event-meta { grid-template-columns:1fr; gap:16px; } #adminDashboard .admin-login-event { padding:18px 14px; gap:10px; } #adminDashboard .login-activity-toolbar { align-items:flex-start; flex-direction:column; gap:10px; padding:14px; } }
   </style>
 </head>
 <body class="intro-active">
@@ -2932,6 +2950,7 @@
 <section id="adminView-reseller-subscriptions" class="admin-view" hidden><section class="admin-panel report-admin-panel" aria-labelledby="resellerSubscriptionAdminHeading"><div class="panel-heading"><h3 id="resellerSubscriptionAdminHeading">Pendaftaran Langganan Reseller</h3><span id="resellerSubscriptionCount">0 pendaftar</span></div><div class="admin-report-list" id="resellerSubscriptionList" aria-live="polite"></div></section></section>
 <section id="adminView-activity" class="admin-view" hidden><section class="admin-panel login-activity-panel" aria-labelledby="loginActivityHeading">
         <div class="panel-heading"><h3 id="loginActivityHeading"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m17 5 2 2 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aktivitas Login</h3><span id="loginActivityCount">0 aktivitas login</span></div>
+        <div class="login-activity-toolbar"><p id="loginActivityStatus" role="status">Riwayat login tersimpan di server. Merek perangkat mengikuti informasi yang dilaporkan browser.</p><button class="admin-action" id="refreshLoginActivity" type="button">Muat ulang</button></div>
         <div class="admin-login-activity-list" id="adminLoginActivityList" aria-live="polite"></div>
       </section></section>
       <section id="adminView-backup" class="admin-view" hidden><div class="admin-backup-grid"><article class="admin-backup-card"><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12H3v9h18v-9h-2"/></svg></span><h3>Cadangan lengkap</h3><p>Simpan salinan produk, laporan, ulasan, dan riwayat perubahan. Pulihkan kembali dari file cadangan saat dibutuhkan.</p><div class="admin-backup-actions"><button class="form-submit" id="exportDataButton" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12H3v9h18v-9h-2"/></svg>Ekspor cadangan</button><button class="admin-action" id="importDataButton" type="button">Impor cadangan</button><input id="importDataFile" type="file" accept="application/json,.json" hidden></div></article><article class="admin-backup-card"><span class="admin-task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11h4v9M10 20V4h4v16M16 20v-7h4v7"/></svg></span><h3>Ekspor untuk laporan</h3><p>Unduh data dalam format CSV untuk diolah di spreadsheet atau disimpan sebagai laporan terpisah.</p><div class="admin-backup-actions"><button class="admin-action" id="exportProductsCsv" type="button">Produk CSV</button><button class="admin-action" id="exportReportsCsv" type="button">Laporan CSV</button><button class="admin-action" id="exportReviewsCsv" type="button">Ulasan CSV</button></div></article></div></section>
@@ -3054,6 +3073,7 @@
       let legacyAccountMigrationPromise = null;
       let accountMigrationNotice = '';
       let loginActivity = loadLoginActivity();
+      let serverLoginActivity = [], loginActivityLoading = false, loginActivityRequestId = 0;
       let activeUser = loadActiveUser();
       let backendAdminSession = false;
       let backendAdminToken = (()=>{try{return sessionStorage.getItem('ommni_admin_session')||'';}catch(_){return '';}})();
@@ -3197,7 +3217,7 @@
         updateAccountButtons();updateAccountModalViews();
       }
       async function connectBackendAdmin(username, password) {
-        const response=await backendRequest('/api/admin/login',{method:'POST',body:JSON.stringify({username,password})});
+        const response=await backendRequest('/api/admin/login',{method:'POST',body:JSON.stringify({username,password,loginContext:await collectLoginContext()})});
         if(response.status===401){const error=new Error('Username atau kata sandi admin tidak cocok.');error.code='INVALID_CREDENTIALS';throw error;}
         if(response.status===403) throw new Error('Pemeriksaan origin preview ditolak server. Muat ulang halaman lalu coba lagi.');
         if(!response.ok) throw new Error(`Server login admin gagal (HTTP ${response.status}).`);
@@ -3224,6 +3244,7 @@
             if(changed){renderProducts();refreshAdmin();}
             renderAdminAnalytics();renderDevelopmentOrders();renderDevelopmentConsultations();renderResellerSubscriptions();renderCustomerServiceInquiries();
           }
+          if (typeof refreshServerLoginActivity === 'function') refreshServerLoginActivity(true);
           for(const item of data.notifications||[]){const time=Date.parse(item.createdAt)||0;if(time>lastNotificationTimestamp)lastNotificationTimestamp=time;showToast(item.message||'Aktivitas baru di toko.');}
         } catch(_) {}
       }
@@ -3355,14 +3376,6 @@
         }
       }
 
-      function saveLoginActivity() {
-        try {
-          localStorage.setItem(LOGIN_ACTIVITY_STORAGE_KEY, JSON.stringify(loginActivity));
-          return true;
-        } catch (error) {
-          return false;
-        }
-      }
 
       function restoreAdminLoginGuard() {
         let stored;
@@ -4108,6 +4121,7 @@
         window.clearTimeout(adminIdleTimer);
         adminIdleTimer = null;
         adminAuthenticated = false;
+        loginActivityRequestId++; loginActivityLoading=false; serverLoginActivity=[];
         adminHiddenAt = 0;
         resetProductForm();
         setOverlayOpen(adminDashboard, false);
@@ -4231,9 +4245,8 @@
         activeUser = { id: user.id, username: user.username };
         try { sessionStorage.setItem(ACTIVE_USER_SESSION_KEY, JSON.stringify(activeUser)); } catch (error) { /* Keep this tab signed in if session storage is unavailable. */ }
         updateAccountButtons();
-        const activitySaved = recordUserLogin(user);
         closeAccountModal();
-        showToast(activitySaved ? successMessage : 'Berhasil masuk, tetapi riwayat login tidak dapat disimpan di browser ini.', activitySaved ? 'success' : 'error');
+        showToast(successMessage);
       }
 
       async function logoutAccount() {
@@ -4318,51 +4331,80 @@
         });
       }
 
-      function recordUserLogin(user) {
-        const previous = loginActivity;
-        const activity = {
-          id: createAccountId('login'),
-          userId: user.id,
-          username: user.username,
-          createdAt: new Date().toISOString()
-        };
-        loginActivity = [activity, ...loadLoginActivity()].slice(0, 500);
-        if (!saveLoginActivity()) {
-          loginActivity = previous;
-          return false;
-        }
-        refreshAdminLoginActivity();
-        return true;
+      async function collectLoginContext() {
+        const data = { timeZone:'', platform:navigator.userAgentData?.platform || navigator.platform || '', mobile:Boolean(navigator.userAgentData?.mobile) };
+        try { data.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (_) {}
+        if (typeof navigator.userAgentData?.getHighEntropyValues !== 'function') return data;
+        let timer;
+        try {
+          const hints = await Promise.race([navigator.userAgentData.getHighEntropyValues(['model']),new Promise(resolve => { timer=window.setTimeout(()=>resolve(null),300); })]);
+          if (typeof hints?.model === 'string') data.model = hints.model.slice(0,80);
+        } catch (_) {} finally { window.clearTimeout(timer); }
+        return data;
       }
-
-      function refreshAdminLoginActivity() {
-        loginActivityCount.textContent = `${loginActivity.length} aktivitas login`;
-        adminLoginActivityList.replaceChildren();
-        if (loginActivity.length === 0) {
-          const empty = makeElement('div', 'admin-empty admin-login-empty');
-          empty.append(makeElement('span', '', '👤'), makeElement('div', '', 'Belum ada aktivitas login. Nama pengguna dan waktu masuk akan muncul di sini.'));
-          adminLoginActivityList.append(empty);
-          return;
+      function formatLoginDevice(activity) {
+        const d = activity.device;
+        if (!d) return { title:'Perangkat belum terekam', detail:'Catatan lama dari browser ini' };
+        const title = d.brand && d.model && String(d.model).toLowerCase().startsWith(String(d.brand).toLowerCase()) ? d.model : [d.brand,d.model].filter(Boolean).join(' · ') || [d.type,d.os].filter(Boolean).join(' ');
+        return { title, detail:[d.browser,d.os,!d.brand?'Merek tidak dilaporkan browser':''].filter(Boolean).join(' · ') };
+      }
+      function formatLoginLocation(activity) {
+        const place = activity.location;
+        if (!place) return { title:'Lokasi belum terekam', detail:'Catatan sebelum pembaruan' };
+        if (place.status === 'local') return { title:'Jaringan lokal', detail:'Alamat lokal tidak menunjukkan kota' };
+        if (place.status !== 'estimated') return { title:'Lokasi tidak tersedia', detail:'Alamat IP belum dapat dipetakan' };
+        let country = place.country;
+        try { country = new Intl.DisplayNames(['id-ID'],{type:'region'}).of(place.country); } catch (_) {}
+        return { title:[place.city || place.region,country].filter(Boolean).join(', '), detail:'Perkiraan IP · VPN dapat mengubah lokasi' };
+      }
+      function formatLoginTime(value) {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? 'Waktu tidak tersedia' : new Intl.DateTimeFormat('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23',timeZone:'Asia/Jakarta',timeZoneName:'short'}).format(date);
+      }
+      async function refreshServerLoginActivity(background = false) {
+        if (!backendAdminSession || loginActivityLoading || (background && getAdminPageFromPath() !== 'activity')) return;
+        const requestId = ++loginActivityRequestId;
+        loginActivityLoading = true;
+        const status = document.getElementById('loginActivityStatus');
+        status.textContent = 'Memuat riwayat login dari server…';
+        try {
+          const response = await backendRequest('/api/admin/login-activity',{cache:'no-store'});
+          const data = await readApiJson(response);
+          if (requestId !== loginActivityRequestId || !backendAdminSession) return;
+          if (!response.ok || !Array.isArray(data.activities)) throw new Error();
+          serverLoginActivity = data.activities;
+          status.textContent = 'Semua perangkat · 500 login terbaru, maksimal 90 hari · Waktu WIB · Lokasi perkiraan IP';
+        } catch (_) {
+          if (requestId === loginActivityRequestId) status.textContent = 'Riwayat server belum dapat dimuat. Tekan Muat ulang untuk mencoba lagi.';
+        } finally {
+          if (requestId === loginActivityRequestId) { loginActivityLoading=false; refreshAdminLoginActivity(); }
         }
-        const newestFirst = [...loginActivity].sort((a, b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0));
-        newestFirst.forEach(activity => {
-          const row = makeElement('article', 'admin-login-event');
-          const icon = makeElement('span', 'admin-login-icon');
-          icon.setAttribute('aria-hidden', 'true');
-          icon.append(makeSvgIcon([
-            ['circle', { cx: '12', cy: '8', r: '4', stroke: 'currentColor', 'stroke-width': '1.7' }],
-            ['path', { d: 'M4 20a8 8 0 0 1 16 0', stroke: 'currentColor', 'stroke-width': '1.7', 'stroke-linecap': 'round' }]
-          ]));
-          const content = makeElement('div', 'admin-login-content');
-          content.append(makeElement('p', 'admin-login-message', `${activity.username} telah login di Omni`));
-          const date = new Date(activity.createdAt);
-          const dateLabel = Number.isNaN(date.getTime()) ? 'Waktu tidak tersedia' : new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
-          const time = makeElement('time', 'admin-login-date', dateLabel);
-          if (!Number.isNaN(date.getTime())) time.dateTime = date.toISOString();
-          content.append(time);
-          row.append(icon, content);
-          adminLoginActivityList.append(row);
-        });
+      }
+      function refreshAdminLoginActivity() {
+        const rows = [...serverLoginActivity,...loginActivity.map(row => ({...row,legacy:true}))].sort((a,b)=>(Date.parse(b.createdAt)||0)-(Date.parse(a.createdAt)||0));
+        loginActivityCount.textContent = `${serverLoginActivity.length} login server${loginActivity.length?' · '+loginActivity.length+' catatan lama':''}`;
+        adminLoginActivityList.replaceChildren();
+        if (!rows.length) {
+          const empty = makeElement('div','admin-empty admin-login-empty');
+          empty.append(makeElement('span','','👤'),makeElement('div','',loginActivityLoading?'Memuat aktivitas login…':'Belum ada aktivitas login. Login berikutnya akan mencatat perangkat, waktu, dan perkiraan lokasi.'));
+          adminLoginActivityList.append(empty); return;
+        }
+        for (const activity of rows) {
+          const row = makeElement('article','admin-login-event');
+          const icon = makeElement('span','admin-login-icon',activity.device?.type === 'Ponsel'?'▯':'▣'); icon.setAttribute('aria-hidden','true');
+          const content = makeElement('div','admin-login-content'), heading = makeElement('div','login-event-heading');
+          heading.append(makeElement('strong','admin-login-message',activity.username),makeElement('span','login-event-role',activity.legacy?'Catatan lama':activity.role === 'admin'?'Admin':'Pelanggan'));
+          const meta = makeElement('div','login-event-meta'), device = formatLoginDevice(activity), location = formatLoginLocation(activity);
+          const deviceCell = makeElement('div','login-event-field');
+          deviceCell.append(makeElement('span','login-event-label','Perangkat'),makeElement('strong','',device.title),makeElement('small','',device.detail));
+          const timeCell = makeElement('div','login-event-field'), time = makeElement('time','',formatLoginTime(activity.createdAt));
+          const date = new Date(activity.createdAt); if (!Number.isNaN(date.getTime())) time.dateTime=date.toISOString();
+          timeCell.append(makeElement('span','login-event-label','Waktu login · WIB'),time,makeElement('small','',activity.action === 'register'?'Pendaftaran & login pertama':activity.legacy?'Waktu dari catatan browser':'Waktu dicatat server'));
+          const locationCell = makeElement('div','login-event-field');
+          locationCell.append(makeElement('span','login-event-label','Lokasi perkiraan'),makeElement('strong','',location.title),makeElement('small','',location.detail));
+          if (activity.ip) locationCell.append(makeElement('small','login-event-ip','IP '+activity.ip));
+          meta.append(deviceCell,timeCell,locationCell); content.append(heading,meta); row.append(icon,content); adminLoginActivityList.append(row);
+        }
       }
 
       function toggleReportStatus(reportId) {
@@ -4625,7 +4667,7 @@
         try{const response=await backendRequest('/api/admin/ai-config');if(!response.ok)throw new Error('Tidak dapat memeriksa konfigurasi AI.');const data=await readApiJson(response);status.textContent=data.configured?(data.source==='environment'?'Gemini aktif melalui konfigurasi environment server.':'Gemini aktif untuk pengguna situs; key admin tersimpan di file privat server.'):'API key belum diatur. Masukkan key agar chatbot dapat menjawab.';status.dataset.state=data.configured?'ready':'missing';}
         catch(error){status.textContent=error.message||'Status konfigurasi AI tidak dapat dimuat.';status.dataset.state='error';}
       }
-      const ADMIN_PAGES = {"overview":["Ringkasan","Kendali toko dan aktivitas terbaru.","Workspace"],"products":["Produk","Semua produk, tersusun dan mudah dikelola.","Workspace"],"product-editor":["Tambah produk","Siapkan detail produk sebelum tampil di etalase.","Workspace"],"analytics":["Analitik","Pahami interaksi pengunjung dengan produkmu.","Workspace"],"orders":["Pesanan website","Tinjau dan proses pesanan pembuatan website.","Operasional"],"consultations":["Konsultasi","Tindak lanjuti kebutuhan website pelanggan.","Operasional"],"reseller-subscriptions":["Langganan reseller","Kelola pendaftar dan status langganan reseller.","Operasional"],"customer-service":["Customer Service","Semua pertanyaan dan percakapan AI di satu inbox.","Inbox"],"reviews":["Ulasan","Tinjau ulasan dan dengarkan pelangganmu.","Inbox"],"reports":["Laporan","Pantau masalah dan selesaikan laporan yang masuk.","Inbox"],"history":["Riwayat produk","Lacak perubahan dan pulihkan versi sebelumnya.","Pengelolaan"],"activity":["Aktivitas login","Tinjau aktivitas akun yang tercatat di browser ini.","Pengelolaan"],"ai-settings":["Pengaturan AI","Hubungkan Gemini untuk membantu pelangganmu.","Pengelolaan"],"backup":["Cadangan data","Simpan, ekspor, dan pulihkan data toko.","Pengelolaan"]};
+      const ADMIN_PAGES = {"overview":["Ringkasan","Kendali toko dan aktivitas terbaru.","Workspace"],"products":["Produk","Semua produk, tersusun dan mudah dikelola.","Workspace"],"product-editor":["Tambah produk","Siapkan detail produk sebelum tampil di etalase.","Workspace"],"analytics":["Analitik","Pahami interaksi pengunjung dengan produkmu.","Workspace"],"orders":["Pesanan website","Tinjau dan proses pesanan pembuatan website.","Operasional"],"consultations":["Konsultasi","Tindak lanjuti kebutuhan website pelanggan.","Operasional"],"reseller-subscriptions":["Langganan reseller","Kelola pendaftar dan status langganan reseller.","Operasional"],"customer-service":["Customer Service","Semua pertanyaan dan percakapan AI di satu inbox.","Inbox"],"reviews":["Ulasan","Tinjau ulasan dan dengarkan pelangganmu.","Inbox"],"reports":["Laporan","Pantau masalah dan selesaikan laporan yang masuk.","Inbox"],"history":["Riwayat produk","Lacak perubahan dan pulihkan versi sebelumnya.","Pengelolaan"],"activity":["Aktivitas login","Perangkat, waktu, dan perkiraan lokasi setiap login.","Pengelolaan"],"ai-settings":["Pengaturan AI","Hubungkan Gemini untuk membantu pelangganmu.","Pengelolaan"],"backup":["Cadangan data","Simpan, ekspor, dan pulihkan data toko.","Pengelolaan"]};
       const validAdminPages = new Set(Object.keys(ADMIN_PAGES));
       const adminMobileMedia = window.matchMedia('(max-width:900px)');
       let adminCommandReturnFocus = null;
@@ -4729,7 +4771,7 @@
         document.getElementById('adminPageActions').hidden=name!=='products';
         document.querySelectorAll('#adminFeatureNavigation [data-admin-target]').forEach(link=>{if(link.dataset.adminTarget===(name==='product-editor'?'products':name))link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
         closeAdminCommand(false);setAdminMenu(false);updateAdminNavigation();
-        if(name==='ai-settings')refreshAiConfigStatus();if(name==='overview'){renderAdminOverview();refreshAdminOverviewConnection();}
+        if(name==='activity')refreshServerLoginActivity();if(name==='ai-settings')refreshAiConfigStatus();if(name==='overview'){renderAdminOverview();refreshAdminOverviewConnection();}
       }
       adminDashboard.addEventListener('click',event=>{
         const link=event.target.closest('a[data-admin-target]');if(!link||!adminDashboard.contains(link)||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -4916,7 +4958,7 @@
         try {
           await migrateLegacyAccounts();
           if(requestId!==accountAuthRequestId||!accountOverlay.classList.contains('is-open'))return;
-          const response=await fetch('/api/accounts/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+          const response=await fetch('/api/accounts/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password,loginContext:await collectLoginContext()})});
           const data=await readApiJson(response);
           if(requestId!==accountAuthRequestId||!accountOverlay.classList.contains('is-open'))return;
           if(!response.ok){setAccountFeedback(response.status===401?'Username atau kata sandi tidak cocok. Jika belum punya akun, pilih Buat akun.':response.status===429?'Terlalu banyak percobaan login. Coba lagi beberapa menit lagi.':data.error||'Login belum dapat diproses.',true);accountLoginPassword.value='';if(response.status===401)accountLoginPassword.focus({preventScroll:true});return;}
@@ -4952,7 +4994,7 @@
         try{
           await migrateLegacyAccounts();
           if(requestId!==accountAuthRequestId||!accountOverlay.classList.contains('is-open'))return;
-          const response=await fetch('/api/accounts/register',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+          const response=await fetch('/api/accounts/register',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password,loginContext:await collectLoginContext()})});
           const data=await readApiJson(response);
           if(requestId!==accountAuthRequestId||!accountOverlay.classList.contains('is-open'))return;
           if(!response.ok){setAccountFeedback(response.status===409?'Username sudah digunakan. Silakan pilih username lain.':response.status===429?'Batas pembuatan akun sementara tercapai. Coba lagi nanti.':data.error||'Akun belum dapat dibuat.',true);return;}
@@ -5061,6 +5103,7 @@
           resetAdminIdleTimer();
         }
       });
+      document.getElementById('refreshLoginActivity').addEventListener('click',()=>refreshServerLoginActivity());
       document.getElementById('cancelEdit').addEventListener('click',()=>{resetProductForm();navigateToAdminPage('products');});
 
       document.getElementById('addStorefrontCategory').addEventListener('click',addStorefrontCategory);

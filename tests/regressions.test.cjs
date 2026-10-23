@@ -26,7 +26,7 @@ function backend(t, options = {}) {
   if (!options.dir && !options.fresh) fs.writeFileSync(path.join(dir, 'store.json'), JSON.stringify({ products: [product], catalogInitialized: true }));
   let handler;
   const context = vm.createContext({
-    require: name => name === 'node:http' ? { createServer: fn => { handler = fn; return { listen() {} }; } } : require(name),
+    require: name => name === 'node:http' ? { createServer: fn => { handler = fn; return { listen() {} }; } } : name.startsWith('./') ? require(path.join(root,name)) : require(name),
     __dirname: root, process: { env: { OOMNI_DATA_DIR: dir, ...options.env }, pid: process.pid },
     Buffer, URL, AbortController, setTimeout, clearTimeout, console: { log() {}, error() {} },
     fetch: options.fetch || (async () => { throw new Error('External network disabled during tests'); })
@@ -190,6 +190,31 @@ test('customer account register/login/logout and authorization still work', asyn
   assert.equal((await request('POST', '/api/accounts/login', { username: 'audit_account', password: 'Test-only-482!' })).status, 200);
   assert.equal((await request('POST', '/api/accounts/logout', {}, false, { cookie })).status, 200);
   assert.equal((await request('GET', '/api/accounts/me', undefined, false, { cookie })).status, 401);
+});
+
+test('successful customer and admin logins are private server-side audit events; failed logins are excluded',async t=>{
+  const password='test-audit-only-password',salt='a'.repeat(32),hash=crypto.pbkdf2Sync(password,Buffer.from(salt,'hex'),600000,32,'sha256').toString('hex');
+  const {request}=backend(t,{fresh:true,env:{OOMNI_ADMIN_USERNAME:'audit_admin',OOMNI_ADMIN_SALT:salt,OOMNI_ADMIN_PASSWORD_HASH:hash}});
+  const headers={'user-agent':'Mozilla/5.0 (Linux; Android 10; K) Chrome/140.0.0.0 Mobile Safari/537.36','x-forwarded-for':'8.8.8.8'};
+  const credentials={username:'device_test',password:'Test-only-482!',loginContext:{model:'SM-S918B',timeZone:'Asia/Jakarta'}};
+  assert.equal((await request('POST','/api/accounts/register',credentials,false,headers)).status,201);
+  assert.equal((await request('POST','/api/accounts/login',credentials,false,headers)).status,200);
+  assert.equal((await request('POST','/api/accounts/login',{...credentials,password:'wrong'},false,headers)).status,401);
+  assert.equal((await request('POST','/api/admin/login',{username:'audit_admin',password,loginContext:null},false,headers)).status,200);
+  assert.equal((await request('GET','/api/admin/login-activity')).status,401);
+  const audit=await request('GET','/api/admin/login-activity',undefined,true);
+  assert.equal(audit.status,200);assert.equal(audit.headers['Cache-Control'],'no-store');assert.equal(audit.data.activities.length,3);
+  assert.equal(audit.data.activities[0].role,'admin');assert.equal(audit.data.activities[1].device.brand,'Samsung');assert.equal(audit.data.activities[1].location.status,'local');assert.equal(audit.data.activities[1].ip,'127.0.0.1');
+  assert.doesNotMatch(JSON.stringify(audit.data),/Test-only-482|test-audit-only-password|sessionToken|passwordHash/);
+  assert.equal((await request('GET','/api/products')).data.loginActivity,undefined);
+});
+
+test('client login context fails gracefully and login time is shown in WIB with seconds',async()=>{
+  const ctx=client({navigator:{platform:'Win32',userAgentData:{platform:'Windows',mobile:false,getHighEntropyValues:async()=>{throw Error('not permitted');}}},window:{setTimeout,clearTimeout}},['collectLoginContext','formatLoginTime','formatLoginDevice','formatLoginLocation']);
+  assert.equal((await ctx.collectLoginContext()).platform,'Windows');
+  assert.match(ctx.formatLoginTime('2026-10-23T12:34:56Z'),/19[.:]34[.:]56/);
+  assert.equal(ctx.formatLoginDevice({device:{type:'Komputer',os:'Windows',browser:'Chrome',brand:'',model:''}}).title,'Komputer Windows');
+  assert.match(ctx.formatLoginDevice({}).title,/belum terekam/);assert.match(ctx.formatLoginLocation({}).title,/belum terekam/);
 });
 
 test('Gemini search requests a JSON schema and ignores non-answer parts', async t => {

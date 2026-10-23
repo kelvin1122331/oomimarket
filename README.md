@@ -96,3 +96,9 @@ Hover memakai perpindahan kecil, perubahan border, dan glow sesuai warna toko. M
 Mode prefers-reduced-motion dan Save-Data menonaktifkan peningkatan gerak. Perubahan preferensi saat halaman terbuka membatalkan animasi aktif. Konten tidak disembunyikan sambil menunggu observer; kegagalan observer/animasi mengembalikan tampilan dasar. Memakai kontrol langsung menghentikan animasi masuknya, dan penggantian baris inbox yang tidak berubah saat polling tidak mengulang animasi.
 
 Jalankan npm test untuk pengujian integritas data, autentikasi, riwayat login privat, deteksi perangkat, perlindungan header proxy, retensi, waktu WIB, serta fallback animasi. Angka 60 FPS merupakan target desain, bukan hasil benchmark di semua perangkat.
+
+## Galaksi interaktif pada intro
+
+Latar intro memakai Canvas 2D dengan bintang berlapis, susunan spiral, dan nebula CSS. Gerakan mouse atau sentuhan menggeser kedalaman serta mendorong partikel terdekat; klik/tap pada latar menghasilkan gelombang cahaya. Tombol tetap menerima input normal, tanpa mengambil alih scroll atau gestur browser. Efek hanya berjalan pada intro dan berhenti ketika intro ditutup, modal akun terbuka, atau tab tidak terlihat.
+
+Sprite cahaya dibuat sekali dan dipakai ulang, jumlah bintang dibatasi 280 pada HP dan 600 pada desktop, serta resolusi canvas dibatasi sesuai layar. Save-Data memakai 80 bintang dengan target 24 FPS; mode biasa menargetkan 60 FPS. Prefers-reduced-motion menampilkan galaksi statis, termasuk saat preferensi berubah ketika halaman terbuka. Jika canvas gagal, latar CSS dan semua tombol tetap dapat digunakan. Tidak ada dependensi, aset gambar, atau permintaan jaringan baru. Pengujian mencakup interaksi, kontrol, siklus berhenti/lanjut, fallback, batas resolusi, dan perubahan preferensi gerak.

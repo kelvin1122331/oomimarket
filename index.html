@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-WDv2SpHtdrXL5cnQj5ai0hDytul3OgrUsxheBm+bvFY='; script-src-attr 'none'; style-src 'sha256-QRKM+S2s3tpXhCq/g9l1AnI5DbIKFaBBq43Brmy+e4U='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-f8lichn2htPGvIdefXxUi48x0C6V1W29DEuMT7AVe6A='; script-src-attr 'none'; style-src 'sha256-Zs6d36/ivcaKDTEgBLkAGB8lb5P4kxuLjCz6OVmDdwM='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2461,6 +2461,68 @@
     }
     @media(prefers-reduced-motion:reduce) { #adminDashboard *,#adminDashboard *::before,#adminDashboard *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
 
+    /* Modern motion: visible by default; JavaScript only adds temporary effects. */
+    :root { --motion-ease:cubic-bezier(.22,1,.36,1); --motion-quick:cubic-bezier(.2,.7,.2,1); }
+    :is(.portal-screen,.catalog-screen,.report-screen,#adminDashboard,.overlay,.customer-service-chat) { scroll-behavior:smooth; scroll-padding-block:96px 28px; }
+    :where(button,a,input,textarea,select,summary) { transition-timing-function:var(--motion-quick); }
+    :where(button,.hero-cta,.owner-instagram,.admin-primary-link,.admin-nav-link,.portal-option,.portal-social-menu,.portal-package-option,.reseller-game-card,.webdev-service-card,.product-card,.admin-backup-card,.admin-task) {
+      transition-property:transform,translate,scale,opacity,color,background-color,border-color,box-shadow;
+      transition-duration:220ms;
+      transition-timing-function:var(--motion-quick);
+    }
+    :where(button,a,input,textarea,select,summary):focus-visible { outline:3px solid #f2663c80; outline-offset:4px; }
+    @media(hover:hover) and (pointer:fine) {
+      :where(button:not(:disabled),.hero-cta,.admin-primary-link):hover { translate:0 -2px; }
+      :is(.hero-cta,.welcome-enter,.form-submit,.purchase-confirm,.buy-button,.admin-primary-link):hover { box-shadow:0 8px 24px #ee4d2d30,0 0 0 1px #f2663c45; }
+      :is(.portal-option,.portal-social-menu,.portal-package-option,.reseller-game-card,.webdev-service-card,.admin-backup-card,.admin-task,.owner-instagram):hover { translate:0 -4px; border-color:#f296796b; box-shadow:0 12px 28px #3a221915,0 0 0 1px #f2967926; }
+      .product-card:hover .product-image { transition-duration:650ms; transition-timing-function:var(--motion-ease); }
+      #adminDashboard .admin-nav-link:hover { translate:3px 0; }
+    }
+    :where(button:not(:disabled),.hero-cta,.admin-primary-link):active { scale:.975; transition-duration:100ms; }
+    .site-header,.catalog-topbar,#adminDashboard .dashboard-header { transition:background-color 240ms var(--motion-quick),box-shadow 240ms var(--motion-quick),border-color 240ms var(--motion-quick); }
+    html.motion-scrolled .site-header,.motion-scrolled > .catalog-topbar,#adminDashboard.motion-scrolled .dashboard-header { background-color:#fffffff7; box-shadow:0 7px 24px #2027380c; border-bottom-color:#e8ddd5; }
+    html.motion-ready body.store-entering :is(.site-header,.hero-section,.hero-copy h1,.hero-copy > p,.hero-cta,.trust-row,.home-catalog-summary,.site-footer),
+    html.motion-ready :is(.welcome-copy,.admin-view,.overlay.is-open,.overlay.is-open > [role="dialog"],.catalog-screen.is-open,.report-screen.is-open) { animation:none; }
+    html.motion-ready body.store-entering .store-transition { visibility:hidden; }
+    html.motion-ready .hero-banner::before { translate:0 var(--motion-parallax-y,0px); }
+    html.motion-ready .admin-hero-art { translate:0 var(--motion-parallax-y,0px); }
+    html.motion-ready #adminDashboard .admin-sidebar { transition:transform 330ms var(--motion-ease),visibility 330ms; }
+    html.motion-ready #adminDashboard .admin-menu-scrim { animation:motion-scrim-in 180ms ease-out both; }
+    /* Discrete transitions keep closing surfaces drawable while existing code
+       immediately restores focus, inert state, and all business logic. */
+    @supports(transition-behavior:allow-discrete) {
+      html.motion-ready :is(.overlay,#adminCommandDialog) { transition:opacity 180ms var(--motion-quick),display 180ms allow-discrete; opacity:0; }
+      html.motion-ready .overlay.is-open,html.motion-ready #adminCommandDialog:not([hidden]) { opacity:1; }
+      html.motion-ready .overlay > [role="dialog"],html.motion-ready #adminCommandDialog > .admin-command-panel { translate:0 12px; scale:.985; opacity:0; transition:translate 240ms var(--motion-ease),scale 240ms var(--motion-ease),opacity 180ms var(--motion-quick); }
+      html.motion-ready .overlay.is-open > [role="dialog"],html.motion-ready #adminCommandDialog:not([hidden]) > .admin-command-panel { translate:0 0; scale:1; opacity:1; }
+      html.motion-ready .portal-screen { opacity:1; transition:opacity 180ms var(--motion-quick),display 180ms allow-discrete; }
+      html.motion-ready .portal-screen[hidden] { opacity:0; }
+      @starting-style {
+        html.motion-ready .overlay.is-open,html.motion-ready #adminCommandDialog:not([hidden]),html.motion-ready .portal-screen:not([hidden]) { opacity:0; }
+        html.motion-ready .overlay.is-open > [role="dialog"],html.motion-ready #adminCommandDialog:not([hidden]) > .admin-command-panel { translate:0 12px; scale:.985; opacity:0; }
+      }
+    }
+    .smart-search-status:not([hidden])[data-state=""]::before { display:inline-block; width:9px; height:9px; margin-right:7px; border:1.5px solid #ee4d2d30; border-top-color:var(--orange); border-radius:50%; vertical-align:-1px; animation:motion-loading-spin 800ms linear infinite; content:''; }
+    form button[type="submit"]:disabled { animation:motion-busy-pulse 1200ms ease-in-out infinite; }
+    .customer-service-chat-message { animation:motion-message-in 240ms var(--motion-ease) both; }
+    .portal-webdev-menus .portal-social-menu { padding-right:72px; }
+    @keyframes motion-loading-spin { to { transform:rotate(360deg); } }
+    @keyframes motion-busy-pulse { 50% { opacity:.68; } }
+    @keyframes motion-message-in { from { opacity:0; translate:0 8px; } to { opacity:1; translate:0 0; } }
+    @keyframes motion-scrim-in { from { opacity:0; } to { opacity:1; } }
+    @media(max-width:767px) {
+      html.motion-ready .hero-banner::before,html.motion-ready .admin-hero-art { translate:none; }
+      :is(.portal-screen,.catalog-screen,.report-screen,#adminDashboard) { scroll-padding-top:78px; }
+    }
+    @media(max-width:650px) { .portal-social-menus.portal-webdev-menus { grid-template-columns:1fr; } }
+    @media(prefers-reduced-motion:reduce) {
+      html,body,body *,body *::before,body *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
+      :where(button,a,.portal-option,.portal-social-menu,.portal-package-option,.reseller-game-card,.webdev-service-card,.product-card,.admin-backup-card,.admin-task):is(:hover,:active),
+      html.motion-ready .hero-banner::before,html.motion-ready .admin-hero-art { translate:none !important; scale:none !important; }
+      :is(button,.hero-cta,.product-card,.reseller-game-card,.portal-option,.portal-social-menu,.portal-package-option):is(:hover,:active) { transform:none !important; }
+    }
+    html[data-motion="reduced"],html[data-motion="reduced"] body *,html[data-motion="reduced"] body *::before,html[data-motion="reduced"] body *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
+
   </style>
 </head>
 <body class="intro-active">
@@ -3501,7 +3563,7 @@
         return state;
       }
 
-      function observeProductCardReveal(card,index){if(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver'in window))return;const columns=window.matchMedia('(max-width:767px)').matches?2:4;card.classList.add('product-card-reveal-pending');card.style.setProperty('--scroll-reveal-delay',`${(index%columns)*85}ms`);if(!productCardRevealObserver){productCardRevealObserver=new IntersectionObserver((entries,observer)=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const target=entry.target;target.classList.add('product-card-revealed');target.addEventListener('animationend',event=>{if(event.animationName==='product-card-scroll-in'){target.classList.remove('product-card-reveal-pending','product-card-revealed');target.style.removeProperty('--scroll-reveal-delay');}},{once:true});observer.unobserve(target);});},{threshold:.12,rootMargin:'0px 0px -35px 0px'});}productCardRevealObserver.observe(card);}
+      function observeProductCardReveal(card,index) { /* Registered by the shared motion observer; content stays visible by default. */ }
       function createProductCard(product, index) {
         const card = makeElement('article', 'product-card');
         if ('IntersectionObserver' in window) { const observer = new IntersectionObserver(entries => { if (entries.some(entry => entry.isIntersecting)) { trackAnalytics('view', product); observer.disconnect(); } }); observer.observe(card); }
@@ -3991,7 +4053,7 @@
         window.setTimeout(finishEntering, 800);
       }
 
-      function animateWelcomeTitle(){const first=document.querySelector('#welcomeTitle .welcome-title-first'),second=document.querySelector('#welcomeTitle .welcome-title-second');if(!first||!second||typeof first.animate!=='function')return;first.getAnimations().forEach(animation=>animation.cancel());second.getAnimations().forEach(animation=>animation.cancel());const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;first.animate(reduceMotion?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(22px) scale(.96)',filter:'blur(6px)'},{opacity:1,transform:'translateY(-2px) scale(1.015)',filter:'blur(0)',offset:.72},{opacity:1,transform:'translateY(0) scale(1)',filter:'blur(0)'}],{duration:reduceMotion?320:850,delay:100,easing:'cubic-bezier(.18,.75,.22,1)',fill:'both'});second.animate([{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 -2% 0 0)'}],{duration:reduceMotion?850:1200,delay:reduceMotion?180:480,easing:'steps(11,end)',fill:'both'});if(!reduceMotion)second.animate([{backgroundPosition:'0% 50%'},{backgroundPosition:'100% 50%'},{backgroundPosition:'0% 50%'}],{duration:1500,delay:1750,easing:'ease-in-out',fill:'forwards'});}
+      function animateWelcomeTitle() { /* Registered by the shared motion observer after bootstrap. */ }
       function initializeWelcome() {
         if(getAdminPageFromPath()){welcomeIntro.hidden=true;welcomeIntro.inert=true;welcomeIntro.setAttribute('aria-hidden','true');document.body.classList.remove('intro-active');return;}
         welcomeIntro.hidden = false;
@@ -5093,6 +5155,203 @@
       bootstrapBackend().then(()=>restoreAdminRoute());
       bootstrapAccountSystem();
     })();
+
+    /* modern-motion:start */
+    // Modern motion is independent of application state and never hides pending content.
+    (() => {
+      'use strict';
+      const root = document.documentElement;
+      const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const desktop = window.matchMedia('(min-width:768px)');
+      const saveData = Boolean(window.navigator.connection?.saveData);
+      const targets = [
+        '.header-inner', '.catalog-topbar > .page-container', '.dashboard-header > div',
+        '.welcome-top-actions', '#welcomeTitle > span', '.welcome-actions > *',
+        '.hero-copy > *', '.home-contact-copy > *', '.home-contact-actions > *', '.footer-inner > *',
+        '.portal-content > h1', '.portal-content > p', '.portal-content > .section-kicker',
+        '.portal-detail-content > h1', '.portal-detail-content > p', '.portal-detail-content > .section-kicker',
+        '.portal-option', '.portal-social-menu', '.portal-package-option', '.portal-package-detail-header',
+        '.portal-package-feature', '.portal-package-fit', '.reseller-game-card', '.reseller-website-unavailable',
+        '.webdev-service-card', '.webdev-price-card', '.catalog-heading', '.catalog-toolbar', '.catalog-category-strip',
+        '.product-card', '.product-image', '.empty-state', '.report-heading > *', '.report-form-card', '.report-info-card',
+        '.admin-page-header > div > *', '.admin-page-actions', '.admin-hero-copy > *', '.admin-hero-art',
+        '.admin-stat', '.stat-card', '.admin-panel', '.admin-backup-card', '.admin-task', '.admin-integration',
+        '.admin-item', '.admin-report-item', '.admin-empty', '.development-order-admin-card', '.customer-service-admin-card',
+        '.login-activity-item', '#adminSidebar .admin-workspace-brand', '#adminFeatureNavigation .admin-nav-link',
+        '.overlay [role="dialog"] > h2', '.overlay .purchase-modal-intro', '.overlay .account-modal-intro',
+        '.admin-command-result', '.development-order-success'
+      ].join(',');
+      const pages = '.portal-screen,.catalog-screen,.report-screen,.overlay,#adminDashboard,.admin-view,#adminCommandDialog,.portal-package-detail,.webdev-service-details,#resellerGamePackages';
+      const state = new WeakMap(), observed = new Set(), animations = new Map(), openState = new WeakMap();
+      const renderedRows = new WeakMap();
+      const liveRows = '.admin-item,.admin-report-item,.development-order-admin-card,.customer-service-admin-card,.login-activity-item';
+      let observer, mutations, frame = 0, flushTimer = 0, stopped = false;
+      let introWasOpen = document.body.classList.contains('intro-active');
+      const additions = new Set(), activations = new Set();
+      const decorations = [...document.querySelectorAll('.hero-banner,.admin-hero-art')];
+      const enabled = () => !stopped && !preference.matches && !saveData;
+      const available = element => element.isConnected && !element.closest('[hidden],[inert],[aria-hidden="true"]') &&
+        !(document.body.classList.contains('intro-active') && element.closest('#homeView,.site-header,.site-footer'));
+
+      function cancelAnimations(container) {
+        for (const [animation, element] of animations) {
+          if (!container || container === element || container.contains(element)) {
+            animation.cancel(); animations.delete(animation);
+          }
+        }
+      }
+      function clearParallax() {
+        for (const element of decorations) element.style.removeProperty('--motion-parallax-y');
+      }
+      function failOpen() {
+        stopped = true;
+        observer?.disconnect(); mutations?.disconnect();
+        observed.clear(); cancelAnimations(); clearParallax();
+        window.cancelAnimationFrame(frame); window.clearTimeout(flushTimer);
+        root.classList.remove('motion-ready'); root.dataset.motion = 'unavailable';
+      }
+      function play(element, delay) {
+        if (!enabled() || !available(element) || element.contains(document.activeElement)) return;
+        const image = element.matches('img,.admin-hero-art');
+        const header = element.matches('.header-inner,.catalog-topbar > .page-container,.dashboard-header > div');
+        const text = element.matches('h1,h2,h3,p,.section-kicker,.admin-page-eyebrow');
+        const opacity = window.getComputedStyle(element).opacity;
+        const frames = image ? [{opacity:0,scale:'.97'},{opacity,scale:'1'}] :
+          [{opacity:0,translate:header?'0 -8px':text?'0 12px':'0 20px'},{opacity,translate:'0 0'}];
+        try {
+          const animation = element.animate(frames, { duration:image?680:header?460:600, delay:header?0:delay,
+            easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards' });
+          animations.set(animation, element);
+          const clean = () => { animations.delete(animation); };
+          animation.onfinish = clean; animation.oncancel = clean;
+        } catch (_) { failOpen(); }
+      }
+      function rowHistory(element) {
+        if (!element.matches(liveRows) || !element.parentElement) return null;
+        let history = renderedRows.get(element.parentElement);
+        if (!history) { history = new Set(); renderedRows.set(element.parentElement,history); }
+        return {history,key:element.className+'|'+element.textContent};
+      }
+      function reveal(entries) {
+        try {
+          const visible = entries.filter(entry => entry.isIntersecting && available(entry.target))
+            .sort((a,b) => a.boundingClientRect.top-b.boundingClientRect.top || a.boundingClientRect.left-b.boundingClientRect.left);
+          visible.forEach((entry,index) => {
+            const element = entry.target, item = state.get(element);
+            if (!item || item.seen) return;
+            item.seen = true; observer.unobserve(element); observed.delete(element);
+            const row = rowHistory(element);
+            if (row) { if (row.history.size >= 500) row.history.clear(); row.history.add(row.key); }
+            const heroOrder = element.closest('.hero-copy,.admin-hero-copy,#welcomeTitle');
+            const delay = heroOrder ? 90 + Math.min([...element.parentElement.children].indexOf(element),4)*65 : Math.min(index,5)*45;
+            play(element,delay);
+          });
+        } catch (_) { failOpen(); }
+      }
+      function register(element, replay = false) {
+        if (!(element instanceof window.HTMLElement)) return;
+        let item = state.get(element);
+        if (!item) { item = { seen:false }; state.set(element,item); element.dataset.motionReveal = element.matches('img,.admin-hero-art')?'zoom':'rise'; }
+        // Polling may replace unchanged inbox rows. Keep them still until a real
+        // change or the next page visit, rather than replaying on every poll.
+        if (!replay && !item.seen) { const row = rowHistory(element); if (row?.history.has(row.key)) item.seen = true; }
+        if (replay) { cancelAnimations(element); item.seen = false; observer.unobserve(element); observed.delete(element); }
+        if (!item.seen && enabled() && !observed.has(element)) { observer.observe(element); observed.add(element); }
+      }
+      function scan(container, replay = false) {
+        if (!(container instanceof window.Element)) return;
+        if (container.matches(targets)) register(container,replay);
+        for (const element of container.querySelectorAll(targets)) register(element,replay);
+      }
+      function isOpen(element) {
+        if (element.hidden || element.getAttribute('aria-hidden') === 'true') return false;
+        return !element.matches('.overlay,#adminDashboard') || element.classList.contains('is-open');
+      }
+      function updateParallax() {
+        frame = 0;
+        if (!enabled() || !desktop.matches || document.visibilityState === 'hidden') { clearParallax(); return; }
+        const height = window.innerHeight;
+        const updates = decorations.filter(available).map(element => ({element,rect:element.getBoundingClientRect()}));
+        for (const {element,rect} of updates) {
+          if (rect.bottom <= 0 || rect.top >= height) continue;
+          const offset = Math.max(-10,Math.min(10,(height/2-rect.top-rect.height/2)*.025));
+          element.style.setProperty('--motion-parallax-y',offset.toFixed(2)+'px');
+        }
+      }
+      function scheduleParallax() {
+        if (enabled() && desktop.matches && !frame && document.visibilityState !== 'hidden') frame = window.requestAnimationFrame(updateParallax);
+      }
+      function onScroll(event) {
+        const surface = event.target === document ? document.scrollingElement : event.target;
+        if (surface instanceof window.Element) surface.classList.toggle('motion-scrolled',surface.scrollTop>12);
+        scheduleParallax();
+      }
+      function flush() {
+        flushTimer = 0;
+        try {
+          for (const element of observed) if (!element.isConnected) { observer.unobserve(element); observed.delete(element); }
+          for (const [animation,element] of animations) if (!element.isConnected) { animation.cancel(); animations.delete(animation); }
+          for (const element of additions) if (element.isConnected) scan(element);
+          for (const element of activations) if (element.isConnected) scan(element,true);
+          additions.clear(); activations.clear(); scheduleParallax();
+        } catch (_) { failOpen(); }
+      }
+      function onMutations(records) {
+        for (const record of records) {
+          if (record.type === 'childList') {
+            for (const node of record.addedNodes) if (node instanceof window.Element) additions.add(node);
+          } else {
+            const element = record.target;
+            if (element === document.body) {
+              const introOpen = element.classList.contains('intro-active');
+              if (introWasOpen && !introOpen) for (const part of document.querySelectorAll('.site-header,#homeView,.site-footer')) activations.add(part);
+              introWasOpen = introOpen;
+            }
+            if (element.matches(pages)) {
+              const open = isOpen(element), previous = openState.get(element);
+              openState.set(element,open);
+              if (open && previous !== true) {
+                activations.add(element);
+                if (element.matches('.admin-view')) activations.add(document.getElementById('adminPageHeader'));
+              }
+              if (!open && previous === true) cancelAnimations(element);
+            }
+            if (record.attributeName === 'hidden' && !element.hidden) additions.add(element);
+          }
+        }
+        if (!flushTimer && !stopped) flushTimer = window.setTimeout(flush,0);
+      }
+      function onPreference() {
+        cancelAnimations(); observer.disconnect(); observed.clear(); clearParallax();
+        if (frame) window.cancelAnimationFrame(frame); frame = 0;
+        root.dataset.motion = enabled()?'ready':'reduced';
+        if (enabled()) { scan(document.body); scheduleParallax(); }
+      }
+      try {
+        if (!('IntersectionObserver' in window) || !('MutationObserver' in window) || typeof window.HTMLElement.prototype.animate !== 'function') return;
+        observer = new window.IntersectionObserver(reveal,{threshold:.08,rootMargin:'0px 0px -20px 0px'});
+        mutations = new window.MutationObserver(onMutations);
+        for (const element of document.querySelectorAll(pages)) openState.set(element,isOpen(element));
+        root.classList.add('motion-ready'); root.dataset.motion = enabled()?'ready':'reduced';
+        scan(document.body);
+        mutations.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','class','aria-hidden']});
+        document.addEventListener('scroll',onScroll,{passive:true,capture:true});
+        // Stop an entrance effect as soon as its controls are used.
+        for (const type of ['focusin','pointerdown']) document.addEventListener(type,event => {
+          for (const [animation,element] of animations) if (element.contains(event.target)) { animation.cancel(); animations.delete(animation); }
+        },{passive:true,capture:true});
+        preference.addEventListener('change',onPreference);
+        desktop.addEventListener('change',() => { clearParallax(); scheduleParallax(); });
+        window.addEventListener('resize',scheduleParallax,{passive:true});
+        document.addEventListener('visibilitychange',() => {
+          if (document.visibilityState === 'hidden') { cancelAnimations(); clearParallax(); if (frame) window.cancelAnimationFrame(frame); frame = 0; }
+          else scheduleParallax();
+        });
+        onScroll({target:document}); scheduleParallax();
+      } catch (_) { failOpen(); }
+    })();
+
+    /* modern-motion:end */
   </script>
 </body>
 </html>

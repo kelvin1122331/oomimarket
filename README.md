@@ -74,3 +74,14 @@ Setiap fitur admin memiliki alamat sendiri di `/admin/`: `overview`, `products`,
 Form tambah/edit produk dipisahkan dari daftar produk. Pesanan dan konsultasi website juga mempunyai halaman terpisah. Ekspor/impor lengkap dan unduhan CSV berada di halaman Cadangan data. Pencarian fitur dapat dibuka dari ikon pencarian atau `Ctrl/Cmd+K`, dipilih dengan keyboard, dan ditutup dengan Escape. Angka ringkasan, badge inbox, status Gemini, dan grafik interaksi menggunakan data yang tersimpan tanpa angka contoh.
 
 Perubahan tampilan dibatasi ke workspace admin melalui selector `#adminDashboard`; markup halaman pengunjung dipertahankan. Pengujian mencakup konsistensi 14 rute, pemuatan langsung, pemisahan formulir produk, dan ketetapan markup pengunjung, selain seluruh regresi backend.
+
+
+## Animasi UI
+
+Seluruh tampilan publik dan 14 halaman admin memakai CSS transitions, Web Animations API, dan satu Intersection Observer bersama tanpa dependensi animasi eksternal. Judul, kartu, gambar, serta daftar muncul bertahap; kartu baru dari render dinamis ikut terdaftar. Navigasi tetap memakai scroll browser asli, termasuk layar layanan, katalog, formulir laporan, dan admin yang mempunyai area scroll sendiri.
+
+Hover memakai perpindahan kecil, perubahan border, dan glow sesuai warna toko. Modal dan pencarian admin mendukung transisi buka/tutup melalui transition-behavior: allow-discrete pada browser yang mendukung; browser lain tetap memakai perilaku dasar. Parallax dibatasi 10 px pada dekorasi desktop/tablet, dimatikan di HP, dan diperbarui hanya ketika ada scroll atau resize. Animasi memakai opacity, translate, dan scale; tidak ada scroll hijacking atau loop render saat halaman diam.
+
+Mode prefers-reduced-motion dan Save-Data menonaktifkan peningkatan gerak. Perubahan preferensi saat halaman terbuka membatalkan animasi aktif. Konten tidak disembunyikan sambil menunggu observer; kegagalan observer/animasi mengembalikan tampilan dasar. Memakai kontrol langsung menghentikan animasi masuknya, dan penggantian baris inbox yang tidak berubah saat polling tidak mengulang animasi.
+
+Jalankan npm test untuk 29 pengujian, termasuk fallback animasi, perubahan preferensi gerak, elemen dinamis, pelepasan observer, dan polling inbox. Angka 60 FPS merupakan target desain, bukan hasil benchmark di semua perangkat.

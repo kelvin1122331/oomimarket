@@ -69,6 +69,8 @@ Pencarian Gemini meminta JSON dengan `responseJsonSchema`, membatasi thinking ke
 
 ## Workspace admin
 
+Klik satu kali teks/logo **ommnimarket** di beranda untuk membuka formulir login admin, atau buka `/admin/overview` langsung. Pintasan ini tetap memerlukan username dan password admin. Aktivasi keyboard lewat Enter juga didukung; Ctrl/Cmd+klik membuka alamat admin secara normal di tab baru.
+
 Setiap fitur admin memiliki alamat sendiri di `/admin/`: `overview`, `products`, `product-editor`, `analytics`, `orders`, `consultations`, `reseller-subscriptions`, `customer-service`, `reviews`, `reports`, `history`, `activity`, `ai-settings`, dan `backup`. Sidebar tetap tersedia saat berpindah halaman; pada HP sidebar menjadi menu geser. Browser Back/Forward dan pemuatan langsung URL didukung. Tautan edit produk memakai `/admin/product-editor?product=ID` agar dapat dimuat ulang.
 
 Form tambah/edit produk dipisahkan dari daftar produk. Pesanan dan konsultasi website juga mempunyai halaman terpisah. Ekspor/impor lengkap dan unduhan CSV berada di halaman Cadangan data. Pencarian fitur dapat dibuka dari ikon pencarian atau `Ctrl/Cmd+K`, dipilih dengan keyboard, dan ditutup dengan Escape. Angka ringkasan, badge inbox, status Gemini, dan grafik interaksi menggunakan data yang tersimpan tanpa angka contoh.
@@ -84,4 +86,4 @@ Hover memakai perpindahan kecil, perubahan border, dan glow sesuai warna toko. M
 
 Mode prefers-reduced-motion dan Save-Data menonaktifkan peningkatan gerak. Perubahan preferensi saat halaman terbuka membatalkan animasi aktif. Konten tidak disembunyikan sambil menunggu observer; kegagalan observer/animasi mengembalikan tampilan dasar. Memakai kontrol langsung menghentikan animasi masuknya, dan penggantian baris inbox yang tidak berubah saat polling tidak mengulang animasi.
 
-Jalankan npm test untuk 29 pengujian, termasuk fallback animasi, perubahan preferensi gerak, elemen dinamis, pelepasan observer, dan polling inbox. Angka 60 FPS merupakan target desain, bukan hasil benchmark di semua perangkat.
+Jalankan npm test untuk 30 pengujian, termasuk fallback animasi, perubahan preferensi gerak, elemen dinamis, pelepasan observer, polling inbox, dan akses login melalui logo. Angka 60 FPS merupakan target desain, bukan hasil benchmark di semua perangkat.

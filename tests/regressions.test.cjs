@@ -252,9 +252,21 @@ test('admin navigation has real links, dedicated panels and separate product edi
   assert.ok(admin.includes('aria-controls="adminSidebar"')); assert.ok(admin.includes('id="adminCommandInput"'));
 });
 
-test('admin redesign preserves the complete visitor-facing HTML', () => {
-  const visitor = html.slice(html.indexOf('<body'), html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'));
+test('visitor HTML stays unchanged apart from the requested direct admin logo link', () => {
+  const visitor = html.slice(html.indexOf('<body'), html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'))
+    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"');
   assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '5ff19c8e3b35521e61fbe00aee96887c8dce4921bb34dc89c48cd5c0f144b6e8');
+});
+
+test('one logo click or keyboard activation opens admin login and modifier clicks keep native navigation', () => {
+  assert.match(html, /id="brandLogo" href="\/admin\/overview" aria-label="Buka login admin ommnimarket"/);
+  let opened = 0, prevented = 0;
+  const ctx = client({ openLogin() { opened += 1; } }, ['openAdminFromLogo']);
+  const event = {button:0,defaultPrevented:false,preventDefault() { prevented += 1; }};
+  ctx.openAdminFromLogo(event); assert.equal(opened,1); assert.equal(prevented,1);
+  ctx.openAdminFromLogo({...event,detail:0}); assert.equal(opened,2); assert.equal(prevented,2);
+  for (const flags of [{ctrlKey:true},{metaKey:true},{shiftKey:true},{altKey:true},{button:1},{defaultPrevented:true}]) ctx.openAdminFromLogo({...event,...flags});
+  assert.equal(opened,2); assert.equal(prevented,2);
 });
 
 test('product edit deep links restore the selected product and reject missing IDs', () => {

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-f8lichn2htPGvIdefXxUi48x0C6V1W29DEuMT7AVe6A='; script-src-attr 'none'; style-src 'sha256-wcAiLyFmqBZGVYml5u2PyycRy3RT3gFEatdz5P8/qdQ='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-YqE15XyiUodN0CuFguVeZ852ad+vGUSCDJT4dTZzaU4='; script-src-attr 'none'; style-src 'sha256-wcAiLyFmqBZGVYml5u2PyycRy3RT3gFEatdz5P8/qdQ='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2550,7 +2550,7 @@
   </div>
   <header class="site-header" id="top">
     <div class="header-inner">
-      <a class="brand" id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda">
+      <a class="brand" id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket">
         <span class="brand-name">ommni<span>market</span></span>
       </a>
       <div class="search-wrap">
@@ -3076,8 +3076,6 @@
       let lastNotificationTimestamp = Date.now() - 60000;
       let notificationTimer = null;
       let editingProductId = null;
-      let logoClickCount = 0;
-      let lastLogoClick = 0;
       let toastTimer;
       let welcomeLeaving = false;
       let isCatalogOpen = false;
@@ -4766,16 +4764,12 @@
       document.getElementById('clearGeminiApiKey').addEventListener('click',async()=>{if(!window.confirm('Hapus API key Gemini yang dimasukkan dari halaman admin?'))return;const button=document.getElementById('clearGeminiApiKey'),status=document.getElementById('aiConfigStatus');button.disabled=true;try{const response=await backendRequest('/api/admin/ai-config',{method:'DELETE'});const data=await readApiJson(response);if(!response.ok||data.ok===false)throw new Error(data.error||'Key gagal dihapus.');status.textContent=data.configured?'Key admin dihapus; konfigurasi environment GEMINI_API_KEY masih aktif.':'API key belum diatur. Masukkan key agar chatbot dapat menjawab.';status.dataset.state=data.configured?'ready':'missing';showToast('Key yang dimasukkan dari halaman admin telah dihapus.');}catch(error){status.textContent=error.message||'Key gagal dihapus.';status.dataset.state='error';}finally{button.disabled=false;}});
       showAdminView('overview');
 
-      document.getElementById('brandLogo').addEventListener('click', () => {
-        const now = Date.now();
-        if (now - lastLogoClick > 2000) logoClickCount = 0;
-        lastLogoClick = now;
-        logoClickCount += 1;
-        if (logoClickCount >= 3) {
-          logoClickCount = 0;
-          openLogin();
-        }
-      });
+      function openAdminFromLogo(event) {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        openLogin();
+      }
+      document.getElementById('brandLogo').addEventListener('click', openAdminFromLogo);
 
       document.getElementById('heroExploreButton').addEventListener('click', event => { event.preventDefault(); openPortal(); });
       document.getElementById('portalBackHome').addEventListener('click', closePortal);

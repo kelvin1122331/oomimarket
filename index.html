@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-f8lichn2htPGvIdefXxUi48x0C6V1W29DEuMT7AVe6A='; script-src-attr 'none'; style-src 'sha256-Zs6d36/ivcaKDTEgBLkAGB8lb5P4kxuLjCz6OVmDdwM='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-f8lichn2htPGvIdefXxUi48x0C6V1W29DEuMT7AVe6A='; script-src-attr 'none'; style-src 'sha256-wcAiLyFmqBZGVYml5u2PyycRy3RT3gFEatdz5P8/qdQ='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2463,6 +2463,8 @@
 
     /* Modern motion: visible by default; JavaScript only adds temporary effects. */
     :root { --motion-ease:cubic-bezier(.22,1,.36,1); --motion-quick:cubic-bezier(.2,.7,.2,1); }
+    /* Decorative overflow must not become a scroll container when a CTA gains focus. */
+    .hero-banner { overflow:clip; }
     :is(.portal-screen,.catalog-screen,.report-screen,#adminDashboard,.overlay,.customer-service-chat) { scroll-behavior:smooth; scroll-padding-block:96px 28px; }
     :where(button,a,input,textarea,select,summary) { transition-timing-function:var(--motion-quick); }
     :where(button,.hero-cta,.owner-instagram,.admin-primary-link,.admin-nav-link,.portal-option,.portal-social-menu,.portal-package-option,.reseller-game-card,.webdev-service-card,.product-card,.admin-backup-card,.admin-task) {

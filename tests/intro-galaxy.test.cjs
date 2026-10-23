@@ -10,7 +10,7 @@ function browser(options = {}) {
   const frames = new Map(), observers = [], windowEvents = new Map(), documentEvents = new Map();
   let frameId = 0, bounds = {left:0,top:0,width:options.width || 1200,height:800};
   const context = { positions:[], throws:false, setTransform(){}, clearRect(){if(this.throws)throw Error('GPU lost');this.positions=[];},
-    createRadialGradient(){return {addColorStop(){}};}, fillRect(...args){this.positions.push(args);}, drawImage(...args){this.positions.push(args.slice(1));}, beginPath(){},arc(){},stroke(){} };
+    createRadialGradient(){return {addColorStop(){}};}, fillRect(...args){this.positions.push(args);}, drawImage(...args){this.positions.push(args.slice(1));}, beginPath(){},arc(){},ellipse(){},stroke(){} };
   class Element {
     constructor(){this.dataset={};this.events=new Map();this.children=[];this.hidden=false;this.classes=new Set();this.classList={contains:c=>this.classes.has(c)};}
     setAttribute(){} getBoundingClientRect(){return bounds;}
@@ -50,7 +50,27 @@ test('pointer motion and touch presses move particles without cancelling native 
   assert.equal(b.emit('pointerdown',{pointerType:'touch'}),false);assert.equal(b.canvas.dataset.galaxyInteractions,'1');
   b.emit('pointerdown',{target:{closest:()=>({})}});b.emit('pointerdown',{button:2});
   assert.equal(b.canvas.dataset.galaxyInteractions,'1');
-  for(const type of ['pointermove','pointerdown','pointerleave','pointercancel'])assert.equal(b.host.events.get(type).settings.passive,true);
+  for(const type of ['pointermove','pointerdown','pointerleave','pointercancel','pointerup'])assert.equal(b.host.events.get(type).settings.passive,true);
+});
+
+test('touch and pen release stop repulsion while mouse release preserves hover interaction',()=>{
+  function afterRelease(releaseType){
+    const b=browser();b.step(20);
+    // The centered pointer removes camera movement from this comparison.
+    b.emit('pointerdown',{clientX:600,clientY:400,pointerType:'touch'});
+    b.step(40);b.step(60);
+    if(releaseType==='leave')b.emit('pointerleave');
+    else if(releaseType)assert.equal(b.emit('pointerup',{pointerType:releaseType}),false);
+    const positions=[];
+    for(const time of [80,100,120,140,160]){b.step(time);positions.push(JSON.stringify(b.context.positions));}
+    assert.equal(b.frames.size,1);
+    return positions;
+  }
+  const left=afterRelease('leave'), held=afterRelease();
+  assert.notDeepEqual(left,held,'a held pointer must continue affecting nearby particles');
+  assert.deepEqual(afterRelease('touch'),left,'lifting a finger must behave like leaving the canvas');
+  assert.deepEqual(afterRelease('pen'),left,'lifting a pen must also release particle repulsion');
+  assert.deepEqual(afterRelease('mouse'),held,'mouse hover should remain interactive after a click');
 });
 
 test('hidden intro, open modal, leaving state and background tabs stop frames and resume once',()=>{

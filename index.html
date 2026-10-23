@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-z2N1Czg2J2V9EwKDrATHjIXjVSzVrPbJznIxL2pjeY0='; script-src-attr 'none'; style-src 'sha256-9/oLgNxOfG4VGpJK0I40/PdX1T04f78k+6kmBVi4Zy4='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-7yplxttgHsyOILVlOHeAREqAETvITHDUnDDwY19mXok='; script-src-attr 'none'; style-src 'sha256-ibF7FUHIop6Jvkv+sLYepZ1QAAbFAk/RzS4yA/byMKk='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2544,14 +2544,28 @@
     #adminDashboard .login-event-field small { color:var(--a-muted); font-size:10px; line-height:1.7; }
     @media(max-width:760px) { #adminDashboard .login-event-meta { grid-template-columns:1fr; gap:16px; } #adminDashboard .admin-login-event { padding:18px 14px; gap:10px; } #adminDashboard .login-activity-toolbar { align-items:flex-start; flex-direction:column; gap:10px; padding:14px; } }
     /* intro-galaxy:styles-start */
-    #welcomeIntro { background:#070914; }
-    #welcomeIntro::before { z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none; background:radial-gradient(ellipse at 23% 28%,#542cb43d,transparent 46%),radial-gradient(ellipse at 78% 67%,#154e8038,transparent 45%),radial-gradient(ellipse at 58% 47%,#b4564a20,transparent 40%); }
-    #welcomeIntro::after { position:absolute; z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none; background:radial-gradient(ellipse at 50% 49%,#0609143b 0%,transparent 48%),linear-gradient(180deg,#02040b20,transparent 28%,transparent 75%,#02040b45); content:''; pointer-events:none; }
+    #welcomeIntro { isolation:isolate; place-items:safe center; background:#060812; padding:100px 32px 64px; padding-top:max(100px,calc(env(safe-area-inset-top) + 88px)); padding-bottom:max(64px,calc(env(safe-area-inset-bottom) + 32px)); }
+    #welcomeIntro::before { z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none; background:radial-gradient(ellipse 36% 18% at 30% 60%,#9d73df36,transparent 90%),radial-gradient(ellipse 40% 18% at 71% 33%,#3658aa38,transparent 85%),radial-gradient(ellipse 17% 12% at 65% 38%,#f7a7791c,transparent 85%),linear-gradient(155deg,transparent 32%,#7360b71c 46%,transparent 62%),radial-gradient(ellipse 40% 35% at 26% 45%,#3523653b,transparent 88%); }
+    #welcomeIntro::after { position:absolute; z-index:0; inset:0; width:auto; height:auto; border:0; border-radius:0; transform:none; background:radial-gradient(ellipse 28% 22% at 50% 51%,#0608127a,transparent 100%),radial-gradient(ellipse at center,transparent 25%,#03050c66 100%); content:''; pointer-events:none; }
     #welcomeIntro .intro-galaxy-canvas { position:absolute; z-index:0; inset:0; display:block; width:100%; height:100%; pointer-events:none; }
-    #welcomeIntro .welcome-layout { z-index:1; }
-    #welcomeIntro .welcome-copy h1 { text-shadow:0 3px 28px #02040bc7; }
-    #welcomeIntro .welcome-top-actions { background:#0a0b18a6; border-color:#aaa5e52b; }
-    @media(prefers-reduced-motion:reduce) { #welcomeIntro .intro-galaxy-canvas { opacity:.85; } }
+    #welcomeIntro .welcome-layout { z-index:1; width:min(100%,1040px); min-height:0; }
+    #welcomeIntro .welcome-copy { max-width:100%; padding:0; }
+    #welcomeIntro .welcome-copy::before { content:''; display:block; width:30px; height:40px; margin:0 auto 30px; background:linear-gradient(145deg,#fff2d8,#ffb180); clip-path:polygon(50% 0,61% 38%,100% 50%,61% 62%,50% 100%,39% 62%,0 50%,39% 38%); }
+    #welcomeIntro .welcome-copy h1 { display:flex; flex-direction:column; align-items:center; gap:4px; max-width:100%; font-size:clamp(48px,9vw,102px); font-weight:750; letter-spacing:-.055em; line-height:1.08; text-shadow:none; }
+    #welcomeIntro .welcome-title-first { font-size:.55em; font-weight:550; letter-spacing:-.035em; color:#f4f3ff; }
+    #welcomeIntro .welcome-copy h1 .welcome-title-second { padding:0 .05em .07em; background:linear-gradient(110deg,#fff0d5 2%,#ffc294 32%,#ff966e 69%,#ffd0ac 100%); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:none; }
+    #welcomeIntro .welcome-actions { flex-direction:column; gap:18px; margin-top:34px; }
+    #welcomeIntro .welcome-enter { position:relative; min-height:62px; gap:26px; padding:10px 12px 10px 25px; border:1px solid #ffcbab80; border-radius:20px; background:linear-gradient(120deg,#ff8755,#fa6037 58%,#e63c27); box-shadow:inset 0 1px 0 #ffe4ce66,0 8px 30px #f9633d30; font-size:14px; transition:transform .25s ease,box-shadow .25s ease,filter .25s ease; }
+    #welcomeIntro .welcome-enter-icon { width:40px; height:40px; border-radius:13px; background:#ffebe51a; border-color:#fff4; }
+    #welcomeIntro .welcome-hint { display:block; font-size:11px; line-height:1.5; letter-spacing:.035em; color:#b6b9c9; }
+    #welcomeIntro .welcome-top-actions { top:max(24px,env(safe-area-inset-top)); right:max(28px,env(safe-area-inset-right)); gap:9px; padding:6px; border:1px solid #d2cbff21; background:#14142180; box-shadow:inset 0 1px 0 #ffffff08,0 8px 30px #0002; backdrop-filter:blur(12px); }
+    #welcomeIntro .welcome-top-actions button { min-height:44px; padding-inline:18px; border-radius:999px; font-size:12px; }
+    #welcomeIntro .welcome-account-button { background:#ffb18814; border-color:#e4aa8157; }
+    #welcomeIntro .welcome-skip { background:#d5ccff0c; border-color:#d7d2f52b; }
+    @media(hover:hover) and (pointer:fine) { #welcomeIntro .welcome-enter:hover { transform:translateY(-3px); filter:brightness(1.06); box-shadow:inset 0 1px 0 #ffe4ce99,0 12px 38px #f9633d42; } }
+    @media(max-width:600px) { #welcomeIntro { padding-inline:24px; } #welcomeIntro .welcome-copy h1 { font-size:clamp(40px,10vw,60px); } #welcomeIntro .welcome-copy::before { width:34px; height:34px; margin-bottom:25px; border-radius:11px; } #welcomeIntro .welcome-actions { margin-top:26px; gap:16px; } #welcomeIntro .welcome-top-actions { top:max(16px,env(safe-area-inset-top)); right:max(16px,env(safe-area-inset-right)); gap:6px; padding:5px; } #welcomeIntro .welcome-top-actions button { padding-inline:15px; } #welcomeIntro .welcome-enter { min-height:60px; } }
+    @media(max-height:540px) { #welcomeIntro { padding-top:92px; padding-bottom:30px; } #welcomeIntro .welcome-copy::before { display:none; } #welcomeIntro .welcome-copy h1 { font-size:clamp(38px,8vw,66px); } #welcomeIntro .welcome-actions { margin-top:20px; gap:12px; } }
+    @media(prefers-reduced-motion:reduce) { #welcomeIntro .intro-galaxy-canvas { opacity:.85; } #welcomeIntro .welcome-enter { transition:none; } #welcomeIntro .welcome-enter:hover { transform:none; } }
     /* intro-galaxy:styles-end */
   </style>
 </head>
@@ -5412,7 +5426,7 @@
       const pointer = { x:0, y:0, active:false };
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       const saveData = Boolean(navigator.connection?.saveData);
-      const palette = ['#d7deff','#9faeff','#87cbff','#e8c4ff','#ffbd96'];
+      const palette = ['#e9edff','#b6bfff','#98d4ff','#d7c2ff','#ffd1a6'];
       const sprites = [];
       const visible = () => !host.hidden && !host.inert && !host.classList.contains('is-leaving') && document.visibilityState !== 'hidden';
 
@@ -5429,7 +5443,7 @@
         const sprite = document.createElement('canvas'); sprite.width = sprite.height = 48;
         const context = sprite.getContext('2d'); if (!context) return null;
         const gradient = context.createRadialGradient(24,24,0,24,24,24);
-        gradient.addColorStop(0,'#ffffff'); gradient.addColorStop(.09,color); gradient.addColorStop(.28,color+'70'); gradient.addColorStop(1,color+'00');
+        gradient.addColorStop(0,'#ffffff'); gradient.addColorStop(.045,color); gradient.addColorStop(.16,color+'65'); gradient.addColorStop(.48,color+'12'); gradient.addColorStop(1,color+'00');
         context.fillStyle = gradient; context.fillRect(0,0,48,48); return sprite;
       }
       function resize() {
@@ -5441,13 +5455,13 @@
         width=nextWidth; height=nextHeight; dpr=nextDpr;
         canvas.width=Math.round(width*dpr); canvas.height=Math.round(height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
         const count=saveData?80:Math.min(width<700?280:600,Math.max(width<700?230:300,Math.round(width*height/1800)));
-        const random=randomGenerator(21837), cos=Math.cos(-.32), sin=Math.sin(-.32);
+        const random=randomGenerator(21837), cos=Math.cos(-.37), sin=Math.sin(-.37);
         stars=Array.from({length:count},(_,index)=>{
-          const dust = index > count*.27, radius = Math.pow(random(),.65);
-          const angle = (index%3)*Math.PI*2/3+radius*7.4+(random()-.5)*.7;
-          const gx=Math.cos(angle)*radius*width*.66, gy=Math.sin(angle)*radius*height*.29;
-          return { x:dust?width*.53+gx*cos-gy*sin:random()*width, y:dust?height*.51+gx*sin+gy*cos:random()*height,
-            ox:0,oy:0,vx:0,vy:0,depth:.35+random(),size:.45+Math.pow(random(),3)*2.1,phase:random()*Math.PI*2,color:Math.floor(random()*palette.length),dust };
+          const dust = index > count*.36, bright=index%29===0, radius = Math.pow(random(),.6);
+          const angle = (index%2)*Math.PI+radius*5.3+(random()-.5)*.5;
+          const gx=Math.cos(angle)*radius*width*.72, gy=Math.sin(angle)*radius*height*.20;
+          return { x:dust?width*.5+gx*cos-gy*sin:random()*width, y:dust?height*.48+gx*sin+gy*cos:random()*height,
+            ox:0,oy:0,vx:0,vy:0,depth:bright?1.5:.25+random()*.8,size:bright?1.15+random()*.55:.35+Math.pow(random(),2)*.85,phase:random()*Math.PI*2,color:Math.floor(random()*palette.length),dust,bright };
         });
         canvas.dataset.starCount=String(stars.length); cameraX=cameraY=0; waves=[];
         draw(0); sync();
@@ -5456,12 +5470,17 @@
         const animated=!reduce.matches, step=Math.min(dt/16.667,2.5), ease=1-Math.exp(-dt*.004);
         if (animated) {
           elapsed+=dt;
-          cameraX+=((pointer.active?(pointer.x/width-.5)*28:0)-cameraX)*ease;
-          cameraY+=((pointer.active?(pointer.y/height-.5)*24:0)-cameraY)*ease;
+          cameraX+=((pointer.active?(pointer.x/width-.5)*40:0)-cameraX)*ease;
+          cameraY+=((pointer.active?(pointer.y/height-.5)*32:0)-cameraY)*ease;
         } else { cameraX=cameraY=0; }
         ctx.clearRect(0,0,width,height);
         // Clouds are baked into CSS; tiny cached sprites avoid per-star gradients.
         ctx.globalCompositeOperation='screen';
+        // Fine orbital paths anchor the composition without following the text.
+        for (let orbit=0;orbit<2;orbit++) {
+          ctx.globalAlpha=orbit?.07:.12;ctx.strokeStyle=orbit?'#b6c6ff':'#d6b8ff';ctx.lineWidth=.65;
+          ctx.beginPath();ctx.ellipse(width*.5+cameraX*.25,height*.48+cameraY*.25,width*(orbit?.59:.47),height*(orbit?.24:.19),-.37,.12+orbit*.7,Math.PI*1.8+orbit*.35);ctx.stroke();
+        }
         const influence=Math.min(width*.32,165);
         for (const star of stars) {
           const drift=animated?Math.sin(elapsed*.00013+star.phase)*4*star.depth:0;
@@ -5477,17 +5496,25 @@
           }
           const x=baseX+(animated?star.ox:0),y=baseY+(animated?star.oy:0);
           if (x < -20 || y < -20 || x > width+20 || y > height+20) continue;
-          ctx.globalAlpha=(star.dust ? .44 : .6)+(animated?Math.sin(elapsed*.00065+star.phase)*.14:.08);
-          if (star.size>1.15 && sprites[star.color]) { const size=star.size*9;ctx.drawImage(sprites[star.color],x-size/2,y-size/2,size,size); }
-          else { ctx.fillStyle=palette[star.color];ctx.fillRect(x,y,star.size,star.size); }
-          if (star.size>1.15) { ctx.fillStyle='#f3efff';ctx.fillRect(x-.5,y-.5,1,1); }
+          const centerDistance=Math.hypot((x-width*.5)/(width*.24),(y-height*.51)/(height*.19));
+          const quiet=.28+.72*Math.min(1,centerDistance);
+          ctx.globalAlpha=((star.dust ? .48 : .67)+(animated?Math.sin(elapsed*.00065+star.phase)*.12:.06))*quiet;
+          if (star.bright && sprites[star.color]) {
+            const size=star.size*10;ctx.drawImage(sprites[star.color],x-size/2,y-size/2,size,size);
+            ctx.fillStyle=palette[star.color];ctx.globalAlpha*=.45;ctx.fillRect(x-star.size*2.7,y-.3,star.size*5.4,.6);ctx.fillRect(x-.3,y-star.size*2.7,.6,star.size*5.4);ctx.globalAlpha=Math.min(1,ctx.globalAlpha*2);
+          }
+          ctx.fillStyle=star.bright?'#fff6e8':palette[star.color];ctx.fillRect(x-star.size/2,y-star.size/2,star.size,star.size);
         }
         if (animated) {
           for (const wave of waves) {
             wave.age+=dt;const progress=Math.min(1,wave.age/1100),radius=12+progress*Math.min(width*.42,220);
-            ctx.globalAlpha=(1-progress)*.45;ctx.strokeStyle='#bcb4ff';ctx.lineWidth=1;
+            ctx.globalAlpha=(1-progress)*.34;ctx.strokeStyle='#dfc8ff';ctx.lineWidth=.8;
             ctx.beginPath();ctx.arc(wave.x,wave.y,radius,0,Math.PI*2);ctx.stroke();
-            if (sprites[2]) { ctx.globalAlpha=(1-progress)*.15;const size=radius*2;ctx.drawImage(sprites[2],wave.x-radius,wave.y-radius,size,size); }
+            for(let spark=0;spark<12;spark++) {
+              const angle=spark*Math.PI/6+wave.phase,travel=radius*(.5+(spark%3)*.15),size=(1-progress)*1.7;
+              ctx.globalAlpha=(1-progress)*.7;ctx.fillStyle=spark%2?'#d6d0ff':'#ffd0a8';ctx.fillRect(wave.x+Math.cos(angle)*travel,wave.y+Math.sin(angle)*travel,size,size);
+            }
+            if (sprites[2]) { ctx.globalAlpha=(1-progress)*.1;const size=radius*2;ctx.drawImage(sprites[2],wave.x-radius,wave.y-radius,size,size); }
           }
           waves=waves.filter(wave=>wave.age<1100);
         }
@@ -5515,12 +5542,13 @@
         const bounds=host.getBoundingClientRect();pointer.x=event.clientX-bounds.left;pointer.y=event.clientY-bounds.top;pointer.active=true;
       }
       function leave() { pointer.active=false; }
+      function release(event) { if(event.pointerType!=='mouse')leave(); }
       function press(event) {
         if (event.target.closest('button,a,input,textarea,select,[role="button"]') || (event.button !== undefined && event.button !== 0)) return;
         move(event);
         if (!visible() || stopped || reduce.matches) return;
         interactions++;canvas.dataset.galaxyInteractions=String(interactions);
-        waves.push({x:pointer.x,y:pointer.y,age:0});waves=waves.slice(-4);
+        waves.push({x:pointer.x,y:pointer.y,age:0,phase:interactions*.7});waves=waves.slice(-4);
         const radius=Math.min(width*.5,240);
         for (const star of stars) {
           const dx=star.x+star.ox-pointer.x,dy=star.y+star.oy-pointer.y,distance=Math.hypot(dx,dy);
@@ -5534,6 +5562,7 @@
         host.dataset.galaxy='ready';canvas.dataset.galaxyInteractions='0';
         host.addEventListener('pointermove',move,{passive:true});host.addEventListener('pointerdown',press,{passive:true});
         host.addEventListener('pointerleave',leave,{passive:true});host.addEventListener('pointercancel',leave,{passive:true});
+        host.addEventListener('pointerup',release,{passive:true});
         stateObserver=new MutationObserver(()=>{if(visible())resize();sync();});stateObserver.observe(host,{attributes:true,attributeFilter:['hidden','inert','class','aria-hidden']});
         if ('ResizeObserver' in window) { resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host); }
         else window.addEventListener('resize',resize,{passive:true});

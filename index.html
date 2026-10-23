@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-YqE15XyiUodN0CuFguVeZ852ad+vGUSCDJT4dTZzaU4='; script-src-attr 'none'; style-src 'sha256-wcAiLyFmqBZGVYml5u2PyycRy3RT3gFEatdz5P8/qdQ='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-YqE15XyiUodN0CuFguVeZ852ad+vGUSCDJT4dTZzaU4='; script-src-attr 'none'; style-src 'sha256-EF1X28PZmV7Iy/i45dvR+GfdOS/7+CuVbRrq4MDn1/o='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2493,7 +2493,7 @@
     /* Discrete transitions keep closing surfaces drawable while existing code
        immediately restores focus, inert state, and all business logic. */
     @supports(transition-behavior:allow-discrete) {
-      html.motion-ready :is(.overlay,#adminCommandDialog) { transition:opacity 180ms var(--motion-quick),display 180ms allow-discrete; opacity:0; }
+      html.motion-ready :where(.overlay,#adminCommandDialog) { transition:opacity 180ms var(--motion-quick),display 180ms allow-discrete; opacity:0; }
       html.motion-ready .overlay.is-open,html.motion-ready #adminCommandDialog:not([hidden]) { opacity:1; }
       html.motion-ready .overlay > [role="dialog"],html.motion-ready #adminCommandDialog > .admin-command-panel { translate:0 12px; scale:.985; opacity:0; transition:translate 240ms var(--motion-ease),scale 240ms var(--motion-ease),opacity 180ms var(--motion-quick); }
       html.motion-ready .overlay.is-open > [role="dialog"],html.motion-ready #adminCommandDialog:not([hidden]) > .admin-command-panel { translate:0 0; scale:1; opacity:1; }

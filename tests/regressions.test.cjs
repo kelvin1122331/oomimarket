@@ -277,9 +277,14 @@ test('admin navigation has real links, dedicated panels and separate product edi
   assert.ok(admin.includes('aria-controls="adminSidebar"')); assert.ok(admin.includes('id="adminCommandInput"'));
 });
 
-test('visitor HTML stays unchanged apart from the requested direct admin logo link', () => {
+test('visitor functionality and markup remain unchanged after decorative storefront additions', () => {
   const visitor = html.slice(html.indexOf('<body'), html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'))
-    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"');
+    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"')
+    .replace(/<div class="store-hero-eyebrow"[\s\S]*?<\/div>\n          /, '')
+    .replace('<span>Selamat</span> <span class="store-title-gold">Berbelanja</span>', 'Selamat Berbelanja')
+    .replace(/          <div class="store-hero-track"[^>]*>[\s\S]*?<\/div>\n/, '')
+    .replace(/        <img class="store-hero-art"[^>]+>\n/, '')
+    .replace(/      <img class="store-support-art"[^>]+>\n/, '');
   assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '5ff19c8e3b35521e61fbe00aee96887c8dce4921bb34dc89c48cd5c0f144b6e8');
 });
 

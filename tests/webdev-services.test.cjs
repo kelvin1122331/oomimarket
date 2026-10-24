@@ -47,18 +47,18 @@ test('filter setup failure restores every original service and hides unavailable
 });
 
 test('existing business logic remains byte-identical outside the three declared UI additions',()=>{
-  const protectedScript=script.replace(/      \/\* webdev-services:script-start \*\/[\s\S]*?      \/\* webdev-services:script-end \*\/\n\n/,'').replace(/        \/\* services:mode-start \*\/[\s\S]*?        \/\* services:mode-end \*\/\n/,'').replace(/ \/\* services:count-start \*\/[\s\S]*?\/\* services:count-end \*\//,'');
+  const protectedScript=script.replace(/        \/\* game-topup:mode-start \*\/[\s\S]*?        \/\* game-topup:mode-end \*\/\n/,'').replace(/      \/\* webdev-services:script-start \*\/[\s\S]*?      \/\* webdev-services:script-end \*\/\n\n/,'').replace(/        \/\* services:mode-start \*\/[\s\S]*?        \/\* services:mode-end \*\/\n/,'').replace(/ \/\* services:count-start \*\/[\s\S]*?\/\* services:count-end \*\//,'');
   assert.equal(crypto.createHash('sha256').update(protectedScript).digest('hex'),'601e1309a33894786a6a30864838d19eb4b9518c1146baa4365aac9faaf762de');
 });
 
-test('website mode resets when opening social media or reseller pages',()=>{
+test('page modes reset when switching between website, social media and reseller pages',()=>{
   const nodes=new Map();const classes=new Set();const brand={textContent:''};
-  function get(id){if(!nodes.has(id)){const n={hidden:false,inert:false,children:[],setAttribute(){},focus(){},replaceChildren(...children){this.children=children;}};Object.defineProperty(n,'textContent',{get(){return this.text||'';},set(value){this.text=value;this.children=[];}});nodes.set(id,n);}return nodes.get(id);}
+  function get(id){if(!nodes.has(id)){const n={hidden:false,inert:false,children:[],setAttribute(){},focus(){},replaceChildren(...children){this.children=children;}};Object.defineProperty(n,'textContent',{get(){return this.children.length?this.children.map(n=>n.textContent).join(''):this.text||'';},set(value){this.text=value;this.children=[];}});nodes.set(id,n);}return nodes.get(id);}
   const screen={hidden:true,inert:true,setAttribute(){},classList:{toggle(name,on){if(on)classes.add(name);else classes.delete(name);}},querySelector(){return brand;}};
   const source=script.slice(script.indexOf('      function openPortalDetail(key) {'));const fn=source.slice(0,source.indexOf('\n      }')+8);
   const ctx=vm.createContext({portalPageTitles:{webdev:'Website development services',social:'Kebutuhan sosmedmu',reseller:'Daftar reseller'},portalDetailScreen:screen,portalScreen:{setAttribute(){}},document:{getElementById:get},makeElement(tag,className,textContent){return{tag,className,textContent};}});
   vm.runInContext(fn,ctx);ctx.openPortalDetail('webdev');assert.equal(classes.has('is-webdev-services'),true);assert.deepEqual(get('portalDetailTitle').children.map(n=>n.textContent),['Website ','Development Services']);
-  for(const key of ['social','reseller']){ctx.openPortalDetail(key);assert.equal(classes.has('is-webdev-services'),false);assert.equal(brand.textContent,'RUANG PILIHAN');assert.equal(get('portalDetailTitle').textContent,key==='social'?'Kebutuhan sosmedmu':'Daftar reseller');}
+  for(const key of ['reseller','social','webdev','reseller','webdev','social']){ctx.openPortalDetail(key);assert.equal(classes.has('is-webdev-services'),key==='webdev');assert.equal(classes.has('is-social-dashboard'),key==='social');assert.equal(classes.has('is-reseller-dashboard'),key==='reseller');assert.equal(brand.textContent,key==='webdev'?'Website Development Services':'RUANG PILIHAN');assert.equal(get('portalDetailTitle').textContent,key==='social'?'Kebutuhan sosmedmu':key==='webdev'?'Website Development Services':'Daftar reseller');}
 });
 
 

@@ -131,16 +131,15 @@ test('3D UI tilt stays bounded and resets when pointer or modal interaction ends
   assert.equal(b.host.dataset.galaxyActive,'false');assert.equal(b.frames.size,0);
 });
 
-test('projected planets, orbit curves, crystals and particle impulses render finite geometry at all supported sizes',()=>{
+test('projected stardust, orbit curves and particle impulses render finite geometry at all supported sizes',()=>{
   for(const [width,height] of [[320,568],[390,844],[812,375],[1440,900],[2560,1440]]){
     const b=browser({width,height});
     for(const time of [20,40,400,15000,16000]){
       b.emit('pointermove',{clientX:time%2?0:width,clientY:time%3?height:0});
       b.emit('pointerdown',{clientX:width*.25,clientY:height*.7,pointerType:'touch'});b.step(time);
       assert.equal(b.host.dataset.galaxy,'ready');assert.ok(b.context.geometry.length>200);
-      assert.ok(b.context.geometry.some(g=>g.op==='arc'),'the sphere rim must be rendered');
       assert.ok(b.context.geometry.some(g=>g.op==='lineTo'),'the projected rings must be rendered');
-      assert.ok(b.context.geometry.some(g=>g.op==='drawImage'),'the lit planet textures must be rendered');
+      assert.ok(b.context.geometry.some(g=>g.op==='drawImage'),'the star glow sprites must be rendered');
       for(const {op,args} of b.context.geometry)for(const value of args)assert.ok(Number.isFinite(value)&&Math.abs(value)<Math.max(width,height)*20,op+' must receive finite bounded coordinates');
       assert.equal(b.frames.size,1);
     }

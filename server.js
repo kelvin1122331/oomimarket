@@ -299,7 +299,7 @@ function rankProductSearch(productsToSearch, intent) {
   else rankedRows.sort((a,b) => b.score-a.score || a.index-b.index);
   return rankedRows.map(row => row.id);
 }
-const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
+const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('X-Frame-Options', 'DENY');
@@ -719,7 +719,8 @@ const server = http.createServer(async (req, res) => {
     const adminRouteMatch = url.pathname.match(/^\/admin(?:\/([a-z-]+))?\/?$/);
     const adminPage = adminRouteMatch ? (adminRouteMatch[1] || 'overview') : '';
     const isAdminPage = Boolean(adminRouteMatch && adminPages.has(adminPage));
-    if (url.pathname !== '/' && url.pathname !== '/index.html' && !isAdminPage) return json(res, 404, { error: 'not found' });
+    const isIntroAsset = url.pathname === '/assets/intro/cinematic-galaxy.webp';
+    if (url.pathname !== '/' && url.pathname !== '/index.html' && !isAdminPage && !isIntroAsset) return json(res, 404, { error: 'not found' });
     const requested = isAdminPage ? '/index.html' : (url.pathname === '/' ? '/index.html' : decodeURIComponent(url.pathname));
     const file = path.resolve(ROOT, `.${requested}`);
     if (!file.startsWith(ROOT + path.sep) || file.startsWith(DATA_DIR)) return json(res, 403, { error: 'forbidden' });

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ee4d2d">
   <meta name="description" content="Temukan produk pilihan dengan harga terbaik di ommnimarket.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-pYfxq2coOPh1sVT4UWHDinUUGbnK19yWAlq6AIQKAN0='; script-src-attr 'none'; style-src 'sha256-YThhFmfJRXxesFGcnfklqNrZGXg9ATabTCv096ZFsb8='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; script-src 'sha256-YB4TCaM4lHhqajCGSDjRnrS5UYwRRrqkNlqsn6r3Yt4='; script-src-attr 'none'; style-src 'sha256-pVUxWKZxkojv2EVNEwPfC1HAiiUMzHRmfAceonWO9Wk='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none';">
   <title>ommnimarket — Belanja Pilihan, Harga Bersahabat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2664,6 +2664,31 @@
       #welcomeIntro .welcome-copy { transform:none; }
       #welcomeIntro .welcome-enter:hover,#welcomeIntro .welcome-enter:active { transform:none; translate:none; }
     }
+
+    /* Cinematic artwork remains decorative; every label and control is native HTML. */
+    #welcomeIntro { padding:0 20px; background:#020612; }
+    #welcomeIntro::before { inset:-12px; background:url('/assets/intro/cinematic-galaxy.webp') center/cover no-repeat; transform:translate3d(calc(var(--intro-px) * -1),calc(var(--intro-py) * -1),0); pointer-events:none; }
+    #welcomeIntro::after { background:radial-gradient(ellipse at 50% 46%,#02061205,transparent 65%); }
+    #welcomeIntro .intro-galaxy-canvas { opacity:.48; }
+    #welcomeIntro .welcome-layout { width:min(100%,1120px); position:absolute; top:34%; left:50%; transform:translateX(-50%); padding:0 20px; }
+    #welcomeIntro .welcome-copy::before,#welcomeIntro .welcome-copy::after { display:none; }
+    #welcomeIntro .welcome-copy h1 { font-size:clamp(45px,10.5vw,120px); gap:12px; margin:0; line-height:1.06; }
+    #welcomeIntro .welcome-copy h1 .welcome-title-first { font-size:.53em; font-weight:750; color:#eef7ff; text-shadow:0 2px 0 #92b1df,0 4px 0 #324c80,0 0 22px #668fff66; }
+    #welcomeIntro .welcome-copy h1 .welcome-title-second { background:linear-gradient(165deg,#fffde8 9%,#ffebaf 32%,#ffc36f 49%,#ff7c40 69%,#ed402c 91%); background-clip:text;-webkit-background-clip:text;filter:drop-shadow(0 1px 0 #fff0b6) drop-shadow(0 3px 0 #9e431b) drop-shadow(0 5px 0 #351416) drop-shadow(0 0 13px #ff7c3233); }
+    #welcomeIntro .welcome-actions { margin-top:clamp(42px,8.3vh,140px); gap:clamp(18px,2.5vh,42px); }
+    #welcomeIntro .welcome-enter { width:min(68vw,595px); min-height:clamp(70px,9.3vw,153px); padding:8px 10px 8px clamp(24px,6vw,92px); border-radius:999px; border:2px solid #fff6b6; font-size:clamp(18px,4.5vw,42px); background:linear-gradient(115deg,#ffe77b 0%,#ff923d 16%,#ff5027 46%,#ef3020 77%,#ff8d36 100%); box-shadow:inset 3px 3px 8px #fffbb5,inset -3px -3px 12px #ffbd65,0 0 0 3px #ff9c4599,0 0 14px #ffcc69,0 0 38px #ff5e255e,0 12px 50px #ff3b2533; }
+    #welcomeIntro .welcome-enter-icon { width:clamp(48px,12vw,116px);height:clamp(48px,12vw,116px);flex-shrink:0;border-radius:50%;border:1px solid #fff6bb;background:linear-gradient(140deg,#ffc16d99,#ff522500);box-shadow:inset 0 0 15px #fff3b655,0 0 10px #ffcf6d66; }
+    #welcomeIntro .welcome-enter-icon svg { width:45%;height:45%; }
+    #welcomeIntro .welcome-hint { font-size:clamp(12px,2.9vw,27px);letter-spacing:0;color:#b4c5e8; }
+    #welcomeIntro .welcome-top-actions { top:max(3.7vh,env(safe-area-inset-top));right:max(3vw,env(safe-area-inset-right));gap:12px;padding:10px;background:#050b1b88;border-color:#92baff33; }
+    #welcomeIntro .welcome-top-actions button { min-height:clamp(44px,10vw,96px);font-size:clamp(13px,3vw,28px);padding-inline:clamp(16px,3.8vw,38px);background:linear-gradient(140deg,#a6bada33,#101728 47%,#34457a55); }
+    #welcomeIntro .welcome-account-button { border:1px solid #ffdaa8;box-shadow:inset 3px 0 10px #ffb57c77,inset -3px 0 10px #7e9fff55,0 0 13px #ff9e4c44; }
+    #welcomeIntro .welcome-skip { border:1px solid #91bfff;box-shadow:inset -3px 0 12px #60adff77,inset 0 -2px 6px #a7d9ff55,0 0 13px #418bff33; }
+    @media(hover:hover) and (pointer:fine) { #welcomeIntro .welcome-enter:hover {box-shadow:inset 3px 3px 8px #fffbb5,inset -3px -3px 12px #ffbd65,0 0 0 3px #ff9c4599,0 0 20px #ffcc69,0 0 48px #ff5e2588;} }
+    @media(min-aspect-ratio:1/1) { #welcomeIntro::before {background-size:100% auto;background-position:center 44%;} #welcomeIntro .welcome-layout {top:30%;} #welcomeIntro .welcome-copy h1 {font-size:clamp(58px,8vw,110px);} #welcomeIntro .welcome-actions {margin-top:7vh;} #welcomeIntro .welcome-enter {width:390px;min-height:84px;font-size:26px;padding-left:40px;} #welcomeIntro .welcome-enter-icon {width:62px;height:62px;} #welcomeIntro .welcome-hint {font-size:16px;} #welcomeIntro .welcome-top-actions button {min-height:54px;font-size:16px;padding-inline:24px;} }
+    @media(max-width:360px) { #welcomeIntro .welcome-copy h1 {font-size:10.5vw;} #welcomeIntro .welcome-top-actions {gap:7px;padding:6px;} #welcomeIntro .welcome-enter {width:78vw;gap:12px;} }
+    @media(max-height:540px) { #welcomeIntro .welcome-layout {top:29%;} #welcomeIntro .welcome-copy h1 {font-size:48px;gap:5px;} #welcomeIntro .welcome-actions {margin-top:18px;gap:12px;} #welcomeIntro .welcome-enter {min-height:58px;width:280px;font-size:18px;} #welcomeIntro .welcome-enter-icon {width:40px;height:40px;} #welcomeIntro .welcome-hint {font-size:12px;} #welcomeIntro .welcome-top-actions {top:12px;} #welcomeIntro .welcome-top-actions button {min-height:42px;font-size:12px;} }
+    @media(prefers-reduced-motion:reduce) { #welcomeIntro::before {transform:none;} }
     /* intro-galaxy:styles-end */
   </style>
 </head>
@@ -5596,7 +5621,7 @@
         const blue={x:width*(small ? -.34 : -.32)*(1+blueZ/focal),y:height*(small ? .27 : .26)*(1+blueZ/focal),z:blueZ,radius:Math.min(small?29:54,unit*.065),color:2,texture:planetTextures[1],kind:'planet',ring:false,phase:2};
         planets=[warm,blue];
         crystals=[{x:width*.33,y:height*.31,z:-20,radius:Math.min(25,unit*.044),phase:1,kind:'crystal'},{x:-width*.34,y:-height*.22,z:180,radius:Math.min(19,unit*.032),phase:3,kind:'crystal'}];
-        drawables=[...stars,...planets,...(saveData?[]:crystals)];
+        drawables=[...stars]; // Photographic planets are in the artwork; only stardust moves above it.
         canvas.dataset.starCount=String(count);cameraX=cameraY=0;waves=[];setTilt();draw(0);sync();
       }
       function traceOrbit(radius,vertical,angle,alpha,color) {

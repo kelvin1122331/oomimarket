@@ -2,7 +2,12 @@
   "name": "ommnimarket",
   "version": "1.0.0",
   "private": true,
+  "engines": { "node": ">=24.0.0" },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test tests/*.test.cjs"
+  },
+  "dependencies": {
+    "geoip-lite": "2.0.3"
   }
 }

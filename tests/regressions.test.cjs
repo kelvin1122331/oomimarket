@@ -310,3 +310,11 @@ test('product edit deep links restore the selected product and reject missing ID
   assert.deepEqual(views.filter(view => !view.hidden).map(view => view.id), ['adminView-product-editor']);
   ctx.window.location.search = '?product=missing'; ctx.showAdminView('product-editor'); assert.equal(redirected, 'products');
 });
+
+
+test('cinematic artwork is served without exposing other repository or private files', async t => {
+  const {request}=backend(t);
+  const asset=await request('GET','/assets/intro/cinematic-galaxy.webp');
+  assert.equal(asset.status,200);assert.equal(asset.headers['Content-Type'],'image/webp');assert.ok(asset.data.length>1000);
+  for(const url of ['/assets/intro/missing.webp','/assets/intro/../../server.js','/.data/store.json','/server.js']) assert.equal((await request('GET',url)).status,404,url);
+});

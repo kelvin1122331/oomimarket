@@ -37,3 +37,5 @@ Edit reference into ONE CLEAN decorative website BACKGROUND, portrait 3:4. Prese
 ## Inline delivery optimization
 
 The HTML embeds display-sized WebP derivatives (quality 72, alpha quality 70): storefront cart 620 px, support 360 px, choice hero 560 px, choice cards 340 px, room backdrop 850 px. Combined encoded image bytes are 173048 before Base64. Original higher-resolution artwork remains available in assets for future layouts. No server or API changes are required.
+
+Delivery update: index.html now uses compact AVIF derivatives of these WebP sources; the original artwork remains available here. See assets/services/README.md for delivery details.

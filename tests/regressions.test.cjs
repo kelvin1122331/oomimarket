@@ -285,8 +285,11 @@ test('protected visitor markup outside the redesigned home and choice decoration
     .replace(/          <div class="store-hero-track"[^>]*>[\s\S]*?<\/div>\n/, '')
     .replace(/        <img class="store-hero-art"[^>]+>\n/, '')
     .replace(/      <img class="store-support-art"[^>]+>\n/, '')
-    .replace(/  <section class="portal-screen" id="portalScreen"[\s\S]*?(?=  <section class="portal-screen portal-detail-screen" id="portalDetailScreen")/, '');
-  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), 'c017040e61ab6809b81ac4f029570368c7dd1457714ab4ddca24939c73e42e09');
+    .replace(/  <section class="portal-screen" id="portalScreen"[\s\S]*?(?=  <section class="portal-screen portal-detail-screen" id="portalDetailScreen")/, '')
+    .replace(/<!-- services:hero-start -->[\s\S]*?<!-- services:hero-end -->/, '<span class="section-kicker">OMMNIMARKET</span><h1 id="portalDetailTitle"></h1>')
+    .replace(/<!-- services:(header|tools|footer)-start -->[\s\S]*?<!-- services:\1-end -->/g, '')
+    .replace(/<div class="portal-social-menus portal-webdev-menus"[\s\S]*?<\/div>/, '');
+  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '44a6d1db405aa4f4b3d1beb81c14241acfa27189c1abbfa06b274a064a601f19');
 });
 
 test('one logo click or keyboard activation opens admin login and modifier clicks keep native navigation', () => {

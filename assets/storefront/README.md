@@ -12,3 +12,5 @@ Use attached website reference only as visual style and subject reference. Gener
 ## Support prompt
 
 Reference image role: visual style reference. Generate isolated decorative 3D support illustration, transparent background: two glossy ivory/peach glass chat bubbles with orange three dots and an orange headset icon, a soft luminous cream-gold swoosh circling behind. Same premium shiny orange and warm white style as support card in reference. Wide 3:2 composition, entire illustration inside frame with generous transparency. No typography, no labels, no UI, no card/background rectangle, no buttons, no words, no logos. Soft realistic reflections, polished 3D render. This is a website decorative asset.
+
+Delivery update: index.html now uses compact AVIF derivatives of these WebP sources; the original artwork remains available here. See assets/services/README.md for delivery details.

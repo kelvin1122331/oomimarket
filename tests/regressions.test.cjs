@@ -277,10 +277,19 @@ test('admin navigation has real links, dedicated panels and separate product edi
   assert.ok(admin.includes('aria-controls="adminSidebar"')); assert.ok(admin.includes('id="adminCommandInput"'));
 });
 
-test('visitor HTML stays unchanged apart from the requested direct admin logo link', () => {
+test('protected visitor markup outside the redesigned home and choice decorations remains unchanged', () => {
   const visitor = html.slice(html.indexOf('<body'), html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'))
-    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"');
-  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '5ff19c8e3b35521e61fbe00aee96887c8dce4921bb34dc89c48cd5c0f144b6e8');
+    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"')
+    .replace(/<div class="store-hero-eyebrow"[\s\S]*?<\/div>\n          /, '')
+    .replace('<span>Selamat</span> <span class="store-title-gold">Berbelanja</span>', 'Selamat Berbelanja')
+    .replace(/          <div class="store-hero-track"[^>]*>[\s\S]*?<\/div>\n/, '')
+    .replace(/        <img class="store-hero-art"[^>]+>\n/, '')
+    .replace(/      <img class="store-support-art"[^>]+>\n/, '')
+    .replace(/  <section class="portal-screen" id="portalScreen"[\s\S]*?(?=  <section class="portal-screen portal-detail-screen" id="portalDetailScreen")/, '')
+    .replace(/<!-- services:hero-start -->[\s\S]*?<!-- services:hero-end -->/, '<span class="section-kicker">OMMNIMARKET</span><h1 id="portalDetailTitle"></h1>')
+    .replace(/<!-- services:(header|tools|footer)-start -->[\s\S]*?<!-- services:\1-end -->/g, '')
+    .replace(/<div class="portal-social-menus portal-webdev-menus"[\s\S]*?<\/div>/, '');
+  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '44a6d1db405aa4f4b3d1beb81c14241acfa27189c1abbfa06b274a064a601f19');
 });
 
 test('one logo click or keyboard activation opens admin login and modifier clicks keep native navigation', () => {

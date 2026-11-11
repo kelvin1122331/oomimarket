@@ -5,8 +5,9 @@ const crypto = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
 const { createLoginAudit } = require('./login-audit.cjs');
 
+function createApplication(runtime = {}) {
 const ROOT = __dirname;
-const DATA_DIR = process.env.OOMNI_DATA_DIR || path.join(ROOT, '.data');
+const DATA_DIR = runtime.dataDir || process.env.OOMNI_DATA_DIR || path.join(ROOT, '.data');
 const DB_FILE = path.join(DATA_DIR, 'store.json');
 const ACCOUNTS_FILE = path.join(DATA_DIR, 'accounts.json');
 const GEMINI_KEY_FILE = path.join(DATA_DIR, 'gemini-api-key');
@@ -21,10 +22,10 @@ const USER_PASSWORD_ITERATIONS = 600000;
 const MAX_ACCOUNTS = 50_000;
 let runtimeGeminiApiKey = process.env.GEMINI_API_KEY || '';
 let runtimeGeminiKeySource = runtimeGeminiApiKey ? 'environment' : 'not-configured';
-const sessions = new Map();
-const userSessions = new Map();
-const loginAttempts = new Map();
-const requestLimits = new Map();
+const sessions = new Map(runtime.security?.sessions || []);
+const userSessions = new Map(runtime.security?.userSessions || []);
+const loginAttempts = new Map(runtime.security?.loginAttempts || []);
+const requestLimits = new Map(runtime.security?.requestLimits || []);
 const WINDOW_MS = 60_000;
 function clientKey(req) { return String(req.socket.remoteAddress || 'unknown').slice(0, 100); }
 function rateAllowed(req, key, max, windowMs = WINDOW_MS) {
@@ -558,7 +559,7 @@ const server = http.createServer(async (req, res) => {
         const passwordHash = crypto.pbkdf2Sync(password, Buffer.from(salt, 'hex'), USER_PASSWORD_ITERATIONS, 32, 'sha256').toString('hex');
         const user = { id: crypto.randomUUID(), username, usernameKey, salt, passwordHash, passwordIterations: USER_PASSWORD_ITERATIONS, createdAt: new Date().toISOString() };
         accounts.push(user);
-        try { persistAccounts(); } catch { accounts.pop(); return json(res, 500, { error: 'account storage unavailable' }); }
+        try { persistAccounts(); } catch (error) { console.error("Account persistence failed:", error.code); accounts.pop(); return json(res, 500, { error: 'account storage unavailable' }); }
         const token = crypto.randomBytes(32).toString('base64url');
         userSessions.set(token, { userId: user.id, expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000 });
         loginAudit.record(req,{...safeAccount(user),role:'customer'},body.loginContext,'register');
@@ -736,4 +737,14 @@ const server = http.createServer(async (req, res) => {
     if (!res.headersSent) json(res, error.status || (error.message === 'payload too large' ? 413 : 400), { error: error.status ? error.message : 'request failed' });
   }
 });
-server.listen(PORT, '0.0.0.0', () => console.log(`ommnimarket backend listening on 0.0.0.0:${PORT}; data stored in ${DB_FILE}`));
+server.securitySnapshot = () => ({ sessions:[...sessions], userSessions:[...userSessions], loginAttempts:[...loginAttempts], requestLimits:[...requestLimits] });
+if (runtime.expose) runtime.expose({sessions,normalizeProductSearchIntent,parseProductSearchIntent,rankProductSearch});
+return server;
+}
+if (typeof module !== 'undefined') module.exports = { createApplication };
+if (process.env.OOMNI_CLOUD_HANDLER !== '1') {
+  const app = createApplication();
+  const port = Number(process.env.PORT || 4173);
+  app.listen(port, '0.0.0.0', () => console.log('ommnimarket backend listening on 0.0.0.0:' + port));
+}
+

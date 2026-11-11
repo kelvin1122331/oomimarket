@@ -1,3 +1,6 @@
 .data/
 tests/.tmp/
 node_modules/
+
+.vercel
+.env*

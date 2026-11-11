@@ -1,0 +1,4 @@
+{
+  "builds": [{ "src": "api/index.cjs", "use": "@vercel/node", "config": { "includeFiles": ["index.html", "assets/intro/cinematic-galaxy.webp", "node_modules/geoip-lite/data/**"] } }],
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.cjs" }]
+}

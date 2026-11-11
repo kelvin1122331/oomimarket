@@ -31,7 +31,7 @@ function backend(t, options = {}) {
     Buffer, URL, AbortController, setTimeout, clearTimeout, console: { log() {}, error() {} },
     fetch: options.fetch || (async () => { throw new Error('External network disabled during tests'); })
   });
-  vm.runInContext(source + '\nglobalThis.api={sessions,normalizeProductSearchIntent,parseProductSearchIntent,rankProductSearch};', context);
+  vm.runInContext(source + '\ncreateApplication({expose: value => globalThis.api=value});', context);
   const token = 'a'.repeat(43); context.api.sessions.set(token, Date.now() + 60000);
   async function request(method, url, body, admin = false, extra = {}) {
     const req = Readable.from(body === undefined ? [] : [Buffer.from(JSON.stringify(body))]);

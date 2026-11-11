@@ -47,7 +47,7 @@ test('filter setup failure restores every original service and hides unavailable
 });
 
 test('existing business logic remains byte-identical outside the three declared UI additions',()=>{
-  const protectedScript=script.replace(/        \/\* game-topup:mode-start \*\/[\s\S]*?        \/\* game-topup:mode-end \*\/\n/,'').replace(/      \/\* webdev-services:script-start \*\/[\s\S]*?      \/\* webdev-services:script-end \*\/\n\n/,'').replace(/        \/\* services:mode-start \*\/[\s\S]*?        \/\* services:mode-end \*\/\n/,'').replace(/ \/\* services:count-start \*\/[\s\S]*?\/\* services:count-end \*\//,'');
+  const protectedScript=script.replace(/        \/\* wallet:mode-start \*\/[\s\S]*?        \/\* wallet:mode-end \*\/\n/,'').replace(/        \/\* game-topup:mode-start \*\/[\s\S]*?        \/\* game-topup:mode-end \*\/\n/,'').replace(/      \/\* webdev-services:script-start \*\/[\s\S]*?      \/\* webdev-services:script-end \*\/\n\n/,'').replace(/        \/\* services:mode-start \*\/[\s\S]*?        \/\* services:mode-end \*\/\n/,'').replace(/ \/\* services:count-start \*\/[\s\S]*?\/\* services:count-end \*\//,'');
   assert.equal(crypto.createHash('sha256').update(protectedScript).digest('hex'),'601e1309a33894786a6a30864838d19eb4b9518c1146baa4365aac9faaf762de');
 });
 

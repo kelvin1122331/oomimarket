@@ -176,10 +176,13 @@ function cookie(req, name) {
   for (const part of parts) { const [key, ...rest] = part.trim().split('='); if (key === name) return decodeURIComponent(rest.join('=')); }
   return '';
 }
-function adminSession(req) {
+function adminSessionToken(req) {
   const bearer = String(req.headers.authorization || '').match(/^Bearer ([A-Za-z0-9_-]{32,})$/)?.[1] || '';
   const customToken = String(req.headers['x-oomni-admin-session'] || '').match(/^[A-Za-z0-9_-]{32,}$/)?.[0] || '';
-  const token = bearer || customToken || cookie(req, 'oomni_admin');
+  return bearer || customToken || cookie(req, 'oomni_admin');
+}
+function adminSession(req) {
+  const token = adminSessionToken(req);
   const expires = sessions.get(token);
   if (!token || !expires || expires < Date.now()) { sessions.delete(token); return false; }
   sessions.set(token, Date.now() + 8 * 60 * 60 * 1000);
@@ -308,8 +311,8 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
   if (req.headers['x-forwarded-proto'] === 'https') res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   try {
+    const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     if (url.pathname.startsWith('/api/')) {
       if (req.method === 'POST' && url.pathname === '/api/product-search') {
         if (!sameOrigin(req)) return json(res, 403, { error: 'origin rejected' });
@@ -613,8 +616,7 @@ const server = http.createServer(async (req, res) => {
       }
       if (req.method === 'POST' && url.pathname === '/api/admin/logout') {
         if (!sameOrigin(req)) return json(res, 403, { error: 'origin rejected' });
-        const bearer = String(req.headers.authorization || '').match(/^Bearer ([A-Za-z0-9_-]{32,})$/)?.[1] || '';
-        sessions.delete(bearer || cookie(req, 'oomni_admin'));
+        sessions.delete(adminSessionToken(req));
         const forwardedProto = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim().toLowerCase();
         const originIsHttps = (() => { try { return new URL(req.headers.origin || '').protocol === 'https:'; } catch { return false; } })();
         const cookiePolicy = forwardedProto === 'https' || originIsHttps ? '; Secure; SameSite=None; Partitioned' : '; SameSite=Strict';

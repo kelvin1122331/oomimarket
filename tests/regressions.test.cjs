@@ -44,6 +44,28 @@ function backend(t, options = {}) {
   }
   return { request, dir, api: context.api };
 }
+test('invalid Host and request URLs return 400 without breaking subsequent requests', async t => {
+  const { request } = backend(t);
+  assert.equal((await request('GET', '/', undefined, false, { host: '[' })).status, 400);
+  assert.equal((await request('GET', 'http://[')).status, 400);
+  assert.equal((await request('GET', '/api/products')).status, 200);
+});
+
+test('admin logout revokes the session for each supported credential transport', async t => {
+  const { request, api } = backend(t);
+  const token = 'a'.repeat(43);
+  for (const headers of [
+    { authorization: 'Bearer ' + token },
+    { 'x-oomni-admin-session': token },
+    { cookie: 'oomni_admin=' + token }
+  ]) {
+    api.sessions.set(token, Date.now() + 60000);
+    assert.equal((await request('GET', '/api/admin/state', undefined, false, headers)).status, 200);
+    assert.equal((await request('POST', '/api/admin/logout', {}, false, headers)).status, 200);
+    assert.equal((await request('GET', '/api/admin/state', undefined, false, headers)).status, 401);
+  }
+});
+
 const clone = value => JSON.parse(JSON.stringify(value));
 function state(value) { return clone({ products: value.products || [], reports: value.reports || [], reviews: value.reviews || {}, productHistory: value.productHistory || [], storefrontCategories: value.storefrontCategories || [] }); }
 function clientFunction(name) {
@@ -277,10 +299,21 @@ test('admin navigation has real links, dedicated panels and separate product edi
   assert.ok(admin.includes('aria-controls="adminSidebar"')); assert.ok(admin.includes('id="adminCommandInput"'));
 });
 
-test('visitor HTML stays unchanged apart from the requested direct admin logo link', () => {
+test('protected visitor markup outside the redesigned home and choice decorations remains unchanged', () => {
   const visitor = html.slice(html.indexOf('<body'), html.indexOf('  <section class="dashboard-overlay" id="adminDashboard"'))
-    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"');
-  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '5ff19c8e3b35521e61fbe00aee96887c8dce4921bb34dc89c48cd5c0f144b6e8');
+    .replace(/<!-- wallet:(header|body)-start -->[\s\S]*?<!-- wallet:\1-end -->/g, '')
+    .replace(/  <div class="overlay" id="customerServiceOverlay"[\s\S]*?(?=  <section class="portal-screen" id="portalScreen")/, '')
+    .replace('id="brandLogo" href="/admin/overview" aria-label="Buka login admin ommnimarket"', 'id="brandLogo" href="#top" aria-label="ommnimarket, kembali ke beranda"')
+    .replace(/<div class="store-hero-eyebrow"[\s\S]*?<\/div>\n          /, '')
+    .replace('<span>Selamat</span> <span class="store-title-gold">Berbelanja</span>', 'Selamat Berbelanja')
+    .replace(/          <div class="store-hero-track"[^>]*>[\s\S]*?<\/div>\n/, '')
+    .replace(/        <img class="store-hero-art"[^>]+>\n/, '')
+    .replace(/      <img class="store-support-art"[^>]+>\n/, '')
+    .replace(/  <section class="portal-screen" id="portalScreen"[\s\S]*?(?=  <section class="portal-screen portal-detail-screen" id="portalDetailScreen")/, '')
+    .replace(/<!-- services:hero-start -->[\s\S]*?<!-- services:hero-end -->/, '<span class="section-kicker">OMMNIMARKET</span><h1 id="portalDetailTitle"></h1>')
+    .replace(/<!-- services:(header|tools|footer)-start -->[\s\S]*?<!-- services:\1-end -->/g, '')
+    .replace(/<div class="portal-social-menus portal-webdev-menus"[\s\S]*?<\/div>/, '').replace(/<div class="portal-social-menus" id="portalSocialMenus"[\s\S]*?<\/div>/, '').replace(/<div class="portal-social-menus portal-reseller-menus" id="portalResellerMenus"[\s\S]*?<\/div>/, '').replace(/      <div class="account-glass-brand"[^\n]+<\/div>\n/, '').replace(/<div class="account-input-shell(?: account-password-shell)?"><span class="account-input-icon" aria-hidden="true">[\s\S]*?<\/span>(<input\b[^>]+>)(?:<button class="account-password-toggle"[\s\S]*?<\/button>)?<\/div>/g, '$1').replace(/<!-- game-topup:(hero|catalog)-start -->[\s\S]*?<!-- game-topup:\1-end -->/g,'');
+  assert.equal(crypto.createHash('sha256').update(visitor).digest('hex'), '26aaacdc84fc0f6f4e9eb25a16fd9a367290dafa1f4d16b0247106a7954c53a4');
 });
 
 test('one logo click or keyboard activation opens admin login and modifier clicks keep native navigation', () => {
